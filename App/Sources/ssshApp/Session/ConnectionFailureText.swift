@@ -84,6 +84,13 @@ enum ConnectionFailureText {
         case .timedOut(let operation, _):
             return String(localized: "Time-out tijdens \(operation).",
                           comment: "An operation took too long; placeholder names the operation")
+
+        case .portForwardingFailed:
+            // `TunnelFailureText` is the one place that knows how to phrase a
+            // forward that could not be set up — which port, which end, and
+            // whether it was us or the server that refused. Duplicating that
+            // wording here is how the two drift apart.
+            return TunnelFailureText.describe(error)
         }
     }
 
