@@ -86,6 +86,49 @@ oudere testbuild naar een nieuwere testbuild succesvol is uitgevoerd.
 In de voorbeelden is de release `0.2.0`, build `2`. Vervang deze waarden
 door de echte versie.
 
+### Geautomatiseerde release
+
+`scripts/release.sh` automatiseert de versie-update, tests, het Xcode-archive,
+Developer ID-export, Apple-notarisatie, Sparkle-ZIP en appcast, en maakt ten
+slotte een GitHub-draft. Het publiceert de draft nooit automatisch.
+
+Sla eenmalig de Apple-notarisatiegegevens op in de login-sleutelhanger:
+
+```sh
+xcrun notarytool store-credentials "sssH-notary" \
+    --apple-id "jouw-apple-id@example.com" \
+    --team-id "GPYS6SK835" \
+    --password "app-specifiek-wachtwoord"
+```
+
+Zorg dat de repository schoon en volledig gepusht is. Maak daarna bijvoorbeeld
+interactief een release. Het script toont de huidige versie en stelt het volgende
+buildnummer voor:
+
+```sh
+./scripts/release.sh
+```
+
+Of geef versie 0.2.1 en buildnummer 3 direct mee:
+
+```sh
+./scripts/release.sh 0.2.1 3
+```
+
+Standaard verwacht het script Sparkle's tools in
+`~/Documents/Sparkle/bin`. Een afwijkende locatie of Keychain-profiel kan per
+aanroep worden ingesteld:
+
+```sh
+SSSH_SPARKLE_BIN_DIR="/pad/naar/Sparkle/bin" \
+SSSH_NOTARY_PROFILE="sssH-notary" \
+./scripts/release.sh 0.2.1 3
+```
+
+Releasebestanden komen buiten de repository in
+`~/Documents/sssH-Releases/<versie>`. Controleer na afloop de GitHub-draft en
+publiceer hem pas als de ZIP en `appcast.xml` beide als assets aanwezig zijn.
+
 ### 1. Begin met een schone releasecommit
 
 Controleer dat alle bedoelde wijzigingen zijn gecommit en dat de tests en de

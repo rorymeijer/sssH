@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>sssh</title>
+        <item>
+            <title>0.2.0</title>
+            <pubDate>Fri, 18 Sep 2026 15:56:55 +0200</pubDate>
+            <sparkle:version>2</sparkle:version>
+            <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/rorymeijer/sssH/releases/download/v0.2.0/sssH-0.2.0.zip" length="10307678" type="application/octet-stream" sparkle:edSignature="3SEvz6Brq9L4AslqkdLwAE434Y6/c0fdNRYgUTGtsxaC4ECo3qu0OphJHigihe0m7GQ/i+DSf2ac7O0TEHN1CQ=="/>
+        </item>
+    </channel>
+</rss>
