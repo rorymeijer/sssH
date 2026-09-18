@@ -104,6 +104,9 @@ jobs:
       - name: Build for macOS
         working-directory: App
         run: |
+          # Without pipefail the pipeline reports xcpretty's status, which is 0
+          # whatever xcodebuild did — the step then passes on a failed build.
+          set -o pipefail
           xcodebuild build \
             -project sssh.xcodeproj \
             -scheme sssh \
@@ -114,6 +117,7 @@ jobs:
       - name: Build for iOS Simulator
         working-directory: App
         run: |
+          set -o pipefail
           xcodebuild build \
             -project sssh.xcodeproj \
             -scheme sssh \
