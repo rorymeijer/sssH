@@ -130,7 +130,7 @@ struct TunnelEditorView: View {
                     }
                     .pickerStyle(.segmented)
                 } footer: {
-                    Text(kindExplanation)
+                    kindExplanation
                 }
 
                 switch tunnel.kind {

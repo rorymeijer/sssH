@@ -184,7 +184,7 @@ struct KeyGeneratorView: View {
                 try SSHKeyGenerator.generate(kind: kind, comment: trimmedComment, passphrase: phrase)
             }.value
 
-            let reference = SecretReference()
+            let reference = SecretReference.makeUnique()
             try await environment.secretsStore.store(
                 .privateKey(
                     openSSH: SecretString(result.armoredPrivateKey),

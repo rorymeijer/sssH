@@ -85,11 +85,11 @@ final class SecuritySettings {
 
     /// Read without building the whole object, for the model container, which
     /// is constructed before anything else exists.
-    static func syncsConfiguration(in defaults: UserDefaults = .standard) -> Bool {
+    nonisolated static func syncsConfiguration(in defaults: UserDefaults = .standard) -> Bool {
         defaults.object(forKey: Key.syncsConfiguration) as? Bool ?? true
     }
 
-    static func syncsSecrets(in defaults: UserDefaults = .standard) -> Bool {
+    nonisolated static func syncsSecrets(in defaults: UserDefaults = .standard) -> Bool {
         defaults.bool(forKey: Key.syncsSecrets)
     }
 }

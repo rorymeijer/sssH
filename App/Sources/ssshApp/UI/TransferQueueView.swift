@@ -110,7 +110,7 @@ private struct TransferRow: View {
                         .foregroundStyle(.red)
                         .lineLimit(2)
                 default:
-                    Text(statusText)
+                    statusText
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
