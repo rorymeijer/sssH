@@ -22,8 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The vendored fork emits its warnings once per file compiled, which
+      # buries the handful of lines that actually matter. On a failure, print
+      # the unique `error:` lines on their own.
       - name: Build
-        run: swift build --build-tests
+        run: |
+          swift build --build-tests 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Unique errors"
+            grep -E "error:" build.log | sort -u
+            echo "::endgroup::"
+          fi
+          exit "$status"
 
       - name: Unit tests
         run: swift test --skip-build
@@ -80,8 +91,19 @@ jobs:
       - name: Show toolchain
         run: swift --version
 
+      # The vendored fork emits its warnings once per file compiled, which
+      # buries the handful of lines that actually matter. On a failure, print
+      # the unique `error:` lines on their own.
       - name: Build
-        run: swift build --build-tests
+        run: |
+          swift build --build-tests 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Unique errors"
+            grep -E "error:" build.log | sort -u
+            echo "::endgroup::"
+          fi
+          exit "$status"
 
       - name: Unit tests
         run: swift test --skip-build
@@ -111,7 +133,7 @@ jobs:
           set -o pipefail
           xcodebuild build \
             -project sssh.xcodeproj \
-            -scheme sssh \
+            -scheme sssh_macOS \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty || exit ${PIPESTATUS[0]}
@@ -122,7 +144,7 @@ jobs:
           set -o pipefail
           xcodebuild build \
             -project sssh.xcodeproj \
-            -scheme sssh \
+            -scheme sssh_iOS \
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty || exit ${PIPESTATUS[0]}

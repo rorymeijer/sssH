@@ -100,3 +100,25 @@ targets:
       iOS:
         CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.iOS.entitlements
         TARGETED_DEVICE_FAMILY: "1,2"
+
+# XcodeGen writes no schemes unless they are declared, and `xcodebuild` needs
+# one by name. A multi-platform target is generated once per platform with the
+# platform as a suffix, so these are `sssh_macOS` and `sssh_iOS` rather than
+# plain `sssh`.
+schemes:
+  sssh_macOS:
+    build:
+      targets:
+        sssh_macOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  sssh_iOS:
+    build:
+      targets:
+        sssh_iOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release
