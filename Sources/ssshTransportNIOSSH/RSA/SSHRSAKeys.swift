@@ -96,14 +96,14 @@ extension SSHRSASignatureProtocol {
     var rawRepresentation: Data { Data(bytes) }
 
     func write(to buffer: inout ByteBuffer) -> Int {
-        buffer.writeSSHString(bytes)
+        buffer.writeSSHStringBytes(bytes)
     }
 
     static func read(from buffer: inout ByteBuffer) throws -> Self {
-        guard let value = buffer.readSSHString() else {
+        guard let value = buffer.readSSHStringBytes() else {
             throw SSHRSAError.malformedSignature
         }
-        return Self(bytes: Array(value.readableBytesView))
+        return Self(bytes: value)
     }
 }
 
@@ -290,5 +290,32 @@ extension ByteBuffer {
         var written = writeInteger(UInt32(value.count))
         written += writeBytes(value)
         return written
+    }
+}
+
+// MARK: - Wire helpers
+
+/// NIOSSH has `writeSSHString`/`readSSHString` on `ByteBuffer`, but they are
+/// `internal` to that module and this is a different one. The format is not
+/// worth a dependency: a 32-bit big-endian length, then that many bytes.
+private extension ByteBuffer {
+    @discardableResult
+    mutating func writeSSHStringBytes(_ bytes: [UInt8]) -> Int {
+        var written = writeInteger(UInt32(bytes.count))
+        written += writeBytes(bytes)
+        return written
+    }
+
+    /// Reads one, or returns `nil` and leaves the reader index alone. A
+    /// half-consumed buffer would be worse than no read at all: the caller
+    /// would have no way to retry once the rest of the bytes arrive.
+    mutating func readSSHStringBytes() -> [UInt8]? {
+        guard let length = getInteger(at: readerIndex, as: UInt32.self),
+              readableBytes >= MemoryLayout<UInt32>.size + Int(length)
+        else {
+            return nil
+        }
+        moveReaderIndex(forwardBy: MemoryLayout<UInt32>.size)
+        return readBytes(length: Int(length))
     }
 }
