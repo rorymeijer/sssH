@@ -26,6 +26,9 @@ final class CredentialAuthenticationDelegate: NIOSSHClientUserAuthenticationDele
     /// key). Reported in preference to the generic "all methods failed",
     /// because it is the one the user can act on.
     private var firstCredentialProblem: Error?
+    /// Set while a keyboard-interactive offer is outstanding, so challenges can
+    /// be routed to the handler that asked for them.
+    private var keyboardInteractiveHandler: (any SSHKeyboardInteractiveHandler)?
     /// The credential most recently offered. Once NIOSSH reports success it is
     /// by definition the one that worked, because a success ends the sequence.
     private var lastOfferedName: String?
@@ -140,14 +143,56 @@ final class CredentialAuthenticationDelegate: NIOSSHClientUserAuthenticationDele
             }
             return nil
 
-        case .keyboardInteractive:
-            // swift-nio-ssh has no keyboard-interactive support: the offer enum
-            // has no case for it, so this cannot be bridged from here. See
-            // docs/PHASE-0-BACKEND-DECISION.md.
-            if firstCredentialProblem == nil {
-                firstCredentialProblem = SSHTransportError.unsupported(.keyboardInteractiveAuthentication)
+        case .keyboardInteractive(let handler):
+            guard availableMethods.contains(.keyboardInteractive) else { return nil }
+            // Remember who answers; the challenges arrive on a separate
+            // callback with nothing to identify the attempt.
+            keyboardInteractiveHandler = handler
+            return .keyboardInteractive(.init())
+        }
+    }
+
+    // MARK: - Keyboard-interactive
+
+    /// Answers one `SSH_MSG_USERAUTH_INFO_REQUEST`.
+    ///
+    /// The handler may take as long as it likes — this is where a one-time code
+    /// is typed — and the connection waits. Failing the promise abandons
+    /// keyboard-interactive and moves on to the next credential.
+    func respondToKeyboardInteractiveChallenge(
+        _ challenge: NIOSSHKeyboardInteractiveChallenge,
+        responsePromise: EventLoopPromise<[String]>
+    ) {
+        lock.lock()
+        let handler = keyboardInteractiveHandler
+        lock.unlock()
+
+        guard let handler else {
+            responsePromise.fail(SSHTransportError.unsupported(.keyboardInteractiveAuthentication))
+            return
+        }
+
+        // A challenge with no prompts is the server displaying text, not asking
+        // a question. Answering immediately is required; waiting for input that
+        // will never come would wedge the connection.
+        guard !challenge.prompts.isEmpty else {
+            responsePromise.succeed([])
+            return
+        }
+
+        let request = SSHKeyboardInteractiveChallenge(
+            name: challenge.name,
+            instruction: challenge.instruction,
+            prompts: challenge.prompts.map { .init(text: $0.prompt, echo: $0.echo) }
+        )
+
+        Task {
+            do {
+                let answers = try await handler.respond(to: request)
+                responsePromise.succeed(answers.map { $0.reveal() })
+            } catch {
+                responsePromise.fail(error)
             }
-            return nil
         }
     }
 
@@ -155,11 +200,9 @@ final class CredentialAuthenticationDelegate: NIOSSHClientUserAuthenticationDele
         var names: [String] = []
         if methods.contains(.publicKey) { names.append("publickey") }
         if methods.contains(.password) { names.append("password") }
+        if methods.contains(.keyboardInteractive) { names.append("keyboard-interactive") }
         if methods.contains(.hostBased) { names.append("hostbased") }
-        // NIOSSH drops methods it does not implement — notably
-        // `keyboard-interactive` — while parsing the server's list, so a server
-        // that only offers those looks like it offers nothing at all.
-        if names.isEmpty { names.append("none advertised (or none that this backend implements)") }
+        if names.isEmpty { names.append("none advertised") }
         return names
     }
 }

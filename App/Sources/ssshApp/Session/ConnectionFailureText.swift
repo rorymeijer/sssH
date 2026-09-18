@@ -92,8 +92,8 @@ enum ConnectionFailureText {
     private static func unsupportedText(_ capability: SSHTransportError.Capability) -> String {
         switch capability {
         case .keyboardInteractiveAuthentication:
-            return String(localized: "Deze server vraagt om keyboard-interactive aanmelding (vaak tweestapsverificatie). Dat ondersteunt sssh nog niet.",
-                          comment: "The server requires keyboard-interactive, which the SSH backend cannot do")
+            return String(localized: "De extra verificatie is afgebroken.",
+                          comment: "A keyboard-interactive challenge was cancelled or could not be answered")
         case .agentForwarding:
             return String(localized: "sssh ondersteunt ssh-agent nog niet.",
                           comment: "Agent forwarding is not implemented")
@@ -109,6 +109,9 @@ enum ConnectionFailureText {
         case .rsaPrivateKeyFiles, .ecdsaPrivateKeyFiles:
             return String(localized: "Dit sleuteltype wordt nog niet ondersteund.",
                           comment: "A private key file type is not supported")
+        case .legacyKeyExchange:
+            return String(localized: "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.",
+                          comment: "The server only offers pre-2014 key exchange or ciphers")
         }
     }
 }

@@ -2,10 +2,15 @@
 
 ## Status
 
-**Designed, not implemented.** This document is the implementation, written
-down; what is missing is a Swift toolchain to compile and test it against. See
-"Why this is not written yet" at the end — it is a deliberate call, not an
-oversight.
+**Implemented** in `Vendor/swift-nio-ssh`, following this design, with tests in
+`Tests/NIOSSHTests/KeyboardInteractiveTests.swift`. Still uncompiled, like the
+rest of the repository; the wire format was verified against the RFC
+independently of the Swift.
+
+This document is kept as the design record and as the basis of the upstream
+pull requests. The caution at the end still stands — an authentication state
+machine is the one thing here that cannot be checked without a live server, so
+this is the code to run first once there is a toolchain.
 
 ## Why it matters
 

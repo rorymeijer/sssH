@@ -5,7 +5,7 @@ import Foundation
 /// Everything above this protocol — the session manager, the terminal hosts,
 /// the file browser, the tunnel UI — is written against `SSHTransport` and the
 /// sibling `SFTPService` / `PortForwardService` protocols, and must not import
-/// the backend module. Swapping Citadel for libssh2 or a wrapped system `ssh`
+/// the backend module. Swapping swift-nio-ssh for libssh2 or a wrapped system `ssh`
 /// then means adding one module and changing one factory.
 ///
 /// Implementations are reference types with internal synchronisation: a

@@ -41,9 +41,9 @@ struct RootView: View {
             .interactiveDismissDisabled()
         }
         .sheet(item: credentialPromptBinding) { prompt in
-            CredentialPromptView(prompt: prompt) { value, remember in
-                if let value {
-                    environment.credentialPrompts.submit(value, remember: remember)
+            CredentialPromptView(prompt: prompt) { values, remember in
+                if let values {
+                    environment.credentialPrompts.submit(values, remember: remember)
                 } else {
                     environment.credentialPrompts.cancel()
                 }

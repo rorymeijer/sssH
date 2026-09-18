@@ -57,11 +57,10 @@ final class PrivateKeyLoadingTests: XCTestCase {
         XCTAssertEqual(problem(loading: TransportKeyFixtures.ed25519Encrypted), .passphraseRequired)
     }
 
-    func testRSAIsReadButReportedUnusable() {
-        // The file parses; what is missing is an rsa-sha2-* signer. The error
-        // has to name the type so the UI can suggest converting the key rather
-        // than leaving the user guessing.
-        XCTAssertEqual(problem(loading: TransportKeyFixtures.rsaPlain), .unsupportedKeyType("ssh-rsa"))
+    func testLoadsRSA() throws {
+        // Signs as rsa-sha2-512, not the SHA-1 `ssh-rsa` that OpenSSH has
+        // refused by default since 8.8.
+        _ = try PrivateKeyLoader.load(material(TransportKeyFixtures.rsaPlain))
     }
 
     func testGarbageIsMalformed() {

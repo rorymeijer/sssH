@@ -12,7 +12,8 @@ authentication, host-key prompt, tabs, SwiftTerm.**
 |---|---|
 | `App/` | The SwiftUI app for macOS, iPadOS and iOS. See [App/README.md](App/README.md). |
 | `Sources/ssshCore` | Backend-agnostic protocols and value types. Pure Swift. |
-| `Sources/ssshCrypto` | `openssh-key-v1` parsing, and the primitives swift-crypto does not expose (Blowfish, bcrypt_pbkdf, AES-CTR). |
+| `Sources/ssshCrypto` | `openssh-key-v1` parsing, and the primitives swift-crypto does not expose (Blowfish, bcrypt_pbkdf, AES-CTR, DER). |
+| `Vendor/swift-nio-ssh` | A fork, carrying keyboard-interactive auth and the RFC 8332 RSA fix. See [Vendor/README.md](Vendor/README.md). |
 | `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport. The only module that knows about SwiftNIO. |
 | `Sources/ssshPTYSpike` | `sssh-ptyspike`, the Phase 0 interactive-PTY harness. |
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
@@ -51,12 +52,13 @@ no default that trusts a stranger.
 
 ## Backend, in one paragraph
 
-swift-nio-ssh, driven directly rather than through Citadel's `SSHClient`, with
-Citadel supplying RSA, `diffie-hellman-group14-*`, AES128-CTR and OpenSSH
-private-key parsing. Owning the pipeline is what makes remote port forwarding,
-terminal backpressure and macOS 14 support possible at all. The reasoning, the
-cost (Citadel's SFTP client becomes unreachable) and the four library gaps
-found along the way are in
+A vendored fork of swift-nio-ssh, driven directly. sssh owns the channel
+pipeline, which is what makes remote port forwarding, terminal backpressure and
+macOS 14 support possible at all; the fork adds keyboard-interactive
+authentication and RFC 8332's RSA names. Key parsing, RSA signing and the
+`bcrypt_pbkdf`/AES-CTR a key file needs are all in `ssshCrypto`. **sssh requires
+a server with `curve25519-sha256` and AES-GCM — OpenSSH 6.5 (2014) or newer.**
+The reasoning is in
 [docs/PHASE-0-BACKEND-DECISION.md](docs/PHASE-0-BACKEND-DECISION.md).
 
 **The code has not been compiled.** It was written against the libraries' actual

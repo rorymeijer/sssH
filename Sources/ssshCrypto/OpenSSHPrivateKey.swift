@@ -66,10 +66,11 @@ public struct OpenSSHPrivateKey {
 /// ## Why sssh has its own
 ///
 /// The obvious dependency, Citadel, parses this container generically
-/// internally but only exposes one entry point — Ed25519 — so RSA and ECDSA
+/// internally but exposed only one entry point — Ed25519 — so RSA and ECDSA
 /// key files could not be read at all. Since people do still carry an `id_rsa`
 /// that other tools share, the choice was between telling them to convert it
-/// and implementing the container. This is the container.
+/// and implementing the container. This is the container, and Citadel is no
+/// longer a dependency.
 ///
 /// ## Supported
 ///

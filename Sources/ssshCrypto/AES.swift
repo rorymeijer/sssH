@@ -8,9 +8,9 @@ import Foundation
 /// swift-crypto exposes no raw block cipher: `Crypto` offers AEADs only, and
 /// `_CryptoExtras` at the version this package resolves offers only RSA. The
 /// alternatives were reaching into swift-crypto's private BoringSSL module
-/// through an undeclared import — which is what Citadel does, and which breaks
-/// whenever SwiftPM tightens up — or platform-specific code. A contained,
-/// tested implementation of the forward cipher is the honest option.
+/// through an undeclared import — which breaks whenever SwiftPM tightens up —
+/// or platform-specific code. A contained, tested implementation of the forward
+/// cipher is the honest option.
 ///
 /// Only the forward direction is implemented, because counter mode never needs
 /// the inverse cipher: it encrypts a counter and XORs. That also means

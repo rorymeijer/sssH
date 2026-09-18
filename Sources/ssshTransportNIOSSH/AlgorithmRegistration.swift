@@ -1,41 +1,45 @@
-import Citadel
-import Crypto
 import NIOSSH
 
 /// Adds the algorithms swift-nio-ssh does not ship with.
 ///
 /// NIOSSH's `register` functions mutate process-global tables, so registration
-/// happens exactly once, before the first handshake. Without it we cannot talk
-/// to a server that only offers an RSA host key or `diffie-hellman-group14-*`
-/// — which still includes plenty of appliances and older LTS distributions.
+/// happens exactly once, before the first handshake.
+///
+/// ## What sssh requires of a server
+///
+/// Key exchange `curve25519-sha256` and an AES-GCM cipher, which is every
+/// OpenSSH from 6.5 (January 2014) onwards. Older `diffie-hellman-group14-*`
+/// and `aes128-ctr` are **not** supported.
+///
+/// That is a deliberate narrowing. Implementing them means a key-exchange
+/// conformance and a transport-protection conformance — several hundred lines
+/// of handshake cryptography whose only real test is a live server of the kind
+/// that needs them. A subtly wrong key exchange does not fail loudly; it
+/// negotiates. Until that can be tested properly, refusing to connect is the
+/// honest outcome, and the error says so.
 enum AlgorithmRegistration {
     private static let once: Void = {
-        // RSA host keys and RSA public-key authentication. Citadel implements
-        // these over BoringSSL because NIOSSH deliberately omits RSA.
+        // RSA, under the RFC 8332 names. SHA-512 first so it is preferred.
+        // NIOSSH pairs one signature type with one key type per registration,
+        // which is why there are two of each rather than one that does both.
         NIOSSHAlgorithms.register(
-            publicKey: Insecure.RSA.PublicKey.self,
-            signature: Insecure.RSA.Signature.self
+            publicKey: SSHRSASHA512PublicKey.self,
+            signature: SSHRSASHA512Signature.self
         )
-
-        // Key exchange: NIOSSH bundles curve25519-sha256 only.
-        NIOSSHAlgorithms.register(keyExchangeAlgorithm: DiffieHellmanGroup14Sha256.self)
-        NIOSSHAlgorithms.register(keyExchangeAlgorithm: DiffieHellmanGroup14Sha1.self)
-
-        // Transport protection: NIOSSH bundles the AES-GCM schemes only.
-        NIOSSHAlgorithms.register(transportProtectionScheme: AES128CTR.self)
+        NIOSSHAlgorithms.register(
+            publicKey: SSHRSASHA256PublicKey.self,
+            signature: SSHRSASHA256Signature.self
+        )
     }()
 
-    /// Registers the extra algorithms and appends them to `configuration`'s
-    /// preference lists.
-    ///
-    /// They are *appended*, so NIOSSH's bundled AES-GCM and curve25519 stay
-    /// ahead of them: a modern server must never end up negotiating SHA-1
-    /// because we listed it first.
-    static func apply(to configuration: inout SSHClientConfiguration) {
+    static func performOnce() {
         _ = once
+    }
 
-        configuration.transportProtectionSchemes.append(AES128CTR.self)
-        configuration.keyExchangeAlgorithms.append(DiffieHellmanGroup14Sha256.self)
-        configuration.keyExchangeAlgorithms.append(DiffieHellmanGroup14Sha1.self)
+    /// Registers the extra algorithms. The configuration itself needs no
+    /// change: NIOSSH picks up custom public-key algorithms from the global
+    /// table, and sssh adds no ciphers or key exchanges.
+    static func apply(to configuration: inout SSHClientConfiguration) {
+        performOnce()
     }
 }

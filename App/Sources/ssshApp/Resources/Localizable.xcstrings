@@ -157,6 +157,18 @@
       },
       "comment": "Context menu: edit this host's settings"
     },
+    "De extra verificatie is afgebroken.": {
+      "comment": "A keyboard-interactive challenge was cancelled or could not be answered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The additional verification was cancelled."
+          }
+        }
+      }
+    },
     "De hostsleutel van %@ is geweigerd. Er is geen verbinding gemaakt.": {
       "extractionState": "manual",
       "localizations": {
@@ -180,6 +192,18 @@
         }
       },
       "comment": "Title of the sheet shown when a host key does not match the stored one"
+    },
+    "De server vraagt om aanvullende gegevens.": {
+      "comment": "Fallback when a keyboard-interactive challenge carries no instruction",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server is asking for more information."
+          }
+        }
+      }
     },
     "De server weigerde een verzoek: %@": {
       "extractionState": "manual",
@@ -277,17 +301,17 @@
       },
       "comment": "The passphrase for a private key was wrong"
     },
-    "Deze server vraagt om keyboard-interactive aanmelding (vaak tweestapsverificatie). Dat ondersteunt sssh nog niet.": {
+    "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.": {
+      "comment": "The server only offers pre-2014 key exchange or ciphers",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This server asks for keyboard-interactive sign-in, which is usually two-factor authentication. sssh cannot do that yet."
+            "value": "This server only offers outdated encryption that sssh does not support. Update the server, or use OpenSSH."
           }
         }
-      },
-      "comment": "The server requires keyboard-interactive, which the SSH backend cannot do"
+      }
     },
     "Dit kan betekenen dat de server opnieuw is geïnstalleerd. Het kan ook betekenen dat iemand het verkeer onderschept. Verbind alleen als u weet welke van de twee het is.": {
       "extractionState": "manual",
@@ -408,6 +432,18 @@
         }
       },
       "comment": "Explains that nothing is stored for this authentication method"
+    },
+    "Extra verificatie nodig": {
+      "comment": "Title of a keyboard-interactive prompt when the server gave no name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Additional verification needed"
+          }
+        }
+      }
     },
     "Gebruikersnaam": {
       "extractionState": "manual",

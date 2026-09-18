@@ -2,10 +2,9 @@ import Foundation
 
 /// Local, remote and dynamic port forwarding.
 ///
-/// Declared in Phase 0 so the tunnel model (Phase 5) has a stable seam. See
-/// docs/PHASE-0-BACKEND-DECISION.md for which of the three the Citadel backend
-/// can do today: `-L` and `-D` are straightforward, `-R` needs inbound channel
-/// support that Citadel does not currently expose.
+/// Declared in Phase 0 so the tunnel model (Phase 5) has a stable seam. All
+/// three are reachable: the transport owns its `NIOSSHHandler`, so inbound
+/// `forwarded-tcpip` channels — which `-R` is built on — are available.
 public protocol PortForwardService: AnyObject, Sendable {
     /// `ssh -L`: listen locally, forward each accepted connection to
     /// `remote` as seen from the SSH server.

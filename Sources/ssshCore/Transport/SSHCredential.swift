@@ -16,16 +16,16 @@ public enum SSHCredential: Sendable {
 
     /// Offering the running ssh-agent's identities.
     ///
-    /// Not implemented by the Citadel backend — see
-    /// docs/PHASE-0-BACKEND-DECISION.md. Kept in the enum so the surface does
-    /// not change when a backend gains support, and so `switch` sites are
-    /// forced to handle it.
+    /// Not implemented — see docs/PHASE-0-BACKEND-DECISION.md. Kept in the
+    /// enum so the surface does not change when a backend gains support, and so
+    /// `switch` sites are forced to handle it.
     case agent
 
-    /// PAM-style challenge/response, answered by the supplied handler.
+    /// PAM-style challenge/response, answered by the supplied handler. How
+    /// most servers ask for a one-time code.
     ///
-    /// Not implemented by the Citadel backend: swift-nio-ssh has no
-    /// `keyboard-interactive` support at all.
+    /// Costs nothing to offer when the server does not advertise it: the
+    /// transport skips a credential whose method the server will not take.
     case keyboardInteractive(SSHKeyboardInteractiveHandler)
 }
 

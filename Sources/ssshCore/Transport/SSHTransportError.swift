@@ -58,5 +58,8 @@ public enum SSHTransportError: Error, Sendable {
         case tmuxControlMode
         case rsaPrivateKeyFiles
         case ecdsaPrivateKeyFiles
+        /// The server offers only `diffie-hellman-group14-*` or `aes128-ctr`,
+        /// which sssh does not implement. See `AlgorithmRegistration`.
+        case legacyKeyExchange
     }
 }

@@ -7,17 +7,19 @@ import ssshCore
 
 /// The swift-nio-ssh backed ``SSHTransport``.
 ///
-/// ## Why this drives NIOSSH directly rather than going through Citadel
+/// ## Why this owns the pipeline
 ///
-/// Citadel's `SSHClient` builds its `NIOSSHHandler` internally with
-/// `inboundChildChannelInitializer: nil` and keeps the handler private, which
-/// costs three things sssh needs: inbound `forwarded-tcpip` channels (so
-/// `ssh -R` is impossible), control over `autoRead` on session channels (so
-/// backpressure is impossible), and a PTY API that is gated
-/// `@available(macOS 15.0, *)`. Owning the pipeline gets all three back.
-/// Citadel remains a dependency for what it is genuinely good at: RSA,
-/// `diffie-hellman-group14-*`, AES128-CTR and OpenSSH key parsing.
-/// See docs/PHASE-0-BACKEND-DECISION.md.
+/// The obvious alternative was Citadel's `SSHClient`, which builds its
+/// `NIOSSHHandler` internally with `inboundChildChannelInitializer: nil` and
+/// keeps the handler private. That costs three things sssh needs: inbound
+/// `forwarded-tcpip` channels (so `ssh -R` becomes impossible), control over
+/// `autoRead` on session channels (so terminal backpressure becomes
+/// impossible), and a PTY API gated `@available(macOS 15.0, *)` while the app
+/// targets macOS 14. Owning the pipeline gets all three back.
+///
+/// Citadel is no longer a dependency at all: its key parsing was replaced by
+/// `ssshCrypto` and its RSA — SHA-1 only, which OpenSSH refuses by default —
+/// by ``SSHRSA``. See docs/PHASE-0-BACKEND-DECISION.md.
 public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
     /// One live SSH connection: the socket, the SSH handler, and any bastion
     /// connections stacked underneath it.
@@ -392,10 +394,7 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
     }
 
     public func openSFTP() async throws -> any SFTPService {
-        // Phase 4. Citadel's SFTP client is not reachable from a
-        // caller-owned NIOSSHHandler (its setup is internal), so this lands as
-        // either an upstream change to Citadel or our own SFTP client — see
-        // docs/PHASE-0-BACKEND-DECISION.md.
+        // Phase 4.
         throw SSHTransportError.unsupported(.sftp)
     }
 

@@ -1,6 +1,7 @@
 import Crypto
 import Foundation
 import NIOSSH
+import _CryptoExtras
 import ssshCore
 import ssshCrypto
 
@@ -24,7 +25,7 @@ import ssshCrypto
 /// The file is parsed correctly; what is missing is a signer. NIOSSH omits RSA
 /// entirely, and the two ways to add it both have a catch:
 ///
-/// - Citadel's `Insecure.RSA` signs with SHA-1 under the name `ssh-rsa`, which
+/// - Citadel's `Insecure.RSA` signed with SHA-1 under the name `ssh-rsa`, which
 ///   OpenSSH has refused by default since 8.8 (2021). It would authenticate
 ///   against almost nothing.
 /// - Implementing `rsa-sha2-256`/`rsa-sha2-512` ourselves runs into NIOSSH's
@@ -81,11 +82,15 @@ enum PrivateKeyLoader {
                 return NIOSSHPrivateKey(p384Key: try P384.Signing.PrivateKey(rawRepresentation: scalar))
             case .ecdsaP521(let scalar, _):
                 return NIOSSHPrivateKey(p521Key: try P521.Signing.PrivateKey(rawRepresentation: scalar))
-            case .rsa:
-                throw SSHTransportError.credentialUnusable(
-                    credential: label,
-                    reason: .unsupportedKeyType(parsed.keyType)
-                )
+            case .rsa(let components):
+                // SHA-512, which is what a modern server prefers. A server that
+                // only takes rsa-sha2-256 will say so during negotiation, and
+                // that key type is registered too.
+                return NIOSSHPrivateKey(custom: SSHRSASHA512PrivateKey(
+                    key: try SSHRSA.privateKey(from: components),
+                    exponent: components.publicExponent,
+                    modulus: components.modulus
+                ))
             }
         } catch let error as SSHTransportError {
             throw error

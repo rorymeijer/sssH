@@ -5,6 +5,11 @@ pure-Swift SSH stack can drive a robust *interactive* PTY session, not just
 one-shot `exec`. This is the report on that, and on which backend the rest of
 sssh is built against.
 
+> **Updated during Phase 1.** Citadel has since been dropped entirely and
+> swift-nio-ssh is vendored as a fork. The reasoning below still explains why
+> the backend is what it is; what changed is recorded in "How Phase 1 changed
+> this" at the end, and in [../Vendor/README.md](../Vendor/README.md).
+
 ## Verdict
 
 **Stay pure-Swift, but drive swift-nio-ssh directly rather than through
@@ -297,3 +302,53 @@ asks for, and worth building the key-management UI around in Phase 7.
 | 4 | Remote forwarding via `inboundChildChannelInitializer` | 5 | The pipeline is already ours, so this is now just work. |
 | 5 | Upstream arbitrary global requests to NIOSSH for a proper keep-alive | later | Current probe works; this is cleanliness. |
 | 6 | Investigate tmux control mode (`-CC`) | 2 | Plain tmux is verified; `-CC` is a protocol on top and unexamined. |
+
+
+## How Phase 1 changed this
+
+Two things that were deferred got built, and between them they removed the last
+reason to keep Citadel.
+
+### Citadel is gone
+
+Replaced, piece by piece:
+
+| What it provided | What replaced it |
+|---|---|
+| Ed25519 OpenSSH key parsing | `ssshCrypto`, which reads RSA and ECDSA too |
+| `Insecure.RSA` (SHA-1, `ssh-rsa`) | `SSHRSA`, signing under the RFC 8332 names |
+| `diffie-hellman-group14-*` | **nothing — see below** |
+| `AES128CTR` transport protection | **nothing — see below** |
+
+This also ends the one genuinely fragile thing in the graph: Citadel imports
+swift-crypto's private `CCryptoBoringSSL` module without declaring a dependency
+on it, which works today and breaks whenever SwiftPM tightens up. And with
+Citadel gone there is no second copy of `NIOSSH` to collide with the vendored
+fork.
+
+### The algorithm baseline narrowed, deliberately
+
+sssh now requires `curve25519-sha256` key exchange and an AES-GCM cipher. That
+is every OpenSSH from **6.5 (January 2014)** onwards, and every current
+appliance. It is **not** the pre-2014 `diffie-hellman-group14-*` and
+`aes128-ctr` that Citadel supplied.
+
+Implementing those means a `NIOSSHKeyExchangeAlgorithmProtocol` conformance and
+a `NIOSSHTransportProtection` conformance: several hundred lines of handshake
+cryptography whose only real test is a live server of exactly the kind that
+needs them. A subtly wrong key exchange does not fail loudly — it negotiates.
+Given the choice between shipping that untested and refusing to connect with a
+message that says why, refusing is the honest one.
+`SSHTransportError.Capability.legacyKeyExchange` exists for that message.
+
+This is a real regression against what Phase 0 claimed, and it is worth being
+blunt about: **a server older than 2014 that has not been reconfigured will no
+longer connect.** Reinstating the two algorithms is a contained piece of work
+for someone with a toolchain and a test server.
+
+### The fork
+
+`Vendor/swift-nio-ssh` now carries two changes, both written to be upstreamed:
+`keyboard-interactive` authentication, and RFC 8332's separation of the RSA
+key-blob name from the signature algorithm name. Both are described in
+[../Vendor/README.md](../Vendor/README.md).

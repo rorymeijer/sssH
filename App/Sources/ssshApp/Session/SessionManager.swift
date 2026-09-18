@@ -103,17 +103,21 @@ final class SessionManager {
         // A key whose passphrase is not stored shows up as a specific failure
         // rather than as a refusal, so it can be answered and retried once.
         if case .some(.credentialUnusable(let label, .passphraseRequired)) = session.transportFailure {
-            guard let answer = await credentialPrompts.ask(.passphrase(keyLabel: label)) else {
+            let answer = await credentialPrompts.askForSecret(
+                .passphrase(keyLabel: label),
+                label: String(localized: "Wachtwoordzin", comment: "Field label in the passphrase prompt")
+            )
+            guard let answer, let passphrase = answer.values.first else {
                 return
             }
             var retry = resolved
             retry.credentials = credentials.map { credential in
                 guard case .privateKey(var material) = credential else { return credential }
-                material.passphrase = answer.secret
+                material.passphrase = passphrase
                 return .privateKey(material)
             }
             if answer.remember {
-                await rememberPassphrase(answer.secret, for: host)
+                await rememberPassphrase(passphrase, for: host)
             }
             await session.retry(with: retry)
         }
@@ -122,18 +126,29 @@ final class SessionManager {
     // MARK: - Credentials
 
     private func resolveCredentials(for host: Host) async -> [SSHCredential]? {
+        // Keyboard-interactive is always offered last. It costs nothing when
+        // the server does not advertise it — the transport skips a credential
+        // whose method the server will not take — and when it does, it is how
+        // a one-time code gets asked for. Offering it before a stored key would
+        // prompt someone who did not need prompting.
+        let challenge = SSHCredential.keyboardInteractive(
+            InteractiveKeyboardHandler(coordinator: credentialPrompts)
+        )
+
         switch host.authenticationMethod {
         case .password, .privateKey:
             if let stored = await storedCredentials(for: host) {
-                return stored
+                return stored + [challenge]
             }
             // The model says there is a secret but the Keychain does not have
             // it — a restored device, or a secret deleted out from under us.
             // Asking is better than failing with something inscrutable.
-            return await askForPassword(host: host)
+            guard let asked = await askForPassword(host: host) else { return nil }
+            return asked + [challenge]
 
         case .askEveryTime:
-            return await askForPassword(host: host)
+            guard let asked = await askForPassword(host: host) else { return nil }
+            return asked + [challenge]
         }
     }
 
@@ -144,20 +159,21 @@ final class SessionManager {
     }
 
     private func askForPassword(host: Host) async -> [SSHCredential]? {
-        let answer = await credentialPrompts.ask(
-            .password(username: host.username, endpoint: host.endpoint)
+        let answer = await credentialPrompts.askForSecret(
+            .password(username: host.username, endpoint: host.endpoint),
+            label: String(localized: "Wachtwoord", comment: "Field label in the password prompt")
         )
-        guard let answer else { return nil }
+        guard let answer, let password = answer.values.first else { return nil }
 
         if answer.remember {
             let reference = host.secretReference ?? SecretReference.makeUnique()
-            try? await secretsStore.store(.password(answer.secret), for: reference)
+            try? await secretsStore.store(.password(password), for: reference)
             host.secretReference = reference
             host.authenticationMethod = .password
             host.updatedAt = Date()
         }
 
-        return [.password(answer.secret)]
+        return [.password(password)]
     }
 
     private func rememberPassphrase(_ passphrase: SecretString, for host: Host) async {
