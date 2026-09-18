@@ -131,7 +131,7 @@ private struct FingerprintRow: View {
             label
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Text("\(algorithm)  \(fingerprint)")
+            Text(verbatim: "\(algorithm)  \(fingerprint)")
                 .font(.system(.footnote, design: .monospaced))
                 .textSelection(.enabled)
                 .foregroundStyle(isWarning ? AnyShapeStyle(.red) : AnyShapeStyle(.primary))

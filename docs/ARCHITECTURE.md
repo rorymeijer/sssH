@@ -14,10 +14,12 @@
   │    SFTPService · PortForwardService                   │
   │    SSHKnownHostsPolicy · KeepAliveMonitor             │
   │    ReconnectPolicy · SSHShellEventStream              │
+  │    PaneLayout · ConnectionSupervisor · PaletteScoring │
+  │    TmuxControlParser · TmuxLayoutParser               │
   └───────────────────────────┬───────────────────────────┘
                               │
          ssshTransportNIOSSH — the only module that
-         knows about SwiftNIO, NIOSSH or Citadel
+         knows about SwiftNIO or NIOSSH
                               │
   Stores (SwiftData + CloudKit)   SecretsStore (Keychain / Secure Enclave)
                                                                  (Phase 6-7)
@@ -29,8 +31,7 @@ non-negotiable.
 ### The transport is replaceable
 
 `ssshCore` declares `SSHTransport`, `SFTPService` and `PortForwardService` and
-has no dependency on SwiftNIO, NIOSSH or Citadel — it depends only on
-swift-log. No signature in it mentions `ByteBuffer`, `Channel` or
+has no dependency on SwiftNIO or NIOSSH — it depends only on swift-log. No signature in it mentions `ByteBuffer`, `Channel` or
 `EventLoop`; the terminal deals in `[UInt8]` and `ArraySlice<UInt8>`, which is
 also what SwiftTerm deals in.
 
@@ -48,7 +49,7 @@ SwiftData store through interpolation. Reading one requires calling
 `reveal()`, which is deliberately conspicuous in review.
 
 Transport types carry resolved secrets only for the duration of a handshake.
-The synced model holds an opaque `authRef`; the secrets store resolves it.
+The synced model holds an opaque `SecretReference`; the secrets store resolves it.
 Host-key *fingerprints* are not secrets and do sync, so trust follows the user
 between devices.
 
@@ -110,3 +111,50 @@ first.
 the server's version string is delivered to the tail of the pipeline and
 dropped, hanging the handshake intermittently. See the corresponding section in
 [PHASE-0-BACKEND-DECISION.md](PHASE-0-BACKEND-DECISION.md).
+
+### The pane tree
+
+A tab's layout is a binary split tree (`PaneLayout`), not a list of rectangles.
+Splitting replaces a leaf with a branch; closing a pane collapses its branch
+into the sibling. That is why `PaneLayout.removing(_:)` returns `PaneLayout??`:
+the outer optional says whether the pane was found in this subtree at all, and
+the inner one distinguishes "found it, and nothing is left here" from "found it,
+here is the subtree that remains". Flattening the two would make closing the
+last pane of a tab indistinguishable from closing a pane that was never there.
+
+### tmux control mode
+
+With `usesTmuxControlMode`, sssh runs `tmux -CC` on the far side instead of a
+plain shell. tmux then speaks a line protocol on stdout, and its windows and
+panes become sssh tabs and splits — so a dropped connection loses the terminal,
+not the work.
+
+Two things about `TmuxControlParser` look odd and are deliberate:
+
+- It is byte-based, and `%output` is decoded **without ever constructing a
+  `String`**. tmux escapes only its own delimiters and passes every other byte
+  through, so a pane emitting Latin-1, a partial UTF-8 sequence, or raw binary
+  would be corrupted by a round trip through `String`. The bytes go to the
+  terminal emulator exactly as they arrived.
+- Replies are matched to commands by a FIFO, not by the number in `%begin`.
+  tmux's numbering is a timestamp-and-counter pair that is not predictable from
+  the client side; what *is* guaranteed is that blocks come back in the order
+  the commands were sent.
+
+`send-keys -H` (hex) is used for all input, because the quoting rules for
+literal keys have edge cases that arbitrary terminal input will find.
+
+### Reconnecting
+
+`ConnectionSupervisor` owns the reconnect loop, and refuses to retry in two
+cases:
+
+- **`.hostKeyRejected`** — retrying re-prompts the user about a possible
+  man-in-the-middle until they click through it. Fail closed means staying
+  closed.
+- **an expected close** (the shell exited, or the user disconnected) —
+  reconnecting would resurrect a session the user ended.
+
+Everything else is retried with the capped, jittered backoff in
+`ReconnectPolicy`. The jitter is subtractive so that a delay never exceeds the
+cap, which matters when the cap is what the user was promised.

@@ -26,6 +26,8 @@ struct HostEditorView: View {
     @State private var passphrase = ""
     @State private var startupCommand = ""
     @State private var tagText = ""
+    @State private var usesTmux = false
+    @State private var tmuxSessionName = "sssh"
     @State private var hasStoredSecret = false
     @State private var isSaving = false
     @State private var saveFailure: String?
@@ -119,6 +121,27 @@ struct HostEditorView: View {
                     Text("Overig", comment: "Section header: everything else")
                 }
 
+                Section {
+                    Toggle(isOn: $usesTmux) {
+                        Text("tmux gebruiken", comment: "Toggle: run tmux in control mode on connect")
+                    }
+
+                    if usesTmux {
+                        TextField(text: $tmuxSessionName) {
+                            Text("Naam van de tmux-sessie", comment: "Field label: the tmux session name to attach to")
+                        }
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        #endif
+                    }
+                } header: {
+                    Text(verbatim: "tmux")
+                } footer: {
+                    Text("De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssh, en je werk blijft draaien als de verbinding wegvalt.",
+                         comment: "Footer explaining what tmux control mode does")
+                }
+
                 if let saveFailure {
                     Section {
                         Label {
@@ -189,6 +212,8 @@ struct HostEditorView: View {
         authenticationMethod = host.authenticationMethod
         startupCommand = host.startupCommand ?? ""
         tagText = host.tags.joined(separator: ", ")
+        usesTmux = host.usesTmuxControlMode
+        tmuxSessionName = host.tmuxSessionName
         hasStoredSecret = host.secretReference != nil
     }
 
@@ -207,6 +232,10 @@ struct HostEditorView: View {
             .split(separator: ",")
             .map { $0.trimmingCharacters(in: .whitespaces) }
             .filter { !$0.isEmpty }
+        target.usesTmuxControlMode = usesTmux
+        target.tmuxSessionName = tmuxSessionName.trimmingCharacters(in: .whitespaces).isEmpty
+            ? "sssh"
+            : tmuxSessionName.trimmingCharacters(in: .whitespaces)
         target.updatedAt = Date()
 
         do {

@@ -36,20 +36,109 @@ struct ssshApp: App {
     }
 }
 
-/// Menu-bar commands. The full set, with customisable shortcuts, is Phase 8;
-/// these are the ones a terminal app is unusable without.
+/// The menu bar, and the keyboard shortcuts that come with it.
+///
+/// Shortcuts chosen to match what a terminal user already has in their fingers
+/// from iTerm and Terminal, because a terminal app that invents its own is one
+/// people keep fighting. Customisable bindings are Phase 8.
 struct ssshCommands: Commands {
     let environment: AppEnvironment
 
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Button {
+                environment.presentCommandPalette()
+            } label: {
+                Text("Ga naar…", comment: "Menu item: open the command palette")
+            }
+            .keyboardShortcut("k", modifiers: .command)
+        }
+
+        CommandMenu(Text("Sessie", comment: "Menu title for session commands")) {
+            Button {
+                environment.sessions.splitFocusedPane(axis: .horizontal)
+            } label: {
+                Text("Splits naar rechts", comment: "Menu item: split the pane left-to-right")
+            }
+            .keyboardShortcut("d", modifiers: .command)
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Button {
+                environment.sessions.splitFocusedPane(axis: .vertical)
+            } label: {
+                Text("Splits naar beneden", comment: "Menu item: split the pane top-to-bottom")
+            }
+            .keyboardShortcut("d", modifiers: [.command, .shift])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Divider()
+
+            Button {
+                environment.sessions.selectedTab?.focusNextPane()
+            } label: {
+                Text("Volgend venster", comment: "Menu item: move focus to the next pane")
+            }
+            .keyboardShortcut("]", modifiers: [.command, .option])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Button {
+                environment.sessions.selectedTab?.focusPreviousPane()
+            } label: {
+                Text("Vorig venster", comment: "Menu item: move focus to the previous pane")
+            }
+            .keyboardShortcut("[", modifiers: [.command, .option])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Divider()
+
+            Toggle(isOn: broadcastBinding) {
+                Text("Invoer naar alle vensters", comment: "Menu item: toggle broadcasting input to every pane")
+            }
+            .keyboardShortcut("i", modifiers: [.command, .shift])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Divider()
+
+            Button {
+                environment.sessions.closeFocusedPane()
+            } label: {
+                Text("Sluit venster", comment: "Menu item: close the focused pane")
+            }
+            .keyboardShortcut("w", modifiers: .command)
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Button {
                 environment.sessions.closeSelected()
             } label: {
                 Text("Sluit sessie", comment: "Menu item: close the current session tab")
             }
-            .keyboardShortcut("w", modifiers: .command)
-            .disabled(environment.sessions.selectedSession == nil)
+            .keyboardShortcut("w", modifiers: [.command, .shift])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Divider()
+
+            Button {
+                environment.sessions.selectNextTab()
+            } label: {
+                Text("Volgende sessie", comment: "Menu item: switch to the next tab")
+            }
+            .keyboardShortcut("}", modifiers: [.command, .shift])
+
+            Button {
+                environment.sessions.selectPreviousTab()
+            } label: {
+                Text("Vorige sessie", comment: "Menu item: switch to the previous tab")
+            }
+            .keyboardShortcut("{", modifiers: [.command, .shift])
         }
+    }
+
+    /// Bound to the focused tab rather than to a stored flag, because broadcast
+    /// is a property of one tab and must not leak to the next one selected.
+    private var broadcastBinding: Binding<Bool> {
+        Binding(
+            get: { environment.sessions.selectedTab?.broadcastsInput ?? false },
+            set: { environment.sessions.selectedTab?.broadcastsInput = $0 }
+        )
     }
 }

@@ -19,9 +19,29 @@ final class FakeTransport: SSHTransport, @unchecked Sendable {
     private var behaviour: ProbeBehaviour
     private var probeCount = 0
 
-    init(state: SSHConnectionState = .connected(.fake), probeBehaviour: ProbeBehaviour = .succeed) {
+    enum ConnectBehaviour: Sendable {
+        case succeed
+        case fail
+        case hostKeyRejected
+    }
+
+    private var connectBehaviour: ConnectBehaviour
+    private var _connectAttempts = 0
+
+    init(
+        state: SSHConnectionState = .connected(.fake),
+        probeBehaviour: ProbeBehaviour = .succeed,
+        connectBehaviour: ConnectBehaviour = .succeed
+    ) {
         self._currentState = state
         self.behaviour = probeBehaviour
+        self.connectBehaviour = connectBehaviour
+    }
+
+    var connectAttempts: Int {
+        lock.lock()
+        defer { lock.unlock() }
+        return _connectAttempts
     }
 
     var currentState: SSHConnectionState {
@@ -48,8 +68,23 @@ final class FakeTransport: SSHTransport, @unchecked Sendable {
 
     @discardableResult
     func connect(to destination: SSHDestination, hostKeyPolicy: SSHKnownHostsPolicy) async throws -> SSHConnectionInfo {
-        set(state: .connected(.fake))
-        return .fake
+        lock.lock()
+        _connectAttempts += 1
+        let behaviour = connectBehaviour
+        lock.unlock()
+
+        switch behaviour {
+        case .succeed:
+            set(state: .connected(.fake))
+            return .fake
+        case .fail:
+            throw SSHTransportError.unreachable(destination.endpoint, underlying: "fake")
+        case .hostKeyRejected:
+            throw SSHTransportError.hostKeyRejected(
+                destination.endpoint,
+                presented: SSHHostKey(algorithm: "ssh-ed25519", wireFormat: [1])
+            )
+        }
     }
 
     func openShell(_ configuration: SSHShellConfiguration) async throws -> any SSHShellSession {

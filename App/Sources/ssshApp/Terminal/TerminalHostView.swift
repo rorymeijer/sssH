@@ -22,11 +22,16 @@ typealias PlatformColor = UIColor
 /// a layout change becomes a `window-change`. Everything interesting happens on
 /// either side of it.
 struct TerminalHostView: PlatformViewRepresentable {
-    let session: TerminalSession
+    let session: any TerminalFeed
+    /// Typing is routed through the tab rather than straight to the session, so
+    /// broadcast-to-all-panes is a property of the tab and not something every
+    /// call site has to remember.
+    let tab: TerminalTab
+    let pane: PaneID
     let profile: TerminalProfile?
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(session: session)
+        Coordinator(session: session, tab: tab, pane: pane)
     }
 
     #if os(macOS)
@@ -106,11 +111,15 @@ struct TerminalHostView: PlatformViewRepresentable {
     /// hopping — a hop would reorder input against output, which in a terminal
     /// means characters arriving out of order.
     final class Coordinator: NSObject, TerminalViewDelegate {
-        private let session: TerminalSession
+        private let session: any TerminalFeed
+        private let tab: TerminalTab
+        private let pane: PaneID
         private weak var view: TerminalView?
 
-        init(session: TerminalSession) {
+        init(session: any TerminalFeed, tab: TerminalTab, pane: PaneID) {
             self.session = session
+            self.tab = tab
+            self.pane = pane
         }
 
         func attach(to view: TerminalView) {
@@ -138,7 +147,12 @@ struct TerminalHostView: PlatformViewRepresentable {
             // Everything typed, including Ctrl-C as byte 0x03. With a PTY
             // allocated it is the *remote* line discipline that turns that into
             // SIGINT — which is why this does not special-case it.
-            MainActor.assumeIsolated { session.send(data) }
+            MainActor.assumeIsolated {
+                // Focus follows typing: a pane that receives a keystroke is the
+                // one the user is in, whatever was last clicked.
+                tab.focusedPane = pane
+                tab.send(data, from: pane)
+            }
         }
 
         func sizeChanged(source: TerminalView, newCols: Int, newRows: Int) {

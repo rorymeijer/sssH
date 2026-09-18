@@ -3,41 +3,49 @@ import Observation
 import SwiftData
 import ssshCore
 
-/// Owns the open sessions and the tab strip.
+/// Owns the open tabs, the panes inside them, and the connections behind those.
 ///
-/// One transport per session, not one per app: sessions to the same host are
-/// independent connections in Phase 1. Sharing one connection between tabs is
-/// what the transport's channel multiplexing is for, and it arrives with splits
-/// in Phase 2 — doing it now would tangle tab lifetimes with connection
-/// lifetimes before there is a UI that needs it.
+/// One transport per pane rather than one per host: two panes on the same
+/// server are independent connections, so one dropping does not take the other
+/// with it. Sharing a connection between panes is what SSH channel
+/// multiplexing is for, and it is the obvious optimisation — but it couples
+/// their lifetimes, and a tab where closing one pane kills its neighbour is
+/// worse than a second TCP connection.
 @MainActor
 @Observable
 final class SessionManager {
-    private(set) var sessions: [TerminalSession] = []
-    var selectedSessionID: TerminalSession.ID?
+    private(set) var tabs: [TerminalTab] = []
+    var selectedTabID: TerminalTab.ID?
 
     private let transportFactory: any SSHTransportFactory
     private let secretsStore: any SecretsStore
     private let knownHosts: any SSHKnownHostsStore
     private let hostKeyPrompts: HostKeyPromptCoordinator
     private let credentialPrompts: CredentialPromptCoordinator
+    private let modelContainer: ModelContainer
 
     init(
         transportFactory: any SSHTransportFactory,
         secretsStore: any SecretsStore,
         knownHosts: any SSHKnownHostsStore,
         hostKeyPrompts: HostKeyPromptCoordinator,
-        credentialPrompts: CredentialPromptCoordinator
+        credentialPrompts: CredentialPromptCoordinator,
+        modelContainer: ModelContainer
     ) {
         self.transportFactory = transportFactory
         self.secretsStore = secretsStore
         self.knownHosts = knownHosts
         self.hostKeyPrompts = hostKeyPrompts
         self.credentialPrompts = credentialPrompts
+        self.modelContainer = modelContainer
     }
 
-    var selectedSession: TerminalSession? {
-        sessions.first { $0.id == selectedSessionID }
+    var selectedTab: TerminalTab? {
+        tabs.first { $0.id == selectedTabID }
+    }
+
+    var focusedSession: TerminalSession? {
+        selectedTab?.focusedSession
     }
 
     // MARK: - Opening
@@ -49,16 +57,58 @@ final class SessionManager {
     /// somewhere to belong, and a UI that does nothing for several seconds
     /// looks broken.
     @discardableResult
-    func open(_ host: Host) -> TerminalSession {
+    func open(_ host: Host) -> TerminalTab {
         let session = makeSession(for: host)
-        sessions.append(session)
-        selectedSessionID = session.id
+        let tab: TerminalTab
+
+        if host.usesTmuxControlMode {
+            // The channel carries tmux's control protocol rather than terminal
+            // output, so the controller reads it and the session does not.
+            let controller = TmuxSessionController()
+            session.onShellOpened = { [weak controller] shell in
+                controller?.attach(to: shell)
+            }
+            tab = TerminalTab(tmux: controller, hostID: host.persistentModelID)
+        } else {
+            tab = TerminalTab(session: session, hostID: host.persistentModelID)
+        }
+
+        tabs.append(tab)
+        selectedTabID = tab.id
 
         Task { [weak self] in
             await self?.connect(session, host: host)
         }
 
-        return session
+        host.lastConnectedAt = Date()
+        return tab
+    }
+
+    /// Splits the focused pane.
+    ///
+    /// In tmux mode this asks tmux, which owns the layout; the new pane arrives
+    /// through `%layout-change`. Otherwise it opens another connection to the
+    /// same host.
+    func splitFocusedPane(axis: PaneLayout.Axis) {
+        guard let tab = selectedTab else { return }
+
+        if case .tmux = tab.mode {
+            tab.requestTmuxSplit(axis: axis)
+            return
+        }
+
+        guard let host = host(for: tab) else { return }
+        let session = makeSession(for: host)
+        guard tab.split(tab.focusedPane, with: session, axis: axis) != nil else { return }
+
+        Task { [weak self] in
+            await self?.connect(session, host: host)
+        }
+    }
+
+    private func host(for tab: TerminalTab) -> Host? {
+        guard let hostID = tab.hostID else { return nil }
+        return modelContainer.mainContext.model(for: hostID) as? Host
     }
 
     private func makeSession(for host: Host) -> TerminalSession {
@@ -67,13 +117,25 @@ final class SessionManager {
             verifier: InteractiveHostKeyVerifier(coordinator: hostKeyPrompts)
         )
 
+        // In tmux mode the startup command *is* tmux: `new -A` attaches to the
+        // named session if it exists and creates it if not, which is what makes
+        // reconnecting land back where you were. The host's own startup command
+        // still runs, inside tmux.
+        let startupCommand: String?
+        if host.usesTmuxControlMode {
+            let name = host.tmuxSessionName.isEmpty ? "sssh" : host.tmuxSessionName
+            startupCommand = "tmux -CC new -A -s \(name)"
+        } else {
+            startupCommand = host.startupCommand
+        }
+
         let configuration = SSHShellConfiguration(
             terminalType: .xterm256Color,
             // The real size arrives from SwiftTerm as soon as the view lays
             // out; this is only what the PTY is created with.
             initialSize: .default,
             environment: host.environment,
-            startupCommand: host.startupCommand
+            startupCommand: startupCommand
         )
 
         return TerminalSession(
@@ -81,7 +143,8 @@ final class SessionManager {
             endpoint: host.endpoint,
             transport: transportFactory.makeTransport(),
             hostKeyPolicy: policy,
-            shellConfiguration: configuration
+            shellConfiguration: configuration,
+            readsOwnOutput: !host.usesTmuxControlMode
         )
     }
 
@@ -110,6 +173,7 @@ final class SessionManager {
             guard let answer, let passphrase = answer.values.first else {
                 return
             }
+
             var retry = resolved
             retry.credentials = credentials.map { credential in
                 guard case .privateKey(var material) = credential else { return credential }
@@ -191,33 +255,122 @@ final class SessionManager {
 
     // MARK: - Closing
 
-    func close(_ session: TerminalSession) {
-        sessions.removeAll { $0.id == session.id }
+    func closeFocusedPane() {
+        guard let tab = selectedTab else { return }
+        if !tab.closePane(tab.focusedPane) {
+            close(tab)
+        }
+    }
 
-        if selectedSessionID == session.id {
-            selectedSessionID = sessions.last?.id
+    func close(_ tab: TerminalTab) {
+        tabs.removeAll { $0.id == tab.id }
+
+        if selectedTabID == tab.id {
+            selectedTabID = tabs.last?.id
         }
 
-        Task { await session.disconnect() }
+        Task { await tab.disconnectAll() }
     }
 
     /// Closes the tab that is on screen. Bound to Command-W.
     func closeSelected() {
-        guard let session = selectedSession else { return }
-        close(session)
+        guard let tab = selectedTab else { return }
+        close(tab)
     }
 
     func closeAll() {
-        let open = sessions
-        sessions.removeAll()
-        selectedSessionID = nil
+        let open = tabs
+        tabs.removeAll()
+        selectedTabID = nil
         hostKeyPrompts.rejectAll()
         credentialPrompts.cancelAll()
 
         Task {
-            for session in open {
-                await session.disconnect()
+            for tab in open {
+                await tab.disconnectAll()
             }
+        }
+    }
+
+    // MARK: - Navigation
+
+    func selectNextTab() {
+        guard !tabs.isEmpty else { return }
+        guard let index = tabs.firstIndex(where: { $0.id == selectedTabID }) else {
+            selectedTabID = tabs.first?.id
+            return
+        }
+        selectedTabID = tabs[(index + 1) % tabs.count].id
+    }
+
+    func selectPreviousTab() {
+        guard !tabs.isEmpty else { return }
+        guard let index = tabs.firstIndex(where: { $0.id == selectedTabID }) else {
+            selectedTabID = tabs.last?.id
+            return
+        }
+        selectedTabID = tabs[(index - 1 + tabs.count) % tabs.count].id
+    }
+
+    // MARK: - Restore
+
+    /// What the tabs currently are, in a form that survives a relaunch.
+    func snapshot() -> SessionRestoreSnapshot {
+        SessionRestoreSnapshot(
+            tabs: tabs.compactMap { tab in
+                guard let hostID = tab.hostID,
+                      let host = modelContainer.mainContext.model(for: hostID) as? Host
+                else {
+                    return nil
+                }
+                return SessionRestoreSnapshot.Tab(
+                    hostIdentifier: host.restoreIdentifier,
+                    layout: tab.layout,
+                    focusedPane: tab.focusedPane,
+                    broadcastsInput: tab.broadcastsInput,
+                    isSelected: tab.id == selectedTabID
+                )
+            }
+        )
+    }
+
+    /// Reopens what `snapshot` recorded.
+    ///
+    /// The layout is restored but the *connections* are made fresh, with
+    /// whatever authentication that needs — including prompts. A session cannot
+    /// be resumed, only reopened, and pretending otherwise would show a
+    /// terminal that looks alive and is not.
+    func restore(_ snapshot: SessionRestoreSnapshot, hosts: [Host]) {
+        let byIdentifier = Dictionary(
+            hosts.map { ($0.restoreIdentifier, $0) },
+            uniquingKeysWith: { first, _ in first }
+        )
+
+        for storedTab in snapshot.tabs {
+            guard let host = byIdentifier[storedTab.hostIdentifier] else { continue }
+
+            let tab = open(host)
+            tab.broadcastsInput = storedTab.broadcastsInput
+
+            // Recreate the extra panes. The stored layout's pane identifiers
+            // are not reused: they belong to sessions that no longer exist, and
+            // matching them up would be pretending the old ones came back.
+            let extraPanes = max(0, storedTab.layout.terminalCount - 1)
+            for index in 0..<extraPanes {
+                splitFocusedPaneForRestore(tab: tab, host: host, axis: storedTab.axis(at: index))
+            }
+
+            if storedTab.isSelected {
+                selectedTabID = tab.id
+            }
+        }
+    }
+
+    private func splitFocusedPaneForRestore(tab: TerminalTab, host: Host, axis: PaneLayout.Axis) {
+        let session = makeSession(for: host)
+        guard tab.split(tab.focusedPane, with: session, axis: axis) != nil else { return }
+        Task { [weak self] in
+            await self?.connect(session, host: host)
         }
     }
 }

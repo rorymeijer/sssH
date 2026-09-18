@@ -1,7 +1,7 @@
 import SwiftUI
 import ssshCore
 
-/// The detail side of the window: a tab strip and the terminal under it.
+/// The detail side of the window: a tab strip and the panes under it.
 struct SessionAreaView: View {
     @Environment(AppEnvironment.self) private var environment
 
@@ -9,21 +9,29 @@ struct SessionAreaView: View {
         @Bindable var sessions = environment.sessions
 
         VStack(spacing: 0) {
-            if !sessions.sessions.isEmpty {
+            if !sessions.tabs.isEmpty {
                 SessionTabStrip(
-                    sessions: sessions.sessions,
-                    selection: $sessions.selectedSessionID,
+                    tabs: sessions.tabs,
+                    selection: $sessions.selectedTabID,
                     onClose: { sessions.close($0) }
                 )
                 Divider()
             }
 
-            if let session = sessions.selectedSession {
-                TerminalPane(session: session)
-                    // Rebuilding the terminal view when the tab changes would
-                    // throw away the scrollback, so each session keeps its own
-                    // view identity.
-                    .id(session.id)
+            if let tab = sessions.selectedTab {
+                VStack(spacing: 0) {
+                    if tab.broadcastsInput {
+                        BroadcastBanner(paneCount: tab.paneCount) {
+                            tab.broadcastsInput = false
+                        }
+                    }
+
+                    PaneTreeView(tab: tab, layout: tab.layout)
+                        // Rebuilding the terminal views when the tab changes
+                        // would throw away the scrollback, so each tab keeps
+                        // its own view identity.
+                        .id(tab.id)
+                }
             } else {
                 ContentUnavailableView {
                     Label {
@@ -40,22 +48,53 @@ struct SessionAreaView: View {
     }
 }
 
+/// Impossible to miss on purpose.
+///
+/// Broadcast means every keystroke goes to machines that are not on screen. The
+/// failure mode is not cosmetic, so the banner is loud, permanent while it is
+/// on, and one click from off.
+private struct BroadcastBanner: View {
+    let paneCount: Int
+    let turnOff: () -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "dot.radiowaves.left.and.right")
+            Text("Invoer gaat naar alle \(paneCount) vensters",
+                 comment: "Banner shown while broadcast input is on, with the number of panes")
+                .font(.callout.weight(.medium))
+
+            Spacer(minLength: 0)
+
+            Button(action: turnOff) {
+                Text("Uitschakelen", comment: "Button that turns broadcast input off")
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(.orange.opacity(0.22))
+        .accessibilityElement(children: .combine)
+    }
+}
+
 /// The tab strip. Horizontal scrolling rather than shrinking tabs to nothing,
 /// because a tab whose label cannot be read is not a tab.
 struct SessionTabStrip: View {
-    let sessions: [TerminalSession]
-    @Binding var selection: TerminalSession.ID?
-    let onClose: (TerminalSession) -> Void
+    let tabs: [TerminalTab]
+    @Binding var selection: TerminalTab.ID?
+    let onClose: (TerminalTab) -> Void
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 2) {
-                ForEach(sessions) { session in
-                    SessionTab(
-                        session: session,
-                        isSelected: session.id == selection,
-                        onSelect: { selection = session.id },
-                        onClose: { onClose(session) }
+                ForEach(tabs) { tab in
+                    SessionTabLabel(
+                        tab: tab,
+                        isSelected: tab.id == selection,
+                        onSelect: { selection = tab.id },
+                        onClose: { onClose(tab) }
                     )
                 }
             }
@@ -67,26 +106,43 @@ struct SessionTabStrip: View {
     }
 }
 
-private struct SessionTab: View {
-    let session: TerminalSession
+private struct SessionTabLabel: View {
+    let tab: TerminalTab
     let isSelected: Bool
     let onSelect: () -> Void
     let onClose: () -> Void
 
     var body: some View {
         HStack(spacing: 6) {
-            ConnectionStateDot(state: session.state)
+            ConnectionStateDot(state: tab.connectionState)
 
-            Text(session.title)
+            Text(tab.title)
                 .lineLimit(1)
                 .font(.callout)
+
+            if tab.paneCount > 1 {
+                Text(verbatim: "\(tab.paneCount)")
+                    .font(.caption2.monospacedDigit())
+                    .padding(.horizontal, 4)
+                    .background(.quaternary, in: Capsule())
+                    .accessibilityLabel(Text("\(tab.paneCount) vensters",
+                                             comment: "Accessibility label for the pane count on a tab"))
+            }
+
+            if tab.broadcastsInput {
+                Image(systemName: "dot.radiowaves.left.and.right")
+                    .font(.caption2)
+                    .foregroundStyle(.orange)
+                    .accessibilityLabel(Text("Invoer wordt uitgezonden",
+                                             comment: "Accessibility label for the broadcast indicator on a tab"))
+            }
 
             Button(action: onClose) {
                 Image(systemName: "xmark")
                     .font(.caption2)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(Text("Sluit \(session.title)",
+            .accessibilityLabel(Text("Sluit \(tab.title)",
                                      comment: "Accessibility label for a tab's close button"))
         }
         .padding(.horizontal, 10)

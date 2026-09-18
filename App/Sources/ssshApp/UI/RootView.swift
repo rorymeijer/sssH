@@ -28,6 +28,17 @@ struct RootView: View {
                 StoreFailureBanner(message: storeFailure)
             }
         }
+        .task {
+            // Restore once the window exists, so a prompt from a restored
+            // session has somewhere to appear.
+            environment.restoreSessions()
+        }
+        .onChange(of: environment.sessions.tabs.count) { _, _ in
+            environment.saveOpenSessions()
+        }
+        .onChange(of: environment.sessions.selectedTabID) { _, _ in
+            environment.saveOpenSessions()
+        }
         .sheet(item: $hostBeingEdited) { host in
             HostEditorView(host: host)
         }
@@ -39,6 +50,10 @@ struct RootView: View {
                 environment.hostKeyPrompts.answer(decision)
             }
             .interactiveDismissDisabled()
+        }
+        .sheet(isPresented: paletteBinding) {
+            CommandPaletteView(model: environment.palette)
+                .presentationDetents([.medium, .large])
         }
         .sheet(item: credentialPromptBinding) { prompt in
             CredentialPromptView(prompt: prompt) { values, remember in
@@ -56,6 +71,13 @@ struct RootView: View {
     /// arrives from a network thread mid-handshake, and dismissing it has to
     /// deliver an answer rather than merely hide it — hence
     /// `interactiveDismissDisabled` and the explicit callbacks above.
+    private var paletteBinding: Binding<Bool> {
+        Binding(
+            get: { environment.palette.isPresented },
+            set: { if !$0 { environment.palette.dismiss() } }
+        )
+    }
+
     private var hostKeyPromptBinding: Binding<HostKeyPromptCoordinator.PendingPrompt?> {
         Binding(
             get: { environment.hostKeyPrompts.current },

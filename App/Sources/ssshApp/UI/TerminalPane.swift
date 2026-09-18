@@ -7,23 +7,58 @@ import ssshCore
 /// from before a drop is often the explanation for the drop, and hiding it to
 /// show an error message throws that away.
 struct TerminalPane: View {
-    let session: TerminalSession
+    let session: any TerminalFeed
+    let tab: TerminalTab
+    let pane: PaneID
 
     var body: some View {
         VStack(spacing: 0) {
-            if let failure = session.failure {
-                FailureBanner(message: failure)
-            } else if let exit = session.exit, !exit.isSuccess {
+            switch session.statusBanner {
+            case .reconnecting(let attempt, let retryingAt):
+                ReconnectingBanner(attempt: attempt, retryingAt: retryingAt)
+            case .failed(let message):
+                FailureBanner(message: message)
+            case .exited(let exit):
                 ExitBanner(exit: exit)
+            case .none:
+                EmptyView()
             }
 
-            // Connecting starts when the session is opened, not here, so that
-            // a host-key prompt has somewhere to belong before the terminal
-            // appears.
-            TerminalHostView(session: session, profile: nil)
+            TerminalHostView(session: session, tab: tab, pane: pane, profile: nil)
                 .accessibilityLabel(Text("Terminal voor \(session.title)",
                                          comment: "Accessibility label for the terminal view"))
         }
+    }
+}
+
+/// Shown while a dropped connection is being retried.
+///
+/// It counts down rather than spinning, because "when will this stop" is the
+/// question people actually have, and it offers a way to retry now — waiting
+/// out a 60-second backoff after plugging the network back in is maddening.
+private struct ReconnectingBanner: View {
+    let attempt: Int
+    let retryingAt: Date?
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ProgressView().controlSize(.small)
+
+            if let retryingAt, retryingAt > Date() {
+                Text("Verbinding verbroken. Nieuwe poging \(Text(retryingAt, style: .relative)).",
+                     comment: "Reconnect banner with a countdown to the next attempt")
+                    .font(.callout)
+            } else {
+                Text("Opnieuw verbinden, poging \(attempt)",
+                     comment: "Connection state: retrying, with the attempt number")
+                    .font(.callout)
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(10)
+        .background(.regularMaterial)
+        .accessibilityElement(children: .combine)
     }
 }
 

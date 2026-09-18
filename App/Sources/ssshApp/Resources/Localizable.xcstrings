@@ -25,6 +25,30 @@
       },
       "comment": "The key file could not be parsed at all"
     },
+    "%lld procent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld percent"
+          }
+        }
+      },
+      "comment": "Accessibility value: the divider position as a percentage"
+    },
+    "%lld vensters": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld panes"
+          }
+        }
+      },
+      "comment": "Accessibility label for the pane count on a tab"
+    },
     "Aangeboden sleutel": {
       "extractionState": "manual",
       "localizations": {
@@ -253,6 +277,18 @@
       },
       "comment": "Says which key file needs a passphrase"
     },
+    "De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssh, en je werk blijft draaien als de verbinding wegvalt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux windows and panes become tabs and splits in sssh, and your work keeps running when the connection drops."
+          }
+        }
+      },
+      "comment": "Footer explaining what tmux control mode buys the user"
+    },
     "De verbinding is door de server verbroken.": {
       "extractionState": "manual",
       "localizations": {
@@ -445,6 +481,30 @@
         }
       }
     },
+    "Ga naar host of voer opdracht uit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to a host or run a command"
+          }
+        }
+      },
+      "comment": "Placeholder in the command palette search field"
+    },
+    "Ga naar…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to…"
+          }
+        }
+      },
+      "comment": "Menu item that opens the command palette"
+    },
     "Gebruikersnaam": {
       "extractionState": "manual",
       "localizations": {
@@ -528,6 +588,42 @@
         }
       },
       "comment": "Banner title when the database could not be opened"
+    },
+    "Invoer gaat naar alle %lld vensters": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input goes to all %lld panes"
+          }
+        }
+      },
+      "comment": "Broadcast banner: how many panes receive what is typed"
+    },
+    "Invoer naar alle vensters": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input to all panes"
+          }
+        }
+      },
+      "comment": "Menu item that toggles broadcast input"
+    },
+    "Invoer wordt uitgezonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input is being broadcast"
+          }
+        }
+      },
+      "comment": "Broadcast banner title"
     },
     "Kan %@ niet bereiken (%@).": {
       "extractionState": "manual",
@@ -623,6 +719,18 @@
         }
       },
       "comment": "Field label: the host's display name"
+    },
+    "Naam van de tmux-sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux session name"
+          }
+        }
+      },
+      "comment": "Field for the tmux session to attach to or create"
     },
     "Niet verbonden": {
       "extractionState": "manual",
@@ -732,6 +840,30 @@
       },
       "comment": "Accessibility label for the private key field"
     },
+    "Scheiding": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Divider"
+          }
+        }
+      },
+      "comment": "Accessibility label for a split divider"
+    },
+    "Sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Session"
+          }
+        }
+      },
+      "comment": "Menu title for session commands"
+    },
     "Sessies": {
       "extractionState": "manual",
       "localizations": {
@@ -780,6 +912,42 @@
       },
       "comment": "Menu item: close the current session tab"
     },
+    "Sluit venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close pane"
+          }
+        }
+      },
+      "comment": "Menu item that closes the focused pane"
+    },
+    "Splits naar beneden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Split down"
+          }
+        }
+      },
+      "comment": "Menu item that splits the focused pane vertically"
+    },
+    "Splits naar rechts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Split right"
+          }
+        }
+      },
+      "comment": "Menu item that splits the focused pane horizontally"
+    },
     "Terminal voor %@": {
       "extractionState": "manual",
       "localizations": {
@@ -803,6 +971,18 @@
         }
       },
       "comment": "An operation took too long; placeholder names the operation"
+    },
+    "Uitschakelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off"
+          }
+        }
+      },
+      "comment": "Button in the broadcast banner that stops broadcasting"
     },
     "Verbind": {
       "extractionState": "manual",
@@ -864,6 +1044,18 @@
       },
       "comment": "Connection state: dropped unexpectedly"
     },
+    "Verbinding verbroken. Nieuwe poging %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disconnected. Retrying %@."
+          }
+        }
+      },
+      "comment": "Overlay on a pane that is waiting to reconnect; the placeholder is a relative time"
+    },
     "Verbonden": {
       "extractionState": "manual",
       "localizations": {
@@ -911,6 +1103,54 @@
         }
       },
       "comment": "Empty state body when no hosts are saved"
+    },
+    "Volgend venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next pane"
+          }
+        }
+      },
+      "comment": "Menu item that moves focus to the next pane"
+    },
+    "Volgende sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next session"
+          }
+        }
+      },
+      "comment": "Menu item that moves to the next tab"
+    },
+    "Vorig venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous pane"
+          }
+        }
+      },
+      "comment": "Menu item that moves focus to the previous pane"
+    },
+    "Vorige sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous session"
+          }
+        }
+      },
+      "comment": "Menu item that moves to the previous tab"
     },
     "Wachtwoord": {
       "extractionState": "manual",
@@ -1043,6 +1283,18 @@
         }
       },
       "comment": "Agent forwarding is not implemented"
+    },
+    "tmux gebruiken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use tmux"
+          }
+        }
+      },
+      "comment": "Toggle that enables tmux control mode for a host"
     },
     "tmux-besturingsmodus wordt nog niet ondersteund.": {
       "extractionState": "manual",

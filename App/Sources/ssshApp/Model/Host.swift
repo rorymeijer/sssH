@@ -44,6 +44,19 @@ final class Host {
     var environment: [String: String] = [:]
 
     var keepAliveIntervalSeconds: Int = 30
+
+    /// Run tmux in control mode (`tmux -CC`) on connect.
+    ///
+    /// When on, tmux's windows and panes become sssh's tabs and splits, and the
+    /// work survives a disconnect because it is running on the server. When
+    /// off, tmux still works — it is just drawing itself inside one terminal,
+    /// with its own status bar and its own scrollback.
+    var usesTmuxControlMode: Bool = false
+
+    /// The tmux session to attach to, or create. One named session per host
+    /// means reconnecting lands back where you were instead of stacking up
+    /// anonymous sessions.
+    var tmuxSessionName: String = "sssh"
     var terminalProfile: TerminalProfile?
 
     var createdAt: Date = Date()
@@ -81,6 +94,16 @@ extension Host {
 
     var endpoint: SSHEndpoint {
         SSHEndpoint(hostname: hostname, port: port)
+    }
+
+    /// A stable key for matching this host across launches and devices.
+    ///
+    /// `PersistentIdentifier` is not stable across either, so session restore
+    /// and (in Phase 7) sync need something durable. The connection triple is
+    /// what a person would call "the same host", and it stays right when a
+    /// record is recreated by a sync.
+    var restoreIdentifier: String {
+        "\(username)@\(hostname):\(port)"
     }
 
     /// What to show in the sidebar when the user has not named the host.
