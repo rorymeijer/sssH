@@ -79,6 +79,8 @@ struct PermissionsEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var bits: UInt16
     @State private var octal: String
+    /// Four octal digits, at whatever size the text is.
+    @ScaledMetric(relativeTo: .body) private var octalFieldWidth: CGFloat = 80
 
     init(entry: RemoteFileEntry, apply: @escaping (POSIXPermissions) -> Void) {
         self.entry = entry
@@ -128,7 +130,7 @@ struct PermissionsEditorView: View {
                     Text("Octaal", comment: "Label for the octal permissions field")
                 }
                 .textFieldStyle(.roundedBorder)
-                .frame(width: 80)
+                .frame(width: octalFieldWidth)
                 .font(.body.monospaced())
                 #if os(iOS)
                 .keyboardType(.numberPad)

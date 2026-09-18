@@ -67,6 +67,7 @@ private struct TunnelSummaryRow: View {
             Image(systemName: symbol)
                 .foregroundStyle(.secondary)
                 .frame(width: 18)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: tunnel.name.isEmpty ? tunnel.commandLineEquivalent : tunnel.name)

@@ -29,6 +29,10 @@ struct TerminalHostView: PlatformViewRepresentable {
     let tab: TerminalTab
     let pane: PaneID
     let profile: TerminalProfile?
+    /// Points added to the profile's size by ⌘+ and ⌘−. An adjustment rather
+    /// than an absolute size, so a host with a small profile font and one with
+    /// a large one both get bigger together.
+    let fontSizeAdjustment: Double
 
     func makeCoordinator() -> Coordinator {
         Coordinator(session: session, tab: tab, pane: pane)
@@ -67,13 +71,14 @@ struct TerminalHostView: PlatformViewRepresentable {
     // MARK: - Appearance
 
     private var fontSize: CGFloat {
-        CGFloat(profile?.fontSize ?? 13)
+        // Floored well above zero: a terminal at one point is not small, it is
+        // gone, and ⌘− held down would otherwise get there.
+        CGFloat(max(6, (profile?.fontSize ?? 13) + fontSizeAdjustment))
     }
 
     /// The system monospace face rather than a named font: it is present on
     /// every device, it respects the user's text-size settings, and a sandboxed
-    /// app cannot address SF Mono by name anyway. Choosing a specific font is
-    /// Phase 6.
+    /// app cannot address SF Mono by name anyway.
     private var font: PlatformFont {
         PlatformFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
     }
@@ -201,9 +206,12 @@ struct TerminalHostView: PlatformViewRepresentable {
         }
 
         func clipboardRead(source: TerminalView) -> Data? {
-            // OSC 52 read. Denied: it lets a remote host exfiltrate whatever the
-            // user last copied, which could be a password out of a manager.
-            // Granting it needs a prompt, which is Phase 8.
+            // OSC 52 read. Denied, and staying denied: it lets a remote host
+            // ask for whatever the user last copied, which could be a password
+            // out of a manager. A prompt would not fix it either — the request
+            // arrives while someone is watching output scroll past, which is
+            // the worst possible moment to be asked a security question.
+            // Writes, which are the useful half, are allowed.
             nil
         }
 

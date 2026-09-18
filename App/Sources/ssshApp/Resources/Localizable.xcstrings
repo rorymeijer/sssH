@@ -333,15 +333,45 @@
     },
     "%lld vensters": {
       "extractionState": "manual",
+      "comment": "Accessibility label for the pane count on a tab",
       "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld venster"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld vensters"
+                }
+              }
+            }
+          }
+        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld panes"
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pane"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld panes"
+                }
+              }
+            }
           }
         }
-      },
-      "comment": "Accessibility label for the pane count on a tab"
+      }
     },
     "(geen opdracht)": {
       "extractionState": "manual",
@@ -1555,6 +1585,18 @@
       },
       "comment": "A transfer was cancelled by the user"
     },
+    "Gebruik de lijst met opdrachten om de uitvoer als tekst te lezen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the command list to read the output as text."
+          }
+        }
+      },
+      "comment": "Accessibility hint pointing VoiceOver users at the command block list"
+    },
     "Gebruikersnaam": {
       "extractionState": "manual",
       "localizations": {
@@ -1722,6 +1764,18 @@
         }
       },
       "comment": "Sort files by size"
+    },
+    "Groter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bigger"
+          }
+        }
+      },
+      "comment": "View menu: increase the terminal text size"
     },
     "Hervatten": {
       "extractionState": "manual",
@@ -1917,15 +1971,45 @@
     },
     "Invoer gaat naar alle %lld vensters": {
       "extractionState": "manual",
+      "comment": "Banner shown while broadcast input is on, with the number of panes",
       "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Invoer gaat naar alle %lld vensters"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Invoer gaat naar alle %lld vensters"
+                }
+              }
+            }
+          }
+        },
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Input goes to all %lld panes"
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Input goes to all %lld panes"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Input goes to all %lld panes"
+                }
+              }
+            }
           }
         }
-      },
-      "comment": "Broadcast banner: how many panes receive what is typed"
+      }
     },
     "Invoer naar alle vensters": {
       "extractionState": "manual",
@@ -2059,6 +2143,18 @@
       },
       "comment": "A transfer that finished successfully"
     },
+    "Kleiner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smaller"
+          }
+        }
+      },
+      "comment": "View menu: decrease the terminal text size"
+    },
     "Kleuren": {
       "extractionState": "manual",
       "localizations": {
@@ -2140,7 +2236,8 @@
             "value": "Tag: %@"
           }
         }
-      }
+      },
+      "comment": "Accessibility label for a host's tag chip"
     },
     "Labels": {
       "extractionState": "manual",
@@ -2669,6 +2766,18 @@
         }
       },
       "comment": "Lock delay: never"
+    },
+    "Normale grootte": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actual size"
+          }
+        }
+      },
+      "comment": "View menu: reset the terminal text size"
     },
     "Octaal": {
       "extractionState": "manual",

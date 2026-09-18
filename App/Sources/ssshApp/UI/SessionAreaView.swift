@@ -104,6 +104,7 @@ private struct BroadcastBanner: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "dot.radiowaves.left.and.right")
+                .accessibilityHidden(true)
             Text("Invoer gaat naar alle \(paneCount) vensters",
                  comment: "Banner shown while broadcast input is on, with the number of panes")
                 .font(.callout.weight(.medium))

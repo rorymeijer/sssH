@@ -6,7 +6,7 @@ import ssshCore
 ///
 /// ## Why every property has a default
 ///
-/// CloudKit's private database is added in Phase 7, and `NSPersistentCloudKitContainer`
+/// This syncs through CloudKit's private database, and `NSPersistentCloudKitContainer`
 /// refuses a model with non-optional attributes that have no default, or with
 /// unique constraints. Designing to those rules now costs nothing and avoids a
 /// schema migration on every existing user's device later.
@@ -113,7 +113,7 @@ extension Host {
     /// A stable key for matching this host across launches and devices.
     ///
     /// `PersistentIdentifier` is not stable across either, so session restore
-    /// and (in Phase 7) sync need something durable. The connection triple is
+    /// and sync need something durable. The connection triple is
     /// what a person would call "the same host", and it stays right when a
     /// record is recreated by a sync.
     var restoreIdentifier: String {

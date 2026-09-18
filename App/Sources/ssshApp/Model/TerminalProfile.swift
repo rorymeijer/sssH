@@ -3,8 +3,10 @@ import SwiftData
 
 /// Font, colours and cursor for a terminal, assignable per host or group.
 ///
-/// Phase 1 ships the model and one bundled scheme so the plumbing is real; the
-/// scheme library and the editor arrive in Phase 6.
+/// The scheme library is a fixed list of bundled palettes rather than an
+/// entity: a scheme is sixteen colours that only mean anything together, and
+/// letting each one be edited independently is how a designed set becomes an
+/// unreadable one.
 @Model
 final class TerminalProfile {
     var name: String = ""

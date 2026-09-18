@@ -57,6 +57,29 @@ final class AppEnvironment {
         )
     }
 
+    // MARK: - Terminal text size
+
+    /// The size every terminal renders at, over and above whatever its profile
+    /// says.
+    ///
+    /// An adjustment rather than a stored size, so that a host with a small
+    /// profile font and one with a large one both get bigger when someone
+    /// presses ⌘+. Kept per device in `UserDefaults`: how big text needs to be
+    /// depends on the screen it is on, not on the account.
+    private(set) var terminalFontSizeAdjustment: Double = UserDefaults.standard.double(forKey: "terminal.fontSizeAdjustment")
+
+    func adjustTerminalFontSize(by delta: Double) {
+        // Bounded, because a terminal at four points and a terminal at ninety
+        // are both unusable and both reachable by holding a key down.
+        terminalFontSizeAdjustment = min(24, max(-6, terminalFontSizeAdjustment + delta))
+        UserDefaults.standard.set(terminalFontSizeAdjustment, forKey: "terminal.fontSizeAdjustment")
+    }
+
+    func resetTerminalFontSize() {
+        terminalFontSizeAdjustment = 0
+        UserDefaults.standard.set(0.0, forKey: "terminal.fontSizeAdjustment")
+    }
+
     // MARK: - Security
 
     /// Finds out what the device key is actually protected by, and applies the

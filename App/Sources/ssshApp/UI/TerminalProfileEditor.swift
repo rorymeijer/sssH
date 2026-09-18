@@ -105,8 +105,12 @@ struct TerminalProfileEditor: View {
                                 Text(verbatim: scheme.name)
                                 Spacer(minLength: 0)
                                 if profile.colorSchemeName == scheme.name {
+                                    // The selection is already in the row's
+                                    // traits; the tick would read as a second
+                                    // announcement of the same thing.
                                     Image(systemName: "checkmark")
                                         .foregroundStyle(.tint)
+                                        .accessibilityHidden(true)
                                 }
                             }
                         }

@@ -15,6 +15,9 @@ struct FileBrowserView: View {
     @State private var local = LocalFileBrowser()
     @State private var queue: TransferQueue
     @State private var showsQueue = true
+    /// Scales with the text size, so the queue still shows rows at the largest
+    /// accessibility sizes instead of one clipped line.
+    @ScaledMetric(relativeTo: .body) private var queueHeight: CGFloat = 200
 
     init(session: TerminalSession) {
         self.session = session
@@ -56,7 +59,7 @@ struct FileBrowserView: View {
                     Task { await remote.reload() }
                     local.reload()
                 }
-                .frame(height: 200)
+                .frame(height: queueHeight)
             }
         }
         .task {

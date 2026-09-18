@@ -55,6 +55,19 @@ struct ssshApp: App {
         }
         #if os(macOS)
         .defaultSize(width: 1100, height: 700)
+        // Several windows, each with its own tabs and splits. The session
+        // layer is per window already — a `SessionManager` lives in the
+        // environment, not in a singleton — so this costs nothing beyond
+        // saying so.
+        .windowResizability(.contentMinSize)
+        #endif
+
+        #if os(macOS)
+        Settings {
+            SecuritySettingsView()
+                .environment(environment)
+                .modelContainer(environment.modelContainer)
+        }
         #endif
     }
 }
@@ -63,7 +76,20 @@ struct ssshApp: App {
 ///
 /// Shortcuts chosen to match what a terminal user already has in their fingers
 /// from iTerm and Terminal, because a terminal app that invents its own is one
-/// people keep fighting. Customisable bindings are Phase 8.
+/// people keep fighting:
+///
+/// | | |
+/// |---|---|
+/// | ⌘T, ⌘W, ⌘⇧W | new tab, close pane, close tab |
+/// | ⌘D, ⌘⇧D | split right, split down |
+/// | ⌘⌥[ ⌘⌥] | previous, next pane |
+/// | ⌘⇧[ ⌘⇧] | previous, next tab |
+/// | ⌘K | the palette, as in every editor written since 2015 |
+/// | ⌘F | search this session |
+/// | ⌘+ ⌘− ⌘0 | terminal text size |
+///
+/// The same shortcuts work on an iPad with a hardware keyboard, because
+/// SwiftUI's `Commands` drive both.
 struct ssshCommands: Commands {
     let environment: AppEnvironment
 
@@ -75,6 +101,37 @@ struct ssshCommands: Commands {
                 Text("Ga naar…", comment: "Menu item: open the command palette")
             }
             .keyboardShortcut("k", modifiers: .command)
+        }
+
+        CommandGroup(replacing: .toolbar) {
+            Button {
+                environment.adjustTerminalFontSize(by: 1)
+            } label: {
+                Text("Groter", comment: "View menu: increase the terminal text size")
+            }
+            .keyboardShortcut("+", modifiers: .command)
+
+            Button {
+                environment.adjustTerminalFontSize(by: -1)
+            } label: {
+                Text("Kleiner", comment: "View menu: decrease the terminal text size")
+            }
+            .keyboardShortcut("-", modifiers: .command)
+
+            Button {
+                environment.resetTerminalFontSize()
+            } label: {
+                Text("Normale grootte", comment: "View menu: reset the terminal text size")
+            }
+            .keyboardShortcut("0", modifiers: .command)
+
+            Divider()
+
+            Toggle(isOn: blockInspectorBinding) {
+                Text("Opdrachten", comment: "Menu item: toggle the command block list")
+            }
+            .keyboardShortcut("b", modifiers: [.command, .shift])
+            .disabled(environment.sessions.selectedTab == nil)
         }
 
         CommandGroup(after: .appSettings) {
@@ -128,12 +185,6 @@ struct ssshCommands: Commands {
                 Text("Invoer naar alle vensters", comment: "Menu item: toggle broadcasting input to every pane")
             }
             .keyboardShortcut("i", modifiers: [.command, .shift])
-            .disabled(environment.sessions.selectedTab == nil)
-
-            Toggle(isOn: blockInspectorBinding) {
-                Text("Opdrachten", comment: "Menu item: toggle the command block list")
-            }
-            .keyboardShortcut("b", modifiers: [.command, .shift])
             .disabled(environment.sessions.selectedTab == nil)
 
             Button {

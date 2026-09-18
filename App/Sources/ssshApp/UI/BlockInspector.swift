@@ -93,6 +93,7 @@ private struct BlockInspectorHeader: View {
             HStack(spacing: 6) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
                 TextField(text: $blocks.query) {
                     Text("Zoek in deze sessie", comment: "Placeholder in the in-session search field")
                 }
@@ -309,10 +310,19 @@ private struct BlockRow: View {
 }
 
 /// The outcome, in shape and colour rather than colour alone.
+///
+/// Hidden from VoiceOver: the row's own label already says "succeeded",
+/// "failed with status 2" or "exit status unknown" in words, and the glyph
+/// would be a second announcement of the same fact.
 private struct BlockOutcomeIcon: View {
     let block: CommandBlock
 
     var body: some View {
+        icon.accessibilityHidden(true)
+    }
+
+    @ViewBuilder
+    private var icon: some View {
         switch block.state {
         case .prompting:
             Image(systemName: "chevron.right")

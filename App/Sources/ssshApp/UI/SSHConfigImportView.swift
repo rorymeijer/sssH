@@ -231,8 +231,11 @@ private struct ImportHostRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
+            // The selection is in the row's traits already; the circle would
+            // read as a second announcement of the same thing.
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .foregroundStyle(isSelected ? AnyShapeStyle(.tint) : AnyShapeStyle(.tertiary))
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: host.alias)

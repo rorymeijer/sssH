@@ -11,6 +11,15 @@ struct TerminalPane: View {
     let tab: TerminalTab
     let pane: PaneID
 
+    @Environment(AppEnvironment.self) private var environment
+
+    /// The profile for the host this pane is connected to, or nothing — in
+    /// which case the terminal uses its own defaults rather than inventing a
+    /// profile record.
+    private var profile: TerminalProfile? {
+        environment.sessions.host(for: tab)?.terminalProfile
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             switch session.statusBanner {
@@ -24,9 +33,22 @@ struct TerminalPane: View {
                 EmptyView()
             }
 
-            TerminalHostView(session: session, tab: tab, pane: pane, profile: nil)
-                .accessibilityLabel(Text("Terminal voor \(session.title)",
-                                         comment: "Accessibility label for the terminal view"))
+            TerminalHostView(
+                session: session,
+                tab: tab,
+                pane: pane,
+                profile: profile,
+                fontSizeAdjustment: environment.terminalFontSizeAdjustment
+            )
+            .accessibilityLabel(Text("Terminal voor \(session.title)",
+                                     comment: "Accessibility label for the terminal view"))
+            // A terminal is a grid of characters that changes under the
+            // cursor, and VoiceOver has no good reading of one. The command
+            // block list beside it is the accessible view of the same session:
+            // real text, per command, with the outcome stated in words. This
+            // hint points at it rather than pretending the grid is readable.
+            .accessibilityHint(Text("Gebruik de lijst met opdrachten om de uitvoer als tekst te lezen.",
+                                    comment: "Accessibility hint pointing VoiceOver users at the command block list"))
         }
     }
 }

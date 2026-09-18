@@ -3,9 +3,10 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 7 done — CloudKit sync for configuration, secrets wrapped
-with a Secure Enclave key, opt-in iCloud Keychain sync, an app lock, and
-on-device key generation checked byte-for-byte against `ssh-keygen`.**
+**Status: all eight phases done — the feature set in the brief is written.
+Phase 8 closed it out with a Dutch localisation pass over every user-facing
+string, an accessibility and Dynamic Type pass, macOS and iPad platform work,
+and [docs/SECURITY.md](docs/SECURITY.md).**
 
 ## Where things are
 
@@ -20,6 +21,7 @@ on-device key generation checked byte-for-byte against `ssh-keygen`.**
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
 | `docs/PHASE-0-BACKEND-DECISION.md` | Which backend, why, and every library limitation found. **Start here.** |
 | `docs/ARCHITECTURE.md` | Layering, and the reasoning behind the awkward parts. |
+| `docs/SECURITY.md` | What is protected, what is not, and where each claim is enforced. |
 | `docs/KEYBOARD-INTERACTIVE-PLAN.md` | The design for two-factor sign-in support, and why it is not written yet. |
 
 ## Building the app
@@ -67,12 +69,27 @@ sources — every API it calls was checked to exist — but the environment it w
 written in has no Swift toolchain and no route to one. Expect ordinary compile
 errors on the first build.
 
-The cryptography is the exception, and is worth trusting: every algorithm in
-`ssshCrypto` was transcribed to Python line for line and run against external
-ground truth (OpenBSD's own `bcrypt_pbkdf.c`, compiled and run; FIPS-197 and
-`openssl enc` for AES; ten containers built around real openssl-generated key
-pairs for the parser). All of it matched, and the test vectors are those same
-external values. See "Verification status" in the Phase 0 report.
+The protocol and cryptography work is the exception, and is worth trusting.
+Every algorithm that has to agree with something outside this repository was
+transcribed to Python line for line and run against an external oracle — never
+against itself — and the test vectors in the suite are those same external
+values:
+
+| What | Checked against |
+|---|---|
+| `bcrypt_pbkdf` | OpenBSD's own `bcrypt_pbkdf.c`, compiled and run |
+| AES-CTR | FIPS-197 vectors and `openssl enc` |
+| `openssh-key-v1` parsing | Ten containers built around real openssl-generated key pairs |
+| `openssh-key-v1` writing | `ssh-keygen` — byte-identical output, and `ssh-keygen -y` reads our files |
+| DER | `openssl`, plus the identities n = p·q, e·d ≡ 1, iqmp·q ≡ 1 (mod p) |
+| SFTP v3 wire format | Paramiko |
+| SOCKS5 | PySocks, which accepted our replies and used the tunnel |
+| `~/.ssh/config` parsing | OpenSSH 9.6 `ssh -G`, case by case |
+
+All of it matched. `ssh -G` and `ssh-keygen` each found a real bug this way —
+a `Match host` that compared the alias instead of the resolved `HostName`, and
+a padding scheme that was zeros rather than 1, 2, 3… See "Verification status"
+in the Phase 0 report.
 
 ## Phases
 
@@ -84,10 +101,14 @@ external values. See "Verification status" in the Phase 0 report.
 - [x] **5** — Port forwarding: local, remote, dynamic
 - [x] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes
 - [x] **7** — CloudKit sync, Keychain/Secure Enclave, app lock
-- [ ] **8** — Dutch localisation pass, accessibility, macOS/iPad platform work, hardening
+- [x] **8** — Dutch localisation pass, accessibility, macOS/iPad platform work, hardening
 
 ## Licence and conventions
 
 Code, identifiers and comments in English. All user-facing strings are
-Dutch-first through a String Catalog, from Phase 1 onwards — nothing in the
-current modules produces user-facing prose, by design.
+Dutch-first through the String Catalog at
+`App/Sources/ssshApp/Resources/Localizable.xcstrings`; English is a
+translation, and every key carries a comment for whoever translates the next
+language. The library modules under `Sources/` produce no user-facing prose at
+all, by design — a transport that formats its own error messages cannot be
+localised by the app that embeds it.

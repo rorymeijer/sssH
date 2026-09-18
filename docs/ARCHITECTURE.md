@@ -3,9 +3,9 @@
 ## Layering
 
 ```
-  SwiftUI views · terminal hosts · file browser · tunnel UI      (Phase 1+)
+  SwiftUI views · terminal hosts · file browser · tunnel UI
                               │
-                       SessionManager                            (Phase 1+)
+                       SessionManager
           per-connection lifecycle, tabs/splits, restore
                               │
   ┌───────────────────────────┴───────────────────────────┐
@@ -16,13 +16,15 @@
   │    ReconnectPolicy · SSHShellEventStream              │
   │    PaneLayout · ConnectionSupervisor · PaletteScoring │
   │    TmuxControlParser · TmuxLayoutParser               │
+  │    CommandBlockSegmenter · ShellIntegrationScanner    │
+  │    RemotePath · FileTransfer · SSHConfigParser        │
+  │    SnippetTemplate                                    │
   └───────────────────────────┬───────────────────────────┘
                               │
          ssshTransportNIOSSH — the only module that
          knows about SwiftNIO or NIOSSH
                               │
   Stores (SwiftData + CloudKit)   SecretsStore (Keychain / Secure Enclave)
-                                                                 (Phase 6-7)
 ```
 
 Three rules hold this together, and they are the three the brief calls

@@ -16,8 +16,11 @@ struct LockScreenView: View {
 
             VStack(spacing: 18) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 44))
+                    // `.largeTitle` rather than a fixed size: a person who has
+                    // set a larger text size has done so for everything.
+                    .font(.largeTitle)
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
 
                 Text("sssh is vergrendeld", comment: "Title on the lock screen")
                     .font(.title2.weight(.medium))

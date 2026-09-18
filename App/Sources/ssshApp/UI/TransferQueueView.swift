@@ -79,9 +79,16 @@ private struct TransferRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
+            // Not decoration: the arrow is the only thing that says which
+            // way this transfer goes.
             Image(systemName: transfer.direction == .upload ? "arrow.up" : "arrow.down")
                 .foregroundStyle(.secondary)
                 .frame(width: 14)
+                .accessibilityLabel(
+                    transfer.direction == .upload
+                        ? Text("Upload", comment: "Button that uploads the selected local files")
+                        : Text("Download", comment: "Button that downloads the selected remote files")
+                )
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(verbatim: transfer.name)

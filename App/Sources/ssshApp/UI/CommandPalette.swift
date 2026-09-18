@@ -101,6 +101,10 @@ final class CommandPaletteModel {
 }
 
 struct CommandPaletteView: View {
+    /// Scales with the text size. A fixed height shows two rows at the
+    /// largest accessibility sizes, which is not a list.
+    @ScaledMetric(relativeTo: .body) private var resultsHeight: CGFloat = 180
+
     @Bindable var model: CommandPaletteModel
     @FocusState private var isFieldFocused: Bool
 
@@ -108,6 +112,7 @@ struct CommandPaletteView: View {
         VStack(spacing: 0) {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
+                    .accessibilityHidden(true)
                     .foregroundStyle(.secondary)
                 TextField(text: $model.query) {
                     Text("Ga naar host of voer opdracht uit",
@@ -128,7 +133,9 @@ struct CommandPaletteView: View {
 
             if model.results.isEmpty {
                 ContentUnavailableView.search(text: model.query)
-                    .frame(height: 180)
+                    // Scales with the text size: a list with a fixed height
+                    // shows two rows at the largest accessibility sizes.
+                    .frame(height: resultsHeight)
             } else {
                 ScrollViewReader { proxy in
                     ScrollView {
@@ -152,7 +159,7 @@ struct CommandPaletteView: View {
                 }
             }
         }
-        .frame(width: 520)
+        .frame(maxWidth: 520)
         .background(.regularMaterial)
         .onAppear { isFieldFocused = true }
         .onChange(of: model.query) { _, _ in
@@ -182,6 +189,7 @@ private struct PaletteRow: View {
             Image(systemName: item.symbol)
                 .frame(width: 20)
                 .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(item.title).lineLimit(1)

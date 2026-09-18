@@ -22,8 +22,9 @@ Re-run `xcodegen generate` after adding files or changing `project.yml`.
 
 | Path | What |
 |---|---|
-| `Model/` | SwiftData entities. Written to CloudKit's rules already — every attribute defaulted, no unique constraints — so Phase 7 needs no migration. |
-| `Secrets/` | The Keychain store. The only place a password or key is written. |
+| `Model/` | SwiftData entities. Written to CloudKit's rules — every attribute defaulted, no unique constraints — so the store syncs without a migration. |
+| `Files/` | The SFTP browser's models: remote and local listings, the transfer queue, drag and drop. |
+| `Secrets/` | The Keychain store, the Secure Enclave app key and the app lock. The only place a password or key is written. |
 | `Session/` | Connection lifecycle, tabs, host-key and credential prompts, known-hosts storage. |
 | `Terminal/` | The SwiftTerm host view and colour schemes. |
 | `UI/` | Views. |
@@ -43,12 +44,18 @@ These are the ones the brief calls non-negotiable, and where they are enforced:
   produces structured errors, never prose; `ConnectionFailureText` is the one
   place that turns a failure into a sentence.
 
-## What Phase 1 does and does not do
+## What the app does
 
-Does: one connection per tab, password and key authentication, the host-key
-prompt (loud on a mismatch), a searchable host list, the Keychain, Dutch-first
-strings.
+Connections in tabs and splits, with broadcast input and session restore.
+Password, key and `keyboard-interactive` authentication, and a host-key prompt
+that is loud on a mismatch. Command blocks — OSC 133 where the shell cooperates,
+an echo-based fallback where it does not — with per-block actions and
+in-session search. An SFTP browser with a transfer queue and drag and drop.
+Local, remote and dynamic (SOCKS5) port forwarding. Hosts with groups and tags,
+snippets with parameters, `~/.ssh/config` import, and a theme editor. CloudKit
+sync for configuration, secrets in the Keychain behind a Secure Enclave key,
+an app lock, and on-device key generation.
 
-Does not: splits, broadcast input, session restore, the command palette,
-command blocks, SFTP, port forwarding, groups and tags as editable structure,
-the theme editor, or CloudKit. Those are Phases 2 to 7, in that order.
+What it deliberately does not do: anything with AI, any telemetry, and any
+network call that is not the user's own SSH connection or their own iCloud.
+See [../docs/SECURITY.md](../docs/SECURITY.md).

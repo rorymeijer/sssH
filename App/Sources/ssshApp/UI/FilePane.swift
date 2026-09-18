@@ -161,6 +161,7 @@ struct FilePane: View {
                         if ancestor.path != path {
                             Image(systemName: "chevron.compact.right")
                                 .foregroundStyle(.tertiary)
+                                .accessibilityHidden(true)
                         }
                     }
                 }
@@ -348,9 +349,12 @@ private struct FileRow: View {
 
     var body: some View {
         HStack(spacing: 8) {
+            // The kind is spelled out in the row's label — "Folder x",
+            // "File x" — so the glyph is decoration.
             Image(systemName: symbol)
                 .foregroundStyle(entry.attributes.kind == .directory ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
                 .frame(width: 18)
+                .accessibilityHidden(true)
 
             Text(verbatim: entry.name)
                 .lineLimit(1)

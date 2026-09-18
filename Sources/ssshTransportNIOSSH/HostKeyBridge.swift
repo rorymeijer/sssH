@@ -39,7 +39,7 @@ extension SSHHostKey {
     }
 
     /// Parses one `known_hosts`-style key body (`<algorithm> <base64>`), as
-    /// used by `~/.ssh/known_hosts` import in Phase 6.
+    /// used when importing `~/.ssh/known_hosts`.
     public static func parse(authorizedKeyRepresentation line: String) -> SSHHostKey? {
         let fields = line.split(separator: " ", omittingEmptySubsequences: true)
         guard fields.count >= 2, let blob = Data(base64Encoded: String(fields[1])) else { return nil }

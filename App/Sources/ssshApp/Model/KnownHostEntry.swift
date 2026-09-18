@@ -4,9 +4,9 @@ import ssshCore
 
 /// A host key the user has chosen to trust.
 ///
-/// Fingerprints are not secrets, so unlike credentials these do sync in Phase 7
-/// — which is the point: trust decided on a Mac should not have to be made
-/// again on an iPad.
+/// Fingerprints are not secrets, so unlike credentials these do sync — which
+/// is the point: trust decided on a Mac should not have to be decided again on
+/// an iPad.
 @Model
 final class KnownHostEntry {
     /// OpenSSH's `known_hosts` form: `hostname`, or `[hostname]:port` for a
