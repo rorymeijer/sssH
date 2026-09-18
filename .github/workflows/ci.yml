@@ -32,8 +32,12 @@ jobs:
         # that actually succeeded.
         shell: bash
         run: |
+          # `shell: bash` runs with -eo pipefail, which would abort the script
+          # on a failed build before the summary below ever runs.
+          set +e
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
+          set -e
           if [ "$status" -ne 0 ]; then
             echo "::group::Unique errors"
             grep -E "error:" build.log | sort -u
@@ -106,8 +110,12 @@ jobs:
         # that actually succeeded.
         shell: bash
         run: |
+          # `shell: bash` runs with -eo pipefail, which would abort the script
+          # on a failed build before the summary below ever runs.
+          set +e
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
+          set -e
           if [ "$status" -ne 0 ]; then
             echo "::group::Unique errors"
             grep -E "error:" build.log | sort -u

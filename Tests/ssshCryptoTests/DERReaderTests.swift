@@ -78,8 +78,16 @@ final class DERReaderTests: XCTestCase {
         // The three relations that hold for every RSA key and for no mistaken
         // reading of one.
         XCTAssertEqual(p * q, n)
-        XCTAssertEqual((e * d) % ((p - 1) * (q - 1) / BigUInt.gcd(p - 1, q - 1)), 1)
-        XCTAssertEqual((iqmp * q) % p, 1)
+
+        // Spelled out with explicit types rather than as one expression: the
+        // nested BigUInt operators inside an assert's autoclosure take the
+        // type checker past its time limit.
+        let carmichael: BigUInt = (p - 1) * (q - 1) / greatestCommonDivisor(p - 1, q - 1)
+        let reducedProduct: BigUInt = (e * d) % carmichael
+        XCTAssertEqual(reducedProduct, BigUInt(1))
+
+        let coefficientCheck: BigUInt = (iqmp * q) % p
+        XCTAssertEqual(coefficientCheck, BigUInt(1))
     }
 
     /// The round trip the app actually performs: generation hands back PKCS#1,
@@ -154,4 +162,16 @@ final class DERReaderTests: XCTestCase {
             XCTAssertEqual(error as? DERReader.Failure, .negativeInteger)
         }
     }
+}
+
+/// Euclid, written out rather than reached for in BigInt.
+///
+/// A test that pins an external format should not also depend on which
+/// spelling of gcd its big-integer library happens to expose this version.
+private func greatestCommonDivisor(_ a: BigUInt, _ b: BigUInt) -> BigUInt {
+    var (larger, remainder) = (a, b)
+    while remainder > 0 {
+        (larger, remainder) = (remainder, larger % remainder)
+    }
+    return larger
 }
