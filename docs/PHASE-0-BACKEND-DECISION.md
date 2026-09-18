@@ -148,10 +148,14 @@ Options, in order of preference:
 `SSHCredential.keyboardInteractive` and its handler protocol are defined now, so
 adding support later does not change the transport's surface.
 
-**Recommendation:** treat (1) as a Phase 1 task with a real chance of being
-rejected upstream, and design the auth UI so (2) is not embarrassing. This is
-the largest gap between the brief and what a pure-Swift stack can do today, and
-it is worth an explicit decision rather than a surprise.
+**Decided in Phase 1: implement it.** The full design — the RFC 4256 flow, the
+message-ID-60 collision with `SSH_MSG_USERAUTH_PK_OK` and how to resolve it,
+every touch point in swift-nio-ssh, the API additions and the three-PR
+upstreaming plan — is in
+[KEYBOARD-INTERACTIVE-PLAN.md](KEYBOARD-INTERACTIVE-PLAN.md). It is not written
+yet, because an authentication state machine is the one thing in this project
+that cannot be verified without a toolchain; that reasoning is at the end of
+that document.
 
 ### ssh-agent forwarding is not implemented
 
@@ -288,7 +292,7 @@ asks for, and worth building the key-management UI around in Phase 7.
 |---|---|---|---|
 | 1 | ~~Write an `openssh-key-v1` parser for RSA and ECDSA key files~~ | 1 | **Done** — `ssshCrypto`. All three key types parse; RSA *signing* is now item 1b. |
 | 1b | Give NIOSSH an `rsa-sha2-256`/`rsa-sha2-512` key type | 1 | RSA files parse but cannot authenticate. See below. |
-| 2 | Implement `keyboard-interactive` in a swift-nio-ssh fork and upstream it | 1 | Decided: implement rather than ship without. Not started. |
+| 2 | Implement `keyboard-interactive` in swift-nio-ssh and upstream it | 1 | Decided: implement rather than ship without. Designed in [KEYBOARD-INTERACTIVE-PLAN.md](KEYBOARD-INTERACTIVE-PLAN.md); needs a toolchain to write. |
 | 3 | SFTP: upstream a Citadel change, or write our own client | 4 | Preference is upstream; both are viable. |
 | 4 | Remote forwarding via `inboundChildChannelInitializer` | 5 | The pipeline is already ours, so this is now just work. |
 | 5 | Upstream arbitrary global requests to NIOSSH for a proper keep-alive | later | Current probe works; this is cleanliness. |

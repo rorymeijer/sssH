@@ -18,6 +18,7 @@ authentication, host-key prompt, tabs, SwiftTerm.**
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
 | `docs/PHASE-0-BACKEND-DECISION.md` | Which backend, why, and every library limitation found. **Start here.** |
 | `docs/ARCHITECTURE.md` | Layering, and the reasoning behind the awkward parts. |
+| `docs/KEYBOARD-INTERACTIVE-PLAN.md` | The design for two-factor sign-in support, and why it is not written yet. |
 
 ## Building the app
 
