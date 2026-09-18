@@ -92,14 +92,21 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: nl.rorymeijer.sssh
         PRODUCT_NAME: sssh
         SWIFT_STRICT_CONCURRENCY: targeted
-      macOS:
+        # The icon lives in Sources/ssshApp/Resources/Assets.xcassets and is
+        # rendered by Design/make_icon.swift — regenerate the PNGs with
+        # `swift App/Design/make_icon.swift` rather than editing them by hand.
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         # Outgoing connections only. No incoming server, no camera, no
         # microphone, no address book: an SSH client needs none of it, and the
         # entitlements file is where that gets enforced rather than promised.
-        CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.macOS.entitlements
+        #
+        # Per-SDK conditionals rather than a `macOS:`/`iOS:` block under
+        # `settings`, because XcodeGen silently drops unknown keys there — the
+        # app shipped without any entitlements until this was written out.
+        CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Sources/ssshApp/Resources/sssh.macOS.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]: Sources/ssshApp/Resources/sssh.iOS.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]: Sources/ssshApp/Resources/sssh.iOS.entitlements
         ENABLE_HARDENED_RUNTIME: YES
-      iOS:
-        CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.iOS.entitlements
         TARGETED_DEVICE_FAMILY: "1,2"
 
 # XcodeGen writes no schemes unless they are declared, and `xcodebuild` needs
