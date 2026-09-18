@@ -26,9 +26,17 @@ jobs:
       # buries the handful of lines that actually matter. On a failure, print
       # the unique `error:` lines on their own.
       - name: Build
+        # Explicitly bash: the Linux job runs inside the Swift container where
+        # the default shell is dash, and `${PIPESTATUS[0]}` is a bashism that
+        # dash answers with "Bad substitution" — failing the step on a build
+        # that succeeded. `shell: bash` in turn implies -eo pipefail, which
+        # would abort before the summary runs, hence `set +e`.
+        shell: bash
         run: |
+          set +e
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
+          set -e
           if [ "$status" -ne 0 ]; then
             echo "::group::Unique errors"
             grep -E "error:" build.log | sort -u
@@ -36,8 +44,21 @@ jobs:
           fi
           exit "$status"
 
+      # XCTest prints a failure as an `error:` line among thousands of
+      # `passed` ones, so on a failure pull just those out.
       - name: Unit tests
-        run: swift test --skip-build
+        shell: bash
+        run: |
+          set +e
+          swift test --skip-build 2>&1 | tee test.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Failing tests"
+            grep -E "error:" test.log | sort -u | head -60
+            echo "::endgroup::"
+          fi
+          exit "$status"
 
   # The PTY harness needs a real sshd, so it runs outside the Swift container
   # and talks to a service container over loopback.
@@ -95,9 +116,17 @@ jobs:
       # buries the handful of lines that actually matter. On a failure, print
       # the unique `error:` lines on their own.
       - name: Build
+        # Explicitly bash: the Linux job runs inside the Swift container where
+        # the default shell is dash, and `${PIPESTATUS[0]}` is a bashism that
+        # dash answers with "Bad substitution" — failing the step on a build
+        # that succeeded. `shell: bash` in turn implies -eo pipefail, which
+        # would abort before the summary runs, hence `set +e`.
+        shell: bash
         run: |
+          set +e
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
+          set -e
           if [ "$status" -ne 0 ]; then
             echo "::group::Unique errors"
             grep -E "error:" build.log | sort -u
@@ -105,8 +134,21 @@ jobs:
           fi
           exit "$status"
 
+      # XCTest prints a failure as an `error:` line among thousands of
+      # `passed` ones, so on a failure pull just those out.
       - name: Unit tests
-        run: swift test --skip-build
+        shell: bash
+        run: |
+          set +e
+          swift test --skip-build 2>&1 | tee test.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Failing tests"
+            grep -E "error:" test.log | sort -u | head -60
+            echo "::endgroup::"
+          fi
+          exit "$status"
 
   # The app, which needs Xcode rather than SwiftPM because it is an app bundle.
   # Signing is off: this checks that it compiles, not that it ships.

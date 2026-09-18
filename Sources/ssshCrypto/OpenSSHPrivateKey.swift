@@ -7,8 +7,8 @@ import Foundation
 /// and turning the material into something that can sign belongs to whichever
 /// layer knows which SSH library is in use. That keeps the parser free of
 /// SwiftNIO and testable on its own.
-public struct OpenSSHPrivateKey {
-    public enum Material {
+public struct OpenSSHPrivateKey: Sendable {
+    public enum Material: Sendable {
         /// `seed` is the 32-byte Ed25519 seed. OpenSSH stores seed‖public key
         /// as one 64-byte blob; the two are separated here because that is what
         /// every library's initialiser actually wants.
@@ -25,7 +25,7 @@ public struct OpenSSHPrivateKey {
     /// Note what is *not* here: `dp`, `dq`. OpenSSH does not store them, so
     /// anything wanting a full CRT key has to derive them — which needs
     /// big-integer arithmetic and is the consumer's problem, not the parser's.
-    public struct RSAComponents {
+    public struct RSAComponents: Sendable {
         public var modulus: [UInt8]           // n
         public var publicExponent: [UInt8]    // e
         public var privateExponent: [UInt8]   // d

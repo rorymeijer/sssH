@@ -167,6 +167,7 @@ struct CommandPaletteView: View {
             // palette runs the wrong thing.
             model.selectedIndex = 0
         }
+        #if os(macOS)
         // Arrow keys move the selection without leaving the text field.
         .onMoveCommand { direction in
             switch direction {
@@ -176,6 +177,23 @@ struct CommandPaletteView: View {
             }
         }
         .onExitCommand { model.dismiss() }
+        #else
+        // Those two are AppKit's, and do not exist on iOS. `onKeyPress` does
+        // the same job for an iPad with a hardware keyboard attached, and is
+        // simply never called without one.
+        .onKeyPress(.upArrow) {
+            model.moveSelection(by: -1)
+            return .handled
+        }
+        .onKeyPress(.downArrow) {
+            model.moveSelection(by: 1)
+            return .handled
+        }
+        .onKeyPress(.escape) {
+            model.dismiss()
+            return .handled
+        }
+        #endif
         .accessibilityAddTraits(.isModal)
     }
 }
