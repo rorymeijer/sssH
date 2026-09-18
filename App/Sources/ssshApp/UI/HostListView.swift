@@ -26,6 +26,8 @@ struct HostListView: View {
     @State private var showsSnippets = false
     @State private var showsProfiles = false
     @State private var showsSecurity = false
+    @State private var showsHelp = false
+    @State private var showsAbout = false
 
     var body: some View {
         List(selection: $selection) {
@@ -64,6 +66,8 @@ struct HostListView: View {
         .sheet(isPresented: $showsSnippets) { SnippetLibraryView(feed: nil, host: nil) }
         .sheet(isPresented: $showsProfiles) { TerminalProfileListView() }
         .sheet(isPresented: $showsSecurity) { SecuritySettingsView() }
+        .sheet(isPresented: $showsHelp) { HelpView() }
+        .sheet(isPresented: $showsAbout) { AboutView() }
     }
 
     private func row(_ host: Host) -> some View {
@@ -162,6 +166,16 @@ struct HostListView: View {
                 Button { showsSecurity = true } label: {
                     Text("Beveiliging", comment: "Title of the security settings")
                 }
+                Button { showsHelp = true } label: {
+                    Text("Handleiding", comment: "Title of the in-app manual")
+                }
+                // On the Mac this lives where it always lives, in the app
+                // menu; only iOS needs a place to put it.
+                #if os(iOS)
+                Button { showsAbout = true } label: {
+                    Text("Over sssH", comment: "Title of the about window")
+                }
+                #endif
             }
         } label: {
             Label {

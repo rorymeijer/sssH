@@ -119,6 +119,12 @@ final class AppEnvironment {
     /// the keyboard from the terminal.
     var pendingBlockSearchFocus = false
 
+    // MARK: - Help
+
+    /// Whether the manual is open. On the environment rather than the session
+    /// layer, because help is the one panel that must work with nothing open.
+    var showsHelp = false
+
     // MARK: - Command palette
 
     func presentCommandPalette() {
@@ -146,6 +152,15 @@ final class AppEnvironment {
                 }
             ))
         }
+
+        items.append(PaletteItem(
+            kind: .action,
+            title: String(localized: "Handleiding", comment: "Title of the in-app manual"),
+            subtitle: nil,
+            symbol: "questionmark.circle",
+            keywords: ["help", "manual", "handleiding", "uitleg", "documentatie"],
+            perform: { [weak self] in self?.showsHelp = true }
+        ))
 
         if sessions.selectedTab != nil {
             items.append(PaletteItem(
@@ -185,7 +200,7 @@ final class AppEnvironment {
             ))
             items.append(PaletteItem(
                 kind: .action,
-                title: String(localized: "Vergrendel sssh", comment: "Menu item that locks the app now"),
+                title: String(localized: "Vergrendel sssH", comment: "Menu item that locks the app now"),
                 subtitle: nil,
                 symbol: "lock",
                 keywords: ["lock", "vergrendel", "slot"],

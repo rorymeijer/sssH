@@ -17,7 +17,7 @@ struct ShellIntegrationView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("""
-                         Zonder shell-integratie raadt sssh waar een opdracht begint en \
+                         Zonder shell-integratie raadt sssH waar een opdracht begint en \
                          eindigt aan de hand van de regel die je shell teruggeeft. Dat werkt, \
                          maar de afsluitcode blijft onbekend en de grens klopt niet altijd.
                          """,
@@ -66,7 +66,7 @@ struct ShellIntegrationView: View {
                     .buttonStyle(.borderedProminent)
 
                     Text("""
-                         sssh past zelf niets aan op de server. Plak het er zelf in, zodat je \
+                         sssH past zelf niets aan op de server. Plak het er zelf in, zodat je \
                          ziet wat er verandert.
                          """,
                          comment: "States that sssh never edits the remote configuration itself")

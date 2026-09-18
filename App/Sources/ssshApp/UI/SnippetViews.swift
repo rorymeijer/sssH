@@ -59,7 +59,7 @@ struct SnippetLibraryView: View {
                             Image(systemName: "text.badge.plus")
                         }
                     } description: {
-                        Text("Bewaar opdrachten die je vaker gebruikt. Met {{naam}} vraagt sssh om een waarde voordat het wordt verstuurd.",
+                        Text("Bewaar opdrachten die je vaker gebruikt. Met {{naam}} vraagt sssH om een waarde voordat het wordt verstuurd.",
                              comment: "Empty state body for the snippet library, explaining the placeholder syntax")
                     }
                 }
@@ -207,7 +207,7 @@ struct SnippetEditorView: View {
                 } header: {
                     Text("Opdracht", comment: "Section header for a snippet's command")
                 } footer: {
-                    Text("Met {{naam}} vraagt sssh om een waarde. {{naam=standaard}} vult er alvast een in. Accolades in shell-scripts blijven gewoon staan.",
+                    Text("Met {{naam}} vraagt sssH om een waarde. {{naam=standaard}} vult er alvast een in. Accolades in shell-scripts blijven gewoon staan.",
                          comment: "Explains the snippet placeholder syntax")
                 }
 

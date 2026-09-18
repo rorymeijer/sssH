@@ -75,7 +75,7 @@ struct HostKeyPromptView: View {
                     Text("Eerste verbinding met \(prompt.endpoint.description)",
                          comment: "Title of the sheet shown on a first connection to a host")
                         .font(.headline)
-                    Text("sssh kent deze server nog niet. Controleer de vingerafdruk voordat u verbindt.",
+                    Text("sssH kent deze server nog niet. Controleer de vingerafdruk voordat u verbindt.",
                          comment: "Asks the user to verify the fingerprint on a first connection")
                         .font(.callout)
                         .foregroundStyle(.secondary)

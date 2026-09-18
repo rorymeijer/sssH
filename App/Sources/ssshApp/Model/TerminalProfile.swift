@@ -20,6 +20,12 @@ final class TerminalProfile {
     var scrollbackLines: Int = 10_000
     var isBuiltIn: Bool = false
 
+    /// The hosts assigned this profile. Never read directly — it exists
+    /// because CloudKit sync refuses any relationship without an inverse.
+    /// Nullify: deleting a profile drops those hosts back to the default.
+    @Relationship(deleteRule: .nullify, inverse: \Host.terminalProfile)
+    var hosts: [Host]? = []
+
     init(name: String = "") {
         self.name = name
     }

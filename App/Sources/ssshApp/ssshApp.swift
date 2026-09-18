@@ -8,6 +8,10 @@ struct ssshApp: App {
     /// rather than crash on launch.
     @State private var storeFailure: String?
 
+    #if os(macOS)
+    @State private var updater = SparkleUpdaterModel()
+    #endif
+
     init() {
         do {
             let container = try ModelContainerFactory.make()
@@ -60,6 +64,9 @@ struct ssshApp: App {
         }
         .commands {
             ssshCommands(environment: environment)
+            #if os(macOS)
+            UpdateCommands(updater: updater)
+            #endif
         }
         #if os(macOS)
         .defaultSize(width: 1100, height: 700)
@@ -76,6 +83,12 @@ struct ssshApp: App {
                 .environment(environment)
                 .modelContainer(environment.modelContainer)
         }
+
+        Window(Text("Over sssH", comment: "Title of the about window"), id: "about") {
+            AboutView()
+        }
+        .windowResizability(.contentSize)
+        .defaultPosition(.center)
         #endif
     }
 }
@@ -101,7 +114,21 @@ struct ssshApp: App {
 struct ssshCommands: Commands {
     let environment: AppEnvironment
 
+    @Environment(\.openWindow) private var openWindow
+
     var body: some Commands {
+        #if os(macOS)
+        // Replacing the stock About panel: it can show a name and a version,
+        // but not who made the app or where the source lives.
+        CommandGroup(replacing: .appInfo) {
+            Button {
+                openWindow(id: "about")
+            } label: {
+                Text("Over sssH", comment: "Menu item that opens the about window")
+            }
+        }
+        #endif
+
         CommandGroup(replacing: .newItem) {
             Button {
                 environment.presentCommandPalette()
@@ -142,11 +169,23 @@ struct ssshCommands: Commands {
             .disabled(environment.sessions.selectedTab == nil)
         }
 
+        // Replacing rather than adding: the default Help menu opens an Apple
+        // help book this app does not ship, so the item would beep and do
+        // nothing.
+        CommandGroup(replacing: .help) {
+            Button {
+                environment.showsHelp = true
+            } label: {
+                Text("sssH-handleiding", comment: "Help menu item that opens the in-app manual")
+            }
+            .keyboardShortcut("?", modifiers: .command)
+        }
+
         CommandGroup(after: .appSettings) {
             Button {
                 environment.appLock.lockNow()
             } label: {
-                Text("Vergrendel sssh", comment: "Menu item that locks the app now")
+                Text("Vergrendel sssH", comment: "Menu item that locks the app now")
             }
             .keyboardShortcut("l", modifiers: [.command, .control])
             .disabled(!environment.appLock.canLock || !environment.security.isLockEnabled)

@@ -56,7 +56,7 @@ enum FileTransferText {
                           comment: "The SSH connection dropped during a transfer")
 
         case .unsupportedProtocolVersion(let version):
-            return String(localized: "De server spreekt SFTP-versie \(Int(version)); sssh heeft minstens versie 3 nodig.",
+            return String(localized: "De server spreekt SFTP-versie \(Int(version)); sssH heeft minstens versie 3 nodig.",
                           comment: "The server offered an SFTP protocol version this client cannot speak")
         }
     }

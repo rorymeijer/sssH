@@ -74,7 +74,7 @@ struct SSHConfigImportView: View {
             }
         } description: {
             VStack(spacing: 10) {
-                Text("Meestal ~/.ssh/config. sssh leest het bestand alleen; er wordt niets aan veranderd.",
+                Text("Meestal ~/.ssh/config. sssH leest het bestand alleen; er wordt niets aan veranderd.",
                      comment: "Explains where the config lives and that sssh does not modify it")
                 if let readFailure {
                     Text(readFailure)
@@ -300,16 +300,16 @@ private struct ImportWarningRow: View {
             return Text("ProxyCommand wordt niet uitgevoerd: \(command). Gebruik ProxyJump.",
                         comment: "Explains that ProxyCommand is not run")
         case .matchNotEvaluated(let keyword, _):
-            return Text("Match \(keyword) is overgeslagen: daarvoor zou sssh een opdracht moeten uitvoeren.",
+            return Text("Match \(keyword) is overgeslagen: daarvoor zou sssH een opdracht moeten uitvoeren.",
                         comment: "Explains that a Match block was skipped")
         case .includeNotFollowed(let path, _):
             return Text("Include \(path) is niet gevolgd. Importeer dat bestand apart.",
                         comment: "Explains that Include was not followed")
         case .settingIgnored(let keyword, _, _):
-            return Text("\(keyword) wordt door sssh niet gebruikt.",
+            return Text("\(keyword) wordt door sssH niet gebruikt.",
                         comment: "Names a setting sssh has no equivalent for")
         case .malformedValue(let keyword, let value, _):
-            return Text("\(keyword) begreep sssh niet: \(value)",
+            return Text("\(keyword) begreep sssH niet: \(value)",
                         comment: "Names a setting whose value could not be read")
         case .unparsedLine(let text, _):
             return Text("Onbegrepen regel: \(text)",

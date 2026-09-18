@@ -104,7 +104,7 @@ final class TerminalTab: Identifiable {
     /// The title shown on the tab: the focused pane's, because that is the one
     /// being looked at.
     var title: String {
-        focusedSession?.title ?? "sssh"
+        focusedSession?.title ?? "sssH"
     }
 
     var paneCount: Int { layout.terminalCount }

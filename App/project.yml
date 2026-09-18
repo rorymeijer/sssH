@@ -21,6 +21,9 @@ options:
 packages:
   sssh:
     path: ..
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    majorVersion: 2.10.0
   SwiftTerm:
     url: https://github.com/migueldeicaza/SwiftTerm
     # Pinned to the last tagged release. `main` is a 2.x rewrite with a
@@ -56,6 +59,11 @@ targets:
         product: ssshCrypto
       - package: SwiftTerm
         product: SwiftTerm
+      # In-app updates from GitHub Releases. macOS only: on iOS updates come
+      # through the App Store, and Sparkle does not build there.
+      - package: Sparkle
+        product: Sparkle
+        platforms: [macOS]
     # Written out rather than generated, because the app exports a uniform
     # type identifier for dragging a file selection between the browser's two
     # panes, and `UTExportedTypeDeclarations` is an array of dictionaries that
@@ -67,10 +75,20 @@ targets:
       # resource and shipped in the bundle twice.
       path: Supporting/Info.plist
       properties:
-        CFBundleDisplayName: sssh
+        CFBundleDisplayName: sssH
+        # The name in the menu bar; the product (executable, .app) stays `sssh`
+        # so nothing on disk or in signing moves.
+        CFBundleName: sssH
         # Dutch first, English as the fallback locale.
         CFBundleLocalizations: [nl, en]
         LSApplicationCategoryType: public.app-category.developer-tools
+        # Sparkle, fed from GitHub Releases; the appcast asset of the newest
+        # release is reachable through this never-changing redirect. The
+        # launcher XPC service is what lets updates install from inside the
+        # sandbox. iOS ignores all three keys.
+        SUFeedURL: https://github.com/rorymeijer/sssH/releases/latest/download/appcast.xml
+        SUPublicEDKey: gbxFgROhkDGw8Tmhvotvm4rCnaFjzUgu/2qDEAyYHMQ=
+        SUEnableInstallerLauncherService: true
         UILaunchScreen: {}
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true
@@ -80,7 +98,7 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: nl.rorymeijer.sssh.file-selection
-            UTTypeDescription: sssh file selection
+            UTTypeDescription: sssH file selection
             # Conforms to `public.data` only. A remote file has no URL — it
             # lives on another machine and the only handle on it is a path
             # plus the connection it belongs to — so advertising this as a

@@ -22,7 +22,7 @@ struct LockScreenView: View {
                     .foregroundStyle(.secondary)
                     .accessibilityHidden(true)
 
-                Text("sssh is vergrendeld", comment: "Title on the lock screen")
+                Text("sssH is vergrendeld", comment: "Title on the lock screen")
                     .font(.title2.weight(.medium))
 
                 Text("Je sessies blijven open. Ontgrendel om ze weer te zien.",

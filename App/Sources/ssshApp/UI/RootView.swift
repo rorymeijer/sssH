@@ -55,6 +55,9 @@ struct RootView: View {
             CommandPaletteView(model: environment.palette)
                 .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: helpBinding) {
+            HelpView()
+        }
         .sheet(item: credentialPromptBinding) { prompt in
             CredentialPromptView(prompt: prompt) { values, remember in
                 if let values {
@@ -75,6 +78,13 @@ struct RootView: View {
         Binding(
             get: { environment.palette.isPresented },
             set: { if !$0 { environment.palette.dismiss() } }
+        )
+    }
+
+    private var helpBinding: Binding<Bool> {
+        Binding(
+            get: { environment.showsHelp },
+            set: { environment.showsHelp = $0 }
         )
     }
 

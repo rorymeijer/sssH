@@ -51,7 +51,7 @@ enum ConnectionFailureText {
                 return String(localized: "\(credential) kon niet worden gelezen als sleutelbestand.",
                               comment: "The key file could not be parsed at all")
             case .unsupportedKeyType(let type):
-                return String(localized: "sssh kan sleutels van het type \(type) nog niet gebruiken. Zet de sleutel om met ssh-keygen.",
+                return String(localized: "sssH kan sleutels van het type \(type) nog niet gebruiken. Zet de sleutel om met ssh-keygen.",
                               comment: "The key file is a type the app cannot use yet; suggests converting it")
             }
 
@@ -98,7 +98,7 @@ enum ConnectionFailureText {
             return String(localized: "De extra verificatie is afgebroken.",
                           comment: "A keyboard-interactive challenge was cancelled or could not be answered")
         case .agentForwarding:
-            return String(localized: "sssh ondersteunt ssh-agent nog niet.",
+            return String(localized: "sssH ondersteunt ssh-agent nog niet.",
                           comment: "Agent forwarding is not implemented")
         case .sftp:
             return String(localized: "Bestandsoverdracht komt in een volgende versie.",
@@ -113,7 +113,7 @@ enum ConnectionFailureText {
             return String(localized: "Dit sleuteltype wordt nog niet ondersteund.",
                           comment: "A private key file type is not supported")
         case .legacyKeyExchange:
-            return String(localized: "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.",
+            return String(localized: "Deze server gebruikt alleen verouderde versleuteling die sssH niet ondersteunt. Werk de server bij, of gebruik OpenSSH.",
                           comment: "The server only offers pre-2014 key exchange or ciphers")
         }
     }

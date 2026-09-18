@@ -39,6 +39,13 @@ final class Host {
     /// `ProxyJump`. A self-reference: a bastion is just another saved host.
     var jumpHost: Host?
 
+    /// The hosts that dial through this one. Never read directly — it exists
+    /// because CloudKit sync refuses any relationship without an inverse.
+    /// Nullify: deleting a bastion strands its dependents, it does not delete
+    /// them.
+    @Relationship(deleteRule: .nullify, inverse: \Host.jumpHost)
+    var jumpHostClients: [Host]? = []
+
     var startupCommand: String?
     /// Sent as `env` requests. Most servers ignore anything outside `AcceptEnv`.
     var environment: [String: String] = [:]

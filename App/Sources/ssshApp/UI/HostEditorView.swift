@@ -107,7 +107,7 @@ struct HostEditorView: View {
                         }
 
                     case .askEveryTime:
-                        Text("Er wordt niets bewaard. sssh vraagt bij elke verbinding om een wachtwoord.",
+                        Text("Er wordt niets bewaard. sssH vraagt bij elke verbinding om een wachtwoord.",
                              comment: "Explains that nothing is stored for this authentication method")
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -157,7 +157,7 @@ struct HostEditorView: View {
                 } header: {
                     Text(verbatim: "tmux")
                 } footer: {
-                    Text("De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssh, en je werk blijft draaien als de verbinding wegvalt.",
+                    Text("De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssH, en je werk blijft draaien als de verbinding wegvalt.",
                          comment: "Footer explaining what tmux control mode does")
                 }
 

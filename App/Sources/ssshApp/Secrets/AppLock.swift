@@ -115,7 +115,7 @@ final class AppLock {
         context.localizedFallbackTitle = ""
 
         let reason = String(
-            localized: "Ontgrendel sssh om verder te gaan met je sessies.",
+            localized: "Ontgrendel sssH om verder te gaan met je sessies.",
             comment: "Reason shown by the system when asking for Face ID, Touch ID or the passcode"
         )
 

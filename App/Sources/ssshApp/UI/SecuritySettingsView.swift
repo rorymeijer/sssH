@@ -43,7 +43,7 @@ struct SecuritySettingsView: View {
                 } footer: {
                     switch environment.appLock.availability {
                     case .unavailable:
-                        Text("Dit apparaat heeft geen toegangscode. Zonder toegangscode kan sssh niets vergrendelen.",
+                        Text("Dit apparaat heeft geen toegangscode. Zonder toegangscode kan sssH niets vergrendelen.",
                              comment: "Explains that the lock needs a device passcode")
                     case .passcodeOnly:
                         Text("Vergrendelt de app, niet de verbindingen: sessies blijven open en komen terug zodra je ontgrendelt.",
