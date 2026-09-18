@@ -168,6 +168,9 @@ struct CommandPaletteView: View {
             model.selectedIndex = 0
         }
         // Arrow keys move the selection without leaving the text field.
+        // macOS only: `onMoveCommand` and `onExitCommand` do not exist on
+        // iOS, where the list is driven by touch and the sheet by swipe.
+        #if os(macOS)
         .onMoveCommand { direction in
             switch direction {
             case .up: model.moveSelection(by: -1)
@@ -176,6 +179,7 @@ struct CommandPaletteView: View {
             }
         }
         .onExitCommand { model.dismiss() }
+        #endif
         .accessibilityAddTraits(.isModal)
     }
 }

@@ -8,7 +8,7 @@ import ssshCore
 /// they can do — only the remote one has permissions, only the local one has a
 /// trash — so the differences are parameters rather than a second view, and
 /// the parts that must behave identically cannot drift apart.
-struct FilePane: View {
+struct FilePane<DragPayload: Transferable>: View {
     let title: Text
     let path: String
     let entries: [RemoteFileEntry]
@@ -34,12 +34,20 @@ struct FilePane: View {
     /// Absent on the local side: changing a local file's mode from here would
     /// be a footgun with no matching need.
     let onPermissions: ((RemoteFileEntry) -> Void)?
+    /// Shows a Quick Look preview. The remote side downloads first, which is
+    /// why this is a callback rather than a URL binding here.
+    let onPreview: ((RemoteFileEntry) -> Void)?
+    /// Downloads the file, opens it in its default app and uploads it back on
+    /// every save. Remote side only, and only where an external editor exists.
+    let onEditLocally: ((RemoteFileEntry) -> Void)?
     let onTransfer: ([RemoteFileEntry]) -> Void
     let transferLabel: Text
     let transferSymbol: String
 
-    /// What a drag out of this pane carries.
-    let dragPayload: ([RemoteFileEntry]) -> DraggedFiles
+    /// What a drag out of this pane carries. Receives the dragged set and
+    /// the row the drag started on: the remote pane exports that one row's
+    /// file to drops outside the app, and needs to know which row it was.
+    let dragPayload: (_ dragged: [RemoteFileEntry], _ grabbed: RemoteFileEntry) -> DragPayload
     /// A drop from the other pane. Returns false when the drop is not for
     /// this pane — dragging a directory's contents back into the directory
     /// they came from, for instance.
@@ -255,7 +263,7 @@ struct FilePane: View {
             // Dragging a row that is part of the selection drags the whole
             // selection; dragging one that is not drags just it. Anything else
             // surprises someone who selected ten files and dragged one.
-            .draggable(dragPayload(selection.contains(entry.name) ? selectedEntries : [entry]))
+            .draggable(dragPayload(selection.contains(entry.name) ? selectedEntries : [entry], entry))
     }
 
     @ViewBuilder
@@ -298,8 +306,20 @@ struct FilePane: View {
         }
         .disabled(entry.attributes.kind != .directory && entry.attributes.kind != .symlink)
 
+        if let onPreview, entry.attributes.kind == .file {
+            Button { onPreview(entry) } label: {
+                Text("Voorvertoning", comment: "Menu item that shows a Quick Look preview of a file")
+            }
+        }
+
         Button { onTransfer([entry]) } label: {
             Label { transferLabel } icon: { Image(systemName: transferSymbol) }
+        }
+
+        if let onEditLocally, entry.attributes.kind == .file {
+            Button { onEditLocally(entry) } label: {
+                Text("Bewerk lokaal…", comment: "Menu item that opens a remote file in a local editor and uploads it back on save")
+            }
         }
 
         Divider()

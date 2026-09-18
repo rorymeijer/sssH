@@ -1,3 +1,4 @@
+import AppIntents
 import SwiftData
 import SwiftUI
 
@@ -13,30 +14,39 @@ struct ssshApp: App {
     #endif
 
     init() {
+        let environment: AppEnvironment
         do {
             let container = try ModelContainerFactory.make()
-            _environment = State(initialValue: AppEnvironment(modelContainer: container))
+            environment = AppEnvironment(modelContainer: container)
         } catch {
             // A CloudKit-backed store needs the iCloud entitlement, which a
             // build signed without a development team does not have. A local
             // store still keeps everything on this device, so try that before
             // giving up on persistence entirely.
             if let container = try? ModelContainerFactory.make(syncsConfiguration: false) {
-                _environment = State(initialValue: AppEnvironment(modelContainer: container))
+                environment = AppEnvironment(modelContainer: container)
             } else {
                 // Falling back to an in-memory store keeps the app usable for
                 // the current session instead of refusing to launch; the
                 // banner makes clear that nothing will be saved.
-                _environment = State(initialValue: .ephemeral())
+                environment = .ephemeral()
                 _storeFailure = State(initialValue: error.localizedDescription)
             }
         }
+        _environment = State(initialValue: environment)
+        // Registered here, in `init`, because an intent can launch the app
+        // cold: Siri or Shortcuts calls `perform()` before any view appears,
+        // and an unregistered `@Dependency` is a fatalError, not a catchable
+        // one.
+        AppDependencyManager.shared.add(dependency: environment)
     }
 
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
-        WindowGroup {
+        // The id lets the menu-bar item reopen this window after the last one
+        // was closed; `openWindow` cannot address a group without one.
+        WindowGroup(id: "main") {
             RootView(storeFailure: storeFailure)
                 .environment(environment)
                 .modelContainer(environment.modelContainer)
@@ -47,7 +57,14 @@ struct ssshApp: App {
                         LockScreenView(lock: environment.appLock)
                     }
                 }
-                .task { await environment.prepareSecurity() }
+                .task {
+                    await environment.prepareSecurity()
+                    // The "Verbind met <host>" phrase interpolates the host
+                    // list, and Siri only knows the snapshot taken at the last
+                    // extraction. Re-snapshot at launch so hosts added on
+                    // another device (or last session) become speakable.
+                    ssshShortcuts.updateAppShortcutParameters()
+                }
                 .onChange(of: scenePhase) { _, phase in
                     switch phase {
                     case .active:
@@ -89,6 +106,14 @@ struct ssshApp: App {
         }
         .windowResizability(.contentSize)
         .defaultPosition(.center)
+
+        MenuBarExtra {
+            MenuBarView(environment: environment)
+                .modelContainer(environment.modelContainer)
+        } label: {
+            Image(systemName: "terminal")
+                .accessibilityLabel(Text("sssH", comment: "Accessibility label of the menu bar item"))
+        }
         #endif
     }
 }
@@ -258,6 +283,14 @@ struct ssshCommands: Commands {
                 Text("Tunnels", comment: "Section header: saved port forwards")
             }
             .keyboardShortcut("t", modifiers: [.command, .option])
+            .disabled(environment.sessions.focusedSession == nil)
+
+            Button {
+                environment.sessions.showsServerMonitor = true
+            } label: {
+                Text("Serverstatus", comment: "Title of the server monitor panel")
+            }
+            .keyboardShortcut("m", modifiers: [.command, .option])
             .disabled(environment.sessions.focusedSession == nil)
 
             Button {

@@ -1,3 +1,4 @@
+import QuickLook
 import SwiftUI
 import UniformTypeIdentifiers
 import ssshCore
@@ -15,6 +16,15 @@ struct FileBrowserView: View {
     @State private var local = LocalFileBrowser()
     @State private var queue: TransferQueue
     @State private var showsQueue = true
+    /// The file Quick Look is showing. For a remote file this is a temporary
+    /// local copy, downloaded when the preview was asked for.
+    @State private var previewURL: URL?
+    /// A preview or local-edit that could not start. Transfer failures do not
+    /// land here — those are the queue's to show.
+    @State private var fileActionFailure: String?
+    #if os(macOS)
+    @State private var editor: RemoteFileEditor
+    #endif
     /// Scales with the text size, so the queue still shows rows at the largest
     /// accessibility sizes instead of one clipped line.
     @ScaledMetric(relativeTo: .body) private var queueHeight: CGFloat = 200
@@ -22,7 +32,11 @@ struct FileBrowserView: View {
     init(session: TerminalSession) {
         self.session = session
         _remote = State(initialValue: RemoteFileBrowser(session: session))
-        _queue = State(initialValue: TransferQueue(session: session))
+        let queue = TransferQueue(session: session)
+        _queue = State(initialValue: queue)
+        #if os(macOS)
+        _editor = State(initialValue: RemoteFileEditor(session: session, queue: queue))
+        #endif
     }
 
     var body: some View {
@@ -45,12 +59,30 @@ struct FileBrowserView: View {
                     browser: local,
                     queue: queue,
                     remotePath: remote.path,
-                    remoteEntries: remote.entries
+                    remoteEntries: remote.entries,
+                    onPreview: { entry in
+                        previewURL = URL(fileURLWithPath: RemotePath.appending(entry.name, to: local.path))
+                    }
                 ) {
                     Task { await remote.reload() }
                 }
             } trailing: {
-                RemotePane(browser: remote, queue: queue, localPath: local.path, sessionID: session.id)
+                RemotePane(
+                    browser: remote,
+                    queue: queue,
+                    localPath: local.path,
+                    session: session,
+                    onPreview: { entry in
+                        Task {
+                            do {
+                                previewURL = try await RemoteFileExporter.download(entry.name, from: remote.path, session: session)
+                            } catch {
+                                fileActionFailure = FileTransferText.describe(error)
+                            }
+                        }
+                    },
+                    onEditLocally: editLocally
+                )
             }
 
             if showsQueue, !queue.transfers.isEmpty {
@@ -86,6 +118,35 @@ struct FileBrowserView: View {
                 queue.resolveCollision(with: policy)
             }
         }
+        .quickLookPreview($previewURL)
+        .alert(
+            Text("Bestand kan niet worden geopend", comment: "Title of the alert shown when a preview or local edit could not start"),
+            isPresented: Binding(get: { fileActionFailure != nil }, set: { if !$0 { fileActionFailure = nil } })
+        ) {
+            Button(role: .cancel) { fileActionFailure = nil } label: {
+                Text("OK", comment: "Dismiss button of an alert")
+            }
+        } message: {
+            Text(fileActionFailure ?? "")
+        }
+    }
+
+    /// Nil on iOS: there is no external editor to hand a file to there, and a
+    /// menu item that cannot work is worse than no menu item.
+    private var editLocally: ((RemoteFileEntry) -> Void)? {
+        #if os(macOS)
+        return { entry in
+            Task {
+                do {
+                    try await editor.beginEditing(entry, in: remote.path)
+                } catch {
+                    fileActionFailure = FileTransferText.describe(error)
+                }
+            }
+        }
+        #else
+        return nil
+        #endif
     }
 }
 
@@ -136,7 +197,11 @@ private struct RemotePane: View {
     @Bindable var browser: RemoteFileBrowser
     let queue: TransferQueue
     let localPath: String
-    let sessionID: UUID
+    /// The whole session rather than just its id: a drag that leaves the app
+    /// downloads the file through this session when the drop lands.
+    let session: TerminalSession
+    let onPreview: (RemoteFileEntry) -> Void
+    let onEditLocally: ((RemoteFileEntry) -> Void)?
 
     @State private var newFolderName = ""
     @State private var showsNewFolder = false
@@ -165,6 +230,8 @@ private struct RemotePane: View {
             onRename: { renaming = $0 },
             onDelete: { deleting = $0 },
             onPermissions: { permissionTarget = $0 },
+            onPreview: onPreview,
+            onEditLocally: onEditLocally,
             onTransfer: { entries in
                 Task {
                     for entry in entries {
@@ -178,9 +245,15 @@ private struct RemotePane: View {
             },
             transferLabel: Text("Download", comment: "Button that downloads the selected remote files"),
             transferSymbol: "arrow.down.circle",
-            dragPayload: { entries in
-                DraggedFiles(origin: .remote(directory: browser.path, sessionID: sessionID),
-                             names: entries.map(\.name))
+            dragPayload: { entries, grabbed in
+                DraggedRemoteFile(
+                    selection: DraggedFiles(origin: .remote(directory: browser.path, sessionID: session.id),
+                                            names: entries.map(\.name)),
+                    name: grabbed.name,
+                    isFile: grabbed.attributes.kind == .file,
+                    directory: browser.path,
+                    session: session
+                )
             },
             onDropSelection: { dropped in
                 // Only a drop from the local side is an upload. A drop from
@@ -188,32 +261,28 @@ private struct RemotePane: View {
                 // means nothing and must not queue a transfer to itself.
                 guard case .local(let directory) = dropped.origin else { return false }
                 for name in dropped.names {
-                    guard let attributes = LocalFileBrowser.attributes(atPath: RemotePath.appending(name, to: directory)),
-                          attributes.kind != .directory
-                    else {
+                    guard let attributes = LocalFileBrowser.attributes(atPath: RemotePath.appending(name, to: directory)) else {
                         continue
                     }
-                    queue.enqueueUpload(
-                        of: RemoteFileEntry(name: name, attributes: attributes),
-                        from: directory,
-                        to: browser.path
-                    )
+                    let entry = RemoteFileEntry(name: name, attributes: attributes)
+                    if attributes.kind == .directory {
+                        Task { await queue.enqueueUploadTree(of: entry, from: directory, to: browser.path) }
+                    } else {
+                        queue.enqueueUpload(of: entry, from: directory, to: browser.path)
+                    }
                 }
                 return true
             },
             onDropURLs: { urls in
                 for url in urls where url.isFileURL {
                     let path = url.path
-                    guard let attributes = LocalFileBrowser.attributes(atPath: path),
-                          attributes.kind != .directory
-                    else {
-                        continue
+                    guard let attributes = LocalFileBrowser.attributes(atPath: path) else { continue }
+                    let entry = RemoteFileEntry(name: RemotePath.lastComponent(of: path), attributes: attributes)
+                    if attributes.kind == .directory {
+                        Task { await queue.enqueueUploadTree(of: entry, from: RemotePath.parent(of: path), to: browser.path) }
+                    } else {
+                        queue.enqueueUpload(of: entry, from: RemotePath.parent(of: path), to: browser.path)
                     }
-                    queue.enqueueUpload(
-                        of: RemoteFileEntry(name: RemotePath.lastComponent(of: path), attributes: attributes),
-                        from: RemotePath.parent(of: path),
-                        to: browser.path
-                    )
                 }
                 return true
             }
@@ -276,6 +345,7 @@ private struct LocalPane: View {
     /// carried the whole entry would go stale the moment the remote pane
     /// reloaded.
     let remoteEntries: [RemoteFileEntry]
+    let onPreview: (RemoteFileEntry) -> Void
     let onUploadQueued: () -> Void
 
     @State private var newFolderName = ""
@@ -303,15 +373,23 @@ private struct LocalPane: View {
             onRename: { renaming = $0 },
             onDelete: { browser.delete($0) },
             onPermissions: nil,
+            onPreview: onPreview,
+            onEditLocally: nil,
             onTransfer: { entries in
-                for entry in entries where entry.attributes.kind != .directory {
-                    queue.enqueueUpload(of: entry, from: browser.path, to: remotePath)
+                Task {
+                    for entry in entries {
+                        if entry.attributes.kind == .directory {
+                            await queue.enqueueUploadTree(of: entry, from: browser.path, to: remotePath)
+                        } else {
+                            queue.enqueueUpload(of: entry, from: browser.path, to: remotePath)
+                        }
+                    }
+                    onUploadQueued()
                 }
-                onUploadQueued()
             },
             transferLabel: Text("Upload", comment: "Button that uploads the selected local files"),
             transferSymbol: "arrow.up.circle",
-            dragPayload: { entries in
+            dragPayload: { entries, _ in
                 DraggedFiles(origin: .local(directory: browser.path), names: entries.map(\.name))
             },
             onDropSelection: { dropped in

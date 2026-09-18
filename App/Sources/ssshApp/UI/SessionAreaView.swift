@@ -89,6 +89,15 @@ struct SessionAreaView: View {
                     .id(session.id)
             }
         }
+        .sheet(isPresented: Binding(
+            get: { sessions.showsServerMonitor && sessions.focusedSession != nil },
+            set: { sessions.showsServerMonitor = $0 }
+        )) {
+            if let session = sessions.focusedSession {
+                ServerMonitorView(session: session)
+                    .id(session.id)
+            }
+        }
     }
 }
 

@@ -81,6 +81,10 @@ final class SessionManager {
     /// on, which is exactly what ``focusedSession`` being nil there means.
     var showsFileBrowser = false
 
+    /// Whether the server monitor is open for the focused session. Same rule
+    /// as the file browser: only a direct session has a connection to sample.
+    var showsServerMonitor = false
+
     // MARK: - Opening
 
     /// Opens a tab for `host` and starts connecting.

@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 import ssshCore
 
 /// The commands run in the focused pane, as a list you can search and act on.
@@ -87,6 +88,7 @@ private struct BlockInspectorHeader: View {
     @Environment(AppEnvironment.self) private var environment
     @Bindable var blocks: SessionBlocks
     @FocusState private var searchIsFocused: Bool
+    @State private var exportsLog = false
 
     var body: some View {
         VStack(spacing: 8) {
@@ -114,6 +116,16 @@ private struct BlockInspectorHeader: View {
                     .foregroundStyle(.secondary)
                     .accessibilityLabel(Text("Wis zoekopdracht", comment: "Accessibility label for the clear-search button"))
                 }
+
+                Button {
+                    exportsLog = true
+                } label: {
+                    Image(systemName: "square.and.arrow.down")
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .disabled(blocks.blocks.isEmpty)
+                .accessibilityLabel(Text("Exporteer sessielog", comment: "Accessibility label for the session log export button"))
             }
 
             if !blocks.matches.isEmpty {
@@ -140,6 +152,15 @@ private struct BlockInspectorHeader: View {
         .onChange(of: environment.pendingBlockSearchFocus) { _, isPending in
             if isPending { takeRequestedFocus() }
         }
+        // The whole list, not the filtered view: an export is a record, and a
+        // record that silently honoured a filter would look complete and not
+        // be. The filter is visible on screen; it is not visible in a file.
+        .fileExporter(
+            isPresented: $exportsLog,
+            document: PlainTextDocument(text: SessionLogText.render(blocks.blocks)),
+            contentType: .plainText,
+            defaultFilename: String(localized: "sessielog", comment: "Default filename for an exported session log")
+        ) { _ in }
     }
 
     private func takeRequestedFocus() {
@@ -354,7 +375,7 @@ private struct BlockOutputView: View {
                     .foregroundStyle(.secondary)
             } else {
                 ScrollView {
-                    Text(block.outputText)
+                    Text(Self.linkified(block.outputText))
                         .font(.system(.caption, design: .monospaced))
                         .textSelection(.enabled)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -373,6 +394,73 @@ private struct BlockOutputView: View {
                 .foregroundStyle(.secondary)
             }
         }
+    }
+
+    /// URLs in the output become tappable links.
+    ///
+    /// Detection rather than markup, because remote output is plain text by
+    /// the time the block scanner has it. The scheme allowlist is the same
+    /// one the terminal's OSC 8 handler applies, and for the same reason: a
+    /// remote host can print anything, and handing an arbitrary scheme to the
+    /// system opener would let it launch things.
+    private static func linkified(_ text: String) -> AttributedString {
+        var attributed = AttributedString(text)
+        guard text.contains("://") || text.contains("www.") || text.contains("@"),
+              let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        else {
+            return attributed
+        }
+        let fullRange = NSRange(text.startIndex..., in: text)
+        for match in detector.matches(in: text, range: fullRange) {
+            guard let url = match.url,
+                  let scheme = url.scheme?.lowercased(),
+                  ["http", "https", "mailto"].contains(scheme),
+                  let stringRange = Range(match.range, in: text),
+                  let range = Range(stringRange, in: attributed)
+            else { continue }
+            attributed[range].link = url
+            attributed[range].underlineStyle = .single
+        }
+        return attributed
+    }
+}
+
+/// The block list as a text file: commands, their output, their exit status.
+private enum SessionLogText {
+    static func render(_ blocks: [CommandBlock]) -> String {
+        blocks.map { block in
+            var lines: [String] = ["$ \(block.command)"]
+            let output = block.outputText
+            if !output.isEmpty { lines.append(output) }
+            if case .finished(let status) = block.state, let status, status != 0 {
+                lines.append("[afsluitcode \(status)]")
+            }
+            if block.outputTruncated {
+                // The on-screen list carries this warning; the file has to
+                // carry it too or it claims completeness it does not have.
+                lines.append("[uitvoer onvolledig]")
+            }
+            return lines.joined(separator: "\n")
+        }
+        .joined(separator: "\n\n")
+    }
+}
+
+private struct PlainTextDocument: FileDocument {
+    static let readableContentTypes: [UTType] = [.plainText]
+
+    var text: String
+
+    init(text: String) {
+        self.text = text
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        text = String(decoding: configuration.file.regularFileContents ?? Data(), as: UTF8.self)
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: Data(text.utf8))
     }
 }
 

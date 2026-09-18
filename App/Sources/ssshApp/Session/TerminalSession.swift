@@ -271,6 +271,28 @@ final class TerminalSession: TerminalFeed {
         try await transport.portForwarding()
     }
 
+    /// Runs one command on its own `exec` channel and returns what it printed
+    /// to stdout.
+    ///
+    /// For the server monitor and other read-only sampling. Interactive work
+    /// belongs in the shell; this channel has no PTY and merges nothing.
+    func runCommand(_ command: String) async throws -> String {
+        let channel = try await transport.execute(command, environment: [:])
+        var bytes: [UInt8] = []
+        for try await event in channel.events {
+            switch event {
+            case .output(let chunk):
+                bytes.append(contentsOf: chunk)
+            case .errorOutput, .exit:
+                // stderr is login-script noise here, and the exit status does
+                // not change what was printed.
+                break
+            }
+        }
+        await channel.close()
+        return String(decoding: bytes, as: UTF8.self)
+    }
+
     private func closeSFTP() async {
         sftpTask?.cancel()
         sftpTask = nil

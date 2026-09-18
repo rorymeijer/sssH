@@ -92,6 +92,61 @@ final class TransferQueue {
         }
     }
 
+    /// Walks a local directory and queues every file under it, recreating the
+    /// tree on the server. The mirror of ``enqueueDownloadTree(of:from:to:)``,
+    /// and here for the same reason: it needs the SFTP channel to create the
+    /// remote directories.
+    func enqueueUploadTree(of entry: RemoteFileEntry, from localDirectory: String, to remoteDirectory: String) async {
+        let localRoot = RemotePath.appending(entry.name, to: localDirectory)
+        let remoteRoot = RemotePath.appending(entry.name, to: remoteDirectory)
+        do {
+            let service = try await session.sftp()
+            try await walkLocal(localRoot, remoteRoot: remoteRoot, service: service)
+            startIfIdle()
+        } catch {
+            transfers.append(FileTransfer(
+                direction: .upload,
+                remotePath: remoteRoot,
+                localPath: localRoot,
+                state: .failed(FileTransferText.describe(error))
+            ))
+        }
+    }
+
+    private func walkLocal(_ localPath: String, remoteRoot: String, service: any SFTPService) async throws {
+        // Creating a directory that already exists is an error in SFTP, but
+        // uploading into an existing tree is normal use. The failure only
+        // counts when the path is not a directory afterwards either.
+        do {
+            try await service.createDirectory(at: remoteRoot, permissions: nil)
+        } catch {
+            guard let existing = try? await service.attributes(of: remoteRoot), existing.kind == .directory else {
+                throw error
+            }
+        }
+        let names = try FileManager.default.contentsOfDirectory(atPath: localPath)
+        for name in names {
+            let childLocal = RemotePath.appending(name, to: localPath)
+            guard let attributes = LocalFileBrowser.attributes(atPath: childLocal) else { continue }
+            let childRemote = RemotePath.appending(name, to: remoteRoot)
+            switch attributes.kind {
+            case .directory:
+                try await walkLocal(childLocal, remoteRoot: childRemote, service: service)
+            case .file:
+                transfers.append(FileTransfer(
+                    direction: .upload,
+                    remotePath: childRemote,
+                    localPath: childLocal,
+                    totalBytes: attributes.size
+                ))
+            case .symlink, .other:
+                // Same rule as the download walk: following links while
+                // copying a tree is how a home directory uploads itself twice.
+                continue
+            }
+        }
+    }
+
     private func walk(_ remotePath: String, localRoot: String, service: any SFTPService) async throws {
         try FileManager.default.createDirectory(atPath: localRoot, withIntermediateDirectories: true)
         var children: [RemoteFileEntry] = []

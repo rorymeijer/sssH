@@ -232,6 +232,14 @@ final class AppEnvironment {
             ))
             items.append(PaletteItem(
                 kind: .action,
+                title: String(localized: "Serverstatus", comment: "Title of the server monitor panel"),
+                subtitle: nil,
+                symbol: "gauge.with.dots.needle.33percent",
+                keywords: ["monitor", "status", "cpu", "geheugen", "memory", "disk", "schijf", "uptime", "load"],
+                perform: { [weak self] in self?.sessions.showsServerMonitor = true }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
                 title: String(localized: "Opdrachten", comment: "Menu item: toggle the command block list"),
                 subtitle: nil,
                 symbol: "list.bullet.rectangle",
