@@ -13,6 +13,10 @@ protocol TerminalFeed: AnyObject, Identifiable where ID == UUID {
     var title: String { get }
     /// What to show above the terminal, if anything.
     var statusBanner: TerminalStatus { get }
+    /// The commands run in this pane, as blocks. Every feed has them: they are
+    /// derived from the byte stream, not from anything only an SSH channel
+    /// knows, so a tmux pane gets them on the same terms.
+    var blocks: SessionBlocks { get }
 
     /// Called by the terminal view when it appears. Anything buffered before
     /// then is replayed, so a pane that connected off screen is not blank.

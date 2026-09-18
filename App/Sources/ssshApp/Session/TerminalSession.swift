@@ -70,6 +70,7 @@ final class TerminalSession: TerminalFeed {
     private var lastKnownSize: TerminalSize?
 
     private let output = PendingOutputBuffer()
+    let blocks = SessionBlocks()
 
     init(
         hostDisplayName: String,
@@ -131,6 +132,7 @@ final class TerminalSession: TerminalFeed {
     }
 
     func disconnect() async {
+        blocks.finish()
         outputTask?.cancel()
         outputTask = nil
 
@@ -270,16 +272,19 @@ final class TerminalSession: TerminalFeed {
             deliver(bytes)
         case .exit(let exit):
             self.exit = exit
+            blocks.finish()
         }
     }
 
     private func deliver(_ bytes: [UInt8]) {
+        blocks.consumeOutput(bytes)
         output.deliver(bytes)
     }
 
     // MARK: - Input
 
     func send(_ bytes: ArraySlice<UInt8>) {
+        blocks.consumeInput(bytes)
         guard let shell else { return }
         Task {
             do {

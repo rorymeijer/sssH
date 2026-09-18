@@ -97,6 +97,20 @@ struct ssshCommands: Commands {
             .keyboardShortcut("i", modifiers: [.command, .shift])
             .disabled(environment.sessions.selectedTab == nil)
 
+            Toggle(isOn: blockInspectorBinding) {
+                Text("Opdrachten", comment: "Menu item: toggle the command block list")
+            }
+            .keyboardShortcut("b", modifiers: [.command, .shift])
+            .disabled(environment.sessions.selectedTab == nil)
+
+            Button {
+                environment.showBlocksAndSearch()
+            } label: {
+                Text("Zoek in sessie…", comment: "Menu item: search the current session's commands and output")
+            }
+            .keyboardShortcut("f", modifiers: .command)
+            .disabled(environment.sessions.selectedTab == nil)
+
             Divider()
 
             Button {
@@ -139,6 +153,15 @@ struct ssshCommands: Commands {
         Binding(
             get: { environment.sessions.selectedTab?.broadcastsInput ?? false },
             set: { environment.sessions.selectedTab?.broadcastsInput = $0 }
+        )
+    }
+
+    /// The block list, unlike broadcast, is a way of working rather than a
+    /// property of one connection, so it is bound to the window.
+    private var blockInspectorBinding: Binding<Bool> {
+        Binding(
+            get: { environment.sessions.showsBlockInspector },
+            set: { environment.sessions.showsBlockInspector = $0 }
         )
     }
 }

@@ -26,6 +26,7 @@ final class TmuxPaneSession: TerminalFeed {
     var statusBanner: TerminalStatus { .none }
 
     private let output = PendingOutputBuffer()
+    let blocks = SessionBlocks()
     private weak var controller: TmuxSessionController?
 
     init(paneID: TmuxPaneID, windowID: TmuxWindowID, windowName: String, controller: TmuxSessionController) {
@@ -44,10 +45,12 @@ final class TmuxPaneSession: TerminalFeed {
     }
 
     func deliver(_ bytes: [UInt8]) {
+        blocks.consumeOutput(bytes)
         output.deliver(bytes)
     }
 
     func send(_ bytes: ArraySlice<UInt8>) {
+        blocks.consumeInput(bytes)
         controller?.send(bytes, to: paneID)
     }
 
@@ -67,6 +70,7 @@ final class TmuxPaneSession: TerminalFeed {
     }
 
     func close() async {
+        blocks.finish()
         await controller?.killPane(paneID)
     }
 }

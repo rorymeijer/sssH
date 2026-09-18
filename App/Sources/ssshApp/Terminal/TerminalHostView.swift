@@ -197,14 +197,7 @@ struct TerminalHostView: PlatformViewRepresentable {
 
         func clipboardCopy(source: TerminalView, content: Data) {
             guard let text = String(data: content, encoding: .utf8) else { return }
-            MainActor.assumeIsolated {
-                #if os(macOS)
-                NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString(text, forType: .string)
-                #else
-                UIPasteboard.general.string = text
-                #endif
-            }
+            MainActor.assumeIsolated { Pasteboard.copy(text) }
         }
 
         func clipboardRead(source: TerminalView) -> Data? {

@@ -45,6 +45,25 @@ final class AppEnvironment {
         )
     }
 
+    // MARK: - Blocks and search
+
+    /// Opens the block list and puts the cursor in its search field.
+    ///
+    /// Command-F in a terminal is ambiguous: it could search the scrollback or
+    /// the commands. sssh searches the commands, because a hit there answers
+    /// "which command produced this" as well as "where is this string", and a
+    /// hit in a flat buffer answers only the second.
+    func showBlocksAndSearch() {
+        sessions.showsBlockInspector = true
+        pendingBlockSearchFocus = true
+    }
+
+    /// Set by ``showBlocksAndSearch()`` and cleared by whichever block list
+    /// takes the focus. A request that is consumed, rather than a flag that
+    /// stays true: otherwise every later appearance of the list would steal
+    /// the keyboard from the terminal.
+    var pendingBlockSearchFocus = false
+
     // MARK: - Command palette
 
     func presentCommandPalette() {
@@ -100,6 +119,22 @@ final class AppEnvironment {
                     guard let tab = self?.sessions.selectedTab else { return }
                     tab.broadcastsInput.toggle()
                 }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
+                title: String(localized: "Zoek in sessie…", comment: "Menu item: search the current session's commands and output"),
+                subtitle: nil,
+                symbol: "magnifyingglass",
+                keywords: ["search", "zoeken", "blok", "block", "find"],
+                perform: { [weak self] in self?.showBlocksAndSearch() }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
+                title: String(localized: "Opdrachten", comment: "Menu item: toggle the command block list"),
+                subtitle: nil,
+                symbol: "list.bullet.rectangle",
+                keywords: ["blocks", "blokken", "commands", "geschiedenis"],
+                perform: { [weak self] in self?.sessions.showsBlockInspector.toggle() }
             ))
         }
 

@@ -31,6 +31,21 @@ struct SessionAreaView: View {
                         // would throw away the scrollback, so each tab keeps
                         // its own view identity.
                         .id(tab.id)
+                        // `.inspector` rather than an `HStack`: on a Mac it is
+                        // a resizable trailing column, on an iPhone it becomes
+                        // a sheet. Hard-coding the column would leave a phone
+                        // with two unusable halves.
+                        .inspector(isPresented: $sessions.showsBlockInspector) {
+                            if let feed = tab.focusedSession {
+                                BlockInspector(feed: feed)
+                                    // The list belongs to the pane, so
+                                    // changing focus rebuilds it rather than
+                                    // animating one pane's commands into
+                                    // another's.
+                                    .id(feed.id)
+                                    .inspectorColumnWidth(min: 280, ideal: 340, max: 560)
+                            }
+                        }
                 }
             } else {
                 ContentUnavailableView {

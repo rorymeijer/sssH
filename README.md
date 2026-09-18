@@ -3,8 +3,8 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 2 done — splits, broadcast input, session restore, a command
-palette, tmux control mode and automatic reconnect on top of the Phase 1 app.**
+**Status: Phase 3 done — command blocks with OSC 133 shell integration, a
+fallback that works without it, per-block actions and in-session search.**
 
 ## Where things are
 
@@ -78,7 +78,7 @@ external values. See "Verification status" in the Phase 0 report.
 - [x] **0** — PTY spike, backend decision, `SSHTransport` protocol
 - [x] **1** — Core terminal app: SwiftTerm host, password + key auth, `keyboard-interactive`, known-hosts prompt, tabs, host list
 - [x] **2** — Splits, broadcast, session restore, command palette, tmux, reconnect
-- [ ] **3** — Command blocks (OSC 133 + heuristics), per-block actions, in-session search
+- [x] **3** — Command blocks (OSC 133 + fallback), per-block actions, in-session search
 - [ ] **4** — SFTP browser, transfer queue, drag and drop
 - [ ] **5** — Port forwarding: local, remote, dynamic
 - [ ] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes

@@ -158,3 +158,54 @@ cases:
 Everything else is retried with the capped, jittered backoff in
 `ReconnectPolicy`. The jitter is subtractive so that a delay never exceeds the
 cap, which matters when the cap is what the user was promised.
+
+### Command blocks
+
+`CommandBlockSegmenter` turns a terminal stream into commands with their
+output. It has two modes, and which one is running is shown to the user rather
+than guessed at silently.
+
+With **shell integration** the shell emits `OSC 133` (and possibly VS Code's
+`OSC 633`), so the boundaries and the exit status are exact. sssh offers the
+snippet and the user pastes it in; it never edits a remote `.bashrc` itself.
+Doing that would be an edit to a machine the user opened a session to work on,
+not a convenience.
+
+Without it, the **fallback** cuts a block where the user pressed Return. Three
+decisions there are worth stating, because each replaces something that looks
+simpler and is wrong:
+
+- The command text comes from the line the remote **echoed**, not from the
+  keystrokes. Pressing Up recalls a command without typing a character of it,
+  and tab completion types four characters of a twenty-character path.
+- The prompt is separated from the command by remembering how much of the line
+  was already drawn when the user first typed into it. Detecting a prompt by
+  pattern is a losing game: real prompts contain git branches, hostnames,
+  timestamps, emoji and colour, and a regexp that survives them also matches
+  half the output of `grep`.
+- A Return **arms** a cut; the echoed newline performs it. Cutting on the
+  keystroke puts the boundary ahead of the output it belongs to on a slow link,
+  and a paste of ten lines arrives as ten Returns at once. Only one is armed, so
+  a paste becomes one block rather than nine blocks whose "commands" are really
+  output lines.
+
+Neither mode captures anything while the alternate screen buffer is active.
+`vim` is not a command with output, and a byte log of one is unreadable:
+reconstructing what it displayed needs a screen model, not a transcript. The
+block says its output was truncated rather than pretending it is complete.
+
+Two things the scanner does deliberately:
+
+- It is a **token stream**, not a search for markers with offsets into a chunk.
+  An `OSC 133 ; D ; 0` routinely arrives split across two reads, and an
+  offset-based API has to describe a marker that started in a chunk the caller
+  no longer has.
+- It does **not** recognise the 8-bit C1 introducers (`0x9B`, `0x9D`). A
+  terminal in UTF-8 mode never sends them, and those bytes are continuation
+  bytes of ordinary characters: treating `0x9D` as an OSC introducer swallows
+  the rest of a line whenever somebody's output contains Arabic or an emoji.
+
+Search runs over blocks rather than over a flat scrollback, because a hit in a
+block also answers which command produced it and whether that command failed.
+It happens entirely on device. There are no AI features here and none are
+planned: no suggestions, no explanations, no cloud call to explain a command.

@@ -44,9 +44,22 @@ final class SessionManager {
         tabs.first { $0.id == selectedTabID }
     }
 
-    var focusedSession: TerminalSession? {
+    /// The pane the user is typing into, whatever kind it is.
+    var focusedFeed: (any TerminalFeed)? {
         selectedTab?.focusedSession
     }
+
+    /// The focused pane when it owns an SSH connection. A tmux pane does not,
+    /// so this is nil there and callers that need a connection say so by
+    /// asking for this one.
+    var focusedSession: TerminalSession? {
+        selectedTab?.focusedSession as? TerminalSession
+    }
+
+    /// Whether the command-block list is shown beside the terminal. Per window
+    /// rather than per tab: it is a way of working, not a property of a
+    /// connection.
+    var showsBlockInspector = false
 
     // MARK: - Opening
 

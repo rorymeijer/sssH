@@ -25,6 +25,54 @@
       },
       "comment": "The key file could not be parsed at all"
     },
+    "%@, afgerond, afsluitcode onbekend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, finished, exit status unknown"
+          }
+        }
+      },
+      "comment": "Accessibility label for a finished block with no reported exit status"
+    },
+    "%@, gelukt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, succeeded"
+          }
+        }
+      },
+      "comment": "Accessibility label for a successful command block"
+    },
+    "%@, loopt nog": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, still running"
+          }
+        }
+      },
+      "comment": "Accessibility label for a running command block"
+    },
+    "%@, mislukt met code %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, failed with status %lld"
+          }
+        }
+      },
+      "comment": "Accessibility label for a failed command block, with its exit status"
+    },
     "%lld procent": {
       "extractionState": "manual",
       "localizations": {
@@ -48,6 +96,18 @@
         }
       },
       "comment": "Accessibility label for the pane count on a tab"
+    },
+    "(geen opdracht)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(no command)"
+          }
+        }
+      },
+      "comment": "Placeholder for a block whose command could not be recovered"
     },
     "Aangeboden sleutel": {
       "extractionState": "manual",
@@ -109,6 +169,18 @@
       },
       "comment": "Field label: hostname or IP address"
     },
+    "Alles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        }
+      },
+      "comment": "Block filter: show every command"
+    },
     "Annuleer": {
       "extractionState": "manual",
       "localizations": {
@@ -132,6 +204,18 @@
         }
       },
       "comment": "SFTP is not implemented yet"
+    },
+    "Betere blokken met shell-integratie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Better blocks with shell integration"
+          }
+        }
+      },
+      "comment": "Button offering to show the shell integration snippet"
     },
     "Bewaar": {
       "extractionState": "manual",
@@ -337,6 +421,18 @@
       },
       "comment": "The passphrase for a private key was wrong"
     },
+    "Deel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      },
+      "comment": "Menu item that shares a block as text"
+    },
     "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.": {
       "comment": "The server only offers pre-2014 key exchange or ciphers",
       "extractionState": "manual",
@@ -481,6 +577,18 @@
         }
       }
     },
+    "Filter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        }
+      },
+      "comment": "Accessibility label for the block outcome filter"
+    },
     "Ga naar host of voer opdracht uit": {
       "extractionState": "manual",
       "localizations": {
@@ -517,6 +625,30 @@
       },
       "comment": "Field label: the SSH username"
     },
+    "Geen opdracht in deze sessie komt overeen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No command in this session matches."
+          }
+        }
+      },
+      "comment": "Empty state body when a block filter matches nothing"
+    },
+    "Geen resultaten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No results"
+          }
+        }
+      },
+      "comment": "Empty state title when a block filter matches nothing"
+    },
     "Geen sessie geopend": {
       "extractionState": "manual",
       "localizations": {
@@ -528,6 +660,42 @@
         }
       },
       "comment": "Empty state title when no session tab is open"
+    },
+    "Geen uitvoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No output"
+          }
+        }
+      },
+      "comment": "Shown when an expanded block produced no output"
+    },
+    "Gekopieerd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        }
+      },
+      "comment": "Confirmation after copying the shell integration snippet"
+    },
+    "Gereed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      },
+      "comment": "Button that closes the shell integration sheet"
     },
     "Het bewaren in de sleutelhanger is mislukt: %@": {
       "extractionState": "manual",
@@ -661,6 +829,42 @@
       },
       "comment": "Empty state body when no session tab is open"
     },
+    "Kopieer naar klembord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy to clipboard"
+          }
+        }
+      },
+      "comment": "Button that copies the shell integration snippet"
+    },
+    "Kopieer opdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy command"
+          }
+        }
+      },
+      "comment": "Menu item that copies a block's command"
+    },
+    "Kopieer uitvoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy output"
+          }
+        }
+      },
+      "comment": "Menu item that copies a block's output"
+    },
     "Laat de wachtwoordzin leeg om er elke keer om te worden gevraagd. Dat is veiliger.": {
       "extractionState": "manual",
       "localizations": {
@@ -696,6 +900,18 @@
       },
       "comment": "Field label: comma-separated tags"
     },
+    "Loopt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running"
+          }
+        }
+      },
+      "comment": "Block filter: show only commands still running"
+    },
     "Meld aan als %@ op %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -707,6 +923,30 @@
         }
       },
       "comment": "Says which account on which host is being authenticated"
+    },
+    "Met onderstaande regels stuurt je shell zelf de standaardmarkeringen (OSC 133). Andere terminals lezen ze ook, dus je zit nergens aan vast.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The lines below make your shell send the standard markers (OSC 133) itself. Other terminals read them too, so nothing here ties you to sssh."
+          }
+        }
+      },
+      "comment": "Explains that the snippet uses a standard other terminals also read"
+    },
+    "Mislukt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed"
+          }
+        }
+      },
+      "comment": "Block filter: show only commands that reported a non-zero exit status"
     },
     "Naam": {
       "extractionState": "manual",
@@ -731,6 +971,18 @@
         }
       },
       "comment": "Field for the tmux session to attach to or create"
+    },
+    "Niet alle uitvoer is bewaard.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not all output was kept."
+          }
+        }
+      },
+      "comment": "Warning shown on a block whose output was capped or skipped"
     },
     "Niet verbonden": {
       "extractionState": "manual",
@@ -768,6 +1020,18 @@
       },
       "comment": "Empty state title when no hosts are saved"
     },
+    "Nog geen opdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No commands yet"
+          }
+        }
+      },
+      "comment": "Empty state title for the command block list"
+    },
     "Opdracht bij starten": {
       "extractionState": "manual",
       "localizations": {
@@ -779,6 +1043,18 @@
         }
       },
       "comment": "Field label: a command run when the shell starts"
+    },
+    "Opdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commands"
+          }
+        }
+      },
+      "comment": "Menu item: toggle the command block list"
     },
     "Opnieuw verbinden, poging %lld": {
       "extractionState": "manual",
@@ -876,6 +1152,30 @@
       },
       "comment": "Accessibility label for the tab strip"
     },
+    "Shell": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell"
+          }
+        }
+      },
+      "comment": "Label for the shell picker on the shell integration sheet"
+    },
+    "Shell-integratie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell integration"
+          }
+        }
+      },
+      "comment": "Title of the shell integration sheet"
+    },
     "Sleutel": {
       "extractionState": "manual",
       "localizations": {
@@ -971,6 +1271,18 @@
         }
       },
       "comment": "An operation took too long; placeholder names the operation"
+    },
+    "Treffer %lld van %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hit %lld of %lld"
+          }
+        }
+      },
+      "comment": "Search result position, as 'hit N of M'"
     },
     "Uitschakelen": {
       "extractionState": "manual",
@@ -1104,6 +1416,18 @@
       },
       "comment": "Empty state body when no hosts are saved"
     },
+    "Voer opnieuw uit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run again"
+          }
+        }
+      },
+      "comment": "Menu item that runs a block's command again"
+    },
     "Volgend venster": {
       "extractionState": "manual",
       "localizations": {
@@ -1128,6 +1452,18 @@
       },
       "comment": "Menu item that moves to the next tab"
     },
+    "Volgende treffer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next hit"
+          }
+        }
+      },
+      "comment": "Accessibility label for the next search result button"
+    },
     "Vorig venster": {
       "extractionState": "manual",
       "localizations": {
@@ -1151,6 +1487,30 @@
         }
       },
       "comment": "Menu item that moves to the previous tab"
+    },
+    "Vorige treffer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous hit"
+          }
+        }
+      },
+      "comment": "Accessibility label for the previous search result button"
+    },
+    "Wacht op invoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for input"
+          }
+        }
+      },
+      "comment": "Accessibility label for a block at a prompt"
     },
     "Wachtwoord": {
       "extractionState": "manual",
@@ -1224,6 +1584,42 @@
       },
       "comment": "Title of the key passphrase prompt"
     },
+    "Wis zoekopdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear search"
+          }
+        }
+      },
+      "comment": "Accessibility label for the clear-search button"
+    },
+    "Zet dit onderaan %@ op de server.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put this at the end of %@ on the server."
+          }
+        }
+      },
+      "comment": "Instruction naming the shell's configuration file"
+    },
+    "Zodra je iets uitvoert verschijnt het hier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As soon as you run something it appears here."
+          }
+        }
+      },
+      "comment": "Empty state body for the command block list"
+    },
     "Zoek hosts": {
       "extractionState": "manual",
       "localizations": {
@@ -1235,6 +1631,42 @@
         }
       },
       "comment": "Placeholder in the host search field"
+    },
+    "Zoek in deze sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search this session"
+          }
+        }
+      },
+      "comment": "Placeholder in the in-session search field"
+    },
+    "Zoek in sessie…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search session…"
+          }
+        }
+      },
+      "comment": "Menu item: search the current session's commands and output"
+    },
+    "Zonder shell-integratie raadt sssh waar een opdracht begint en eindigt aan de hand van de regel die je shell teruggeeft. Dat werkt, maar de afsluitcode blijft onbekend en de grens klopt niet altijd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Without shell integration, sssh works out where a command starts and ends from the line your shell echoes back. That works, but the exit status stays unknown and the boundary is not always right."
+          }
+        }
+      },
+      "comment": "Explains what the fallback segmentation can and cannot do"
     },
     "geen": {
       "extractionState": "manual",
@@ -1283,6 +1715,18 @@
         }
       },
       "comment": "Agent forwarding is not implemented"
+    },
+    "sssh past zelf niets aan op de server. Plak het er zelf in, zodat je ziet wat er verandert.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh changes nothing on the server itself. Paste it in yourself, so you can see what changes."
+          }
+        }
+      },
+      "comment": "States that sssh never edits the remote configuration itself"
     },
     "tmux gebruiken": {
       "extractionState": "manual",
