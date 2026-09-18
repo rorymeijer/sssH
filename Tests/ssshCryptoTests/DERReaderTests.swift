@@ -78,8 +78,16 @@ final class DERReaderTests: XCTestCase {
         // The three relations that hold for every RSA key and for no mistaken
         // reading of one.
         XCTAssertEqual(p * q, n)
-        XCTAssertEqual((e * d) % ((p - 1) * (q - 1) / BigUInt.gcd(p - 1, q - 1)), 1)
-        XCTAssertEqual((iqmp * q) % p, 1)
+
+        // Spelled out with explicit types rather than as one expression: the
+        // nested BigUInt operators inside an assert's autoclosure take the
+        // type checker past its time limit.
+        let carmichael: BigUInt = (p - 1) * (q - 1) / BigUInt.gcd(p - 1, q - 1)
+        let reducedProduct: BigUInt = (e * d) % carmichael
+        XCTAssertEqual(reducedProduct, BigUInt(1))
+
+        let coefficientCheck: BigUInt = (iqmp * q) % p
+        XCTAssertEqual(coefficientCheck, BigUInt(1))
     }
 
     /// The round trip the app actually performs: generation hands back PKCS#1,

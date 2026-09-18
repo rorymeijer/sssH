@@ -85,11 +85,16 @@ final class SecuritySettings {
 
     /// Read without building the whole object, for the model container, which
     /// is constructed before anything else exists.
-    static func syncsConfiguration(in defaults: UserDefaults = .standard) -> Bool {
+    ///
+    /// `nonisolated` because that is the point: the container is built in a
+    /// default argument, which is a synchronous nonisolated context, and the
+    /// type is `@MainActor` so its statics would otherwise inherit that. These
+    /// two touch nothing but `UserDefaults`, which is thread-safe.
+    nonisolated static func syncsConfiguration(in defaults: UserDefaults = .standard) -> Bool {
         defaults.object(forKey: Key.syncsConfiguration) as? Bool ?? true
     }
 
-    static func syncsSecrets(in defaults: UserDefaults = .standard) -> Bool {
+    nonisolated static func syncsSecrets(in defaults: UserDefaults = .standard) -> Bool {
         defaults.bool(forKey: Key.syncsSecrets)
     }
 }
