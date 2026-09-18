@@ -154,9 +154,25 @@ final class OpenSSHPrivateKeyWriterTests: XCTestCase {
         let privateSection = try XCTUnwrap(reader.readString())
 
         XCTAssertEqual(privateSection.count % 8, 0, "the `none` cipher's block size is 8, not 16")
-        // The comment is the last real field; everything after it is padding.
-        let trailing = privateSection.suffix(while: { $0 != 0 })
-        XCTAssertTrue(trailing.isEmpty || Array(trailing) == Array(1...UInt8(trailing.count)))
+
+        // Parsed rather than scanned back from the end. The comment is the last
+        // real field and its bytes are non-zero too, as is its length prefix,
+        // so "everything after the last zero byte" is the comment *and* the
+        // padding — which no ascending run can ever match. Checked against
+        // ssh-keygen's own output: comment "oracle@test", padding [1, 2].
+        var section = SSHWireReader(privateSection)
+        _ = section.readUInt32() // checkint
+        _ = section.readUInt32() // checkint, repeated
+        _ = section.readString() // key type
+        _ = section.readString() // public key
+        _ = section.readString() // private key
+        _ = section.readString() // comment
+        let padding = section.readAllRemaining()
+
+        // A section that already lands on the block size needs none.
+        if !padding.isEmpty {
+            XCTAssertEqual(padding, Array(1...UInt8(padding.count)))
+        }
     }
 
     func testMalformedMaterialIsRejected() {
@@ -165,16 +181,5 @@ final class OpenSSHPrivateKeyWriterTests: XCTestCase {
             comment: "bad"
         )
         XCTAssertThrowsError(try OpenSSHPrivateKeyWriter.armoredText(for: short))
-    }
-}
-
-private extension Array where Element == UInt8 {
-    /// The trailing run satisfying `predicate`.
-    func suffix(while predicate: (UInt8) -> Bool) -> ArraySlice<UInt8> {
-        var index = endIndex
-        while index > startIndex, predicate(self[index - 1]) {
-            index -= 1
-        }
-        return self[index...]
     }
 }

@@ -305,17 +305,34 @@ struct SpikeChecks {
         do {
             try await expectAny(["ssshspike", "[0]"], timeout: .seconds(20))
         } catch {
-            try? await writeBytes([0x02, UInt8(ascii: "d")])
+            try? await detachTmux()
             return .failed(reason: "tmux did not attach: \(collector.tail(300).debugDescription)")
         }
 
-        // Ctrl-B d — the default detach binding.
-        try await writeBytes([0x02, UInt8(ascii: "d")])
+        do {
+            try await detachTmux()
+        } catch {
+            return .failed(reason: "tmux did not hand the terminal back after Ctrl-B d")
+        }
+
         let output = try await run("tmux -f /dev/null kill-session -t ssshspike; echo TMUXD\"\"ONE", timeout: .seconds(20))
         guard output.contains("TMUXDONE") else {
             return .failed(reason: "shell did not come back after detaching tmux")
         }
         return .passed(detail: "plain tmux attach/detach; control mode (-CC) is a separate Phase 2 question")
+    }
+
+    /// Ctrl-B d, and then waits until tmux has actually let go of the terminal.
+    ///
+    /// The wait is the point. Writing the next command straight after the key
+    /// sequence is a race the harness loses: the bytes arrive while tmux still
+    /// owns the PTY, so they are typed into the attached pane — which in this
+    /// check is running `sleep`, so they go nowhere and the marker never
+    /// appears. tmux announces the handover by printing `[detached …]` and
+    /// leaving the alternate screen.
+    private func detachTmux() async throws {
+        try await writeBytes([0x02, UInt8(ascii: "d")])
+        try await expectAny(["[detached", "\u{1B}[?1049l"], timeout: .seconds(10))
     }
 
     /// Tabs and split panes all share one TCP connection, so opening a second
