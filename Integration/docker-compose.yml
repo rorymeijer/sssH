@@ -1,0 +1,21 @@
+# Brings up the throwaway sshd the Phase 0 harness runs against.
+#
+#   docker compose -f Integration/docker-compose.yml up --build -d
+#   ./Integration/run-spike.sh
+#   docker compose -f Integration/docker-compose.yml down -v
+services:
+  sshd:
+    build:
+      context: .
+      dockerfile: Dockerfile.sshd
+    # Bound to loopback on purpose: a container with a fixed password must not
+    # be reachable from the network.
+    ports:
+      - "127.0.0.1:2222:22"
+    volumes:
+      - ./.keys:/keys
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /keys/host_key_fingerprint && pgrep sshd >/dev/null"]
+      interval: 2s
+      timeout: 2s
+      retries: 30

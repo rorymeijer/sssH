@@ -1,0 +1,43 @@
+# A throwaway SSH server for the Phase 0 PTY harness.
+#
+# It deliberately installs the programs the harness checks for — vim, htop and
+# tmux — because "skipped because htop is not installed" is not evidence that
+# a full-screen application works.
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      openssh-server \
+      vim \
+      htop \
+      tmux \
+      procps \
+      coreutils \
+      ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /run/sshd /keys
+
+# Password authentication is on because the harness tests both paths. This
+# image is for local test runs and CI only; it is never exposed beyond
+# localhost, and every credential in it is fixed and public.
+RUN printf '%s\n' \
+      'PermitRootLogin no' \
+      'PasswordAuthentication yes' \
+      'PubkeyAuthentication yes' \
+      'KbdInteractiveAuthentication no' \
+      'X11Forwarding no' \
+      'AllowTcpForwarding yes' \
+      'GatewayPorts no' \
+      'AcceptEnv LANG LC_* TERM COLORTERM' \
+      'PrintMotd no' \
+      'Subsystem sftp /usr/lib/openssh/sftp-server' \
+    > /etc/ssh/sshd_config.d/sssh-spike.conf
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 22
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

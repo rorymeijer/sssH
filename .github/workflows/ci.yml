@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The transport stack is deliberately free of platform UI, so it builds and
+  # unit-tests on Linux. That is what makes the Phase 0 integration run
+  # possible on a cheap runner.
+  linux:
+    name: Linux (build, unit tests, PTY integration)
+    runs-on: ubuntu-latest
+    container:
+      image: swift:6.0-noble
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: swift build --build-tests
+
+      - name: Unit tests
+        run: swift test --skip-build
+
+  # The PTY harness needs a real sshd, so it runs outside the Swift container
+  # and talks to a service container over loopback.
+  pty-integration:
+    name: Phase 0 PTY conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+
+      - name: Build the harness
+        run: swift build --product sssh-ptyspike
+
+      - name: Start the test SSH server
+        run: |
+          docker compose -f Integration/docker-compose.yml up --build -d
+          # The container writes the fingerprint file last, so its presence is
+          # the readiness signal.
+          for _ in $(seq 1 60); do
+            [ -f Integration/.keys/host_key_fingerprint ] && break
+            sleep 1
+          done
+          test -f Integration/.keys/host_key_fingerprint || {
+            echo "sshd did not become ready" >&2
+            docker compose -f Integration/docker-compose.yml logs sshd >&2
+            exit 1
+          }
+
+      - name: Run the PTY conformance checks
+        run: ./Integration/run-spike.sh verify
+
+      - name: Server logs on failure
+        if: failure()
+        run: docker compose -f Integration/docker-compose.yml logs sshd
+
+      - name: Tear down
+        if: always()
+        run: docker compose -f Integration/docker-compose.yml down -v
+
+  # Apple platforms are where the app ships, so the same package is built with
+  # the Xcode toolchain. The SwiftUI app targets join this job in Phase 1.
+  apple:
+    name: macOS (build, unit tests)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: swift --version
+
+      - name: Build
+        run: swift build --build-tests
+
+      - name: Unit tests
+        run: swift test --skip-build
