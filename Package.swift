@@ -48,6 +48,10 @@ let package = Package(
             name: "ssshCrypto",
             dependencies: [
                 .product(name: "Crypto", package: "swift-crypto"),
+                // RSA key generation. Underscored because swift-crypto has not
+                // settled its RSA API, which is also why it is confined to
+                // this target rather than reaching into the app.
+                .product(name: "_CryptoExtras", package: "swift-crypto"),
                 // Only for RSA's CRT exponents, which OpenSSH does not store.
                 .product(name: "BigInt", package: "BigInt"),
             ]
@@ -83,7 +87,12 @@ let package = Package(
         ),
         .testTarget(
             name: "ssshCryptoTests",
-            dependencies: ["ssshCrypto"]
+            dependencies: [
+                "ssshCrypto",
+                // The RSA tests assert the arithmetic relations that make a
+                // key a key, which needs the same big integers the module does.
+                .product(name: "BigInt", package: "BigInt"),
+            ]
         ),
         .testTarget(
             name: "ssshCoreTests",

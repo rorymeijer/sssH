@@ -21,11 +21,34 @@ struct ssshApp: App {
         }
     }
 
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
             RootView(storeFailure: storeFailure)
                 .environment(environment)
                 .modelContainer(environment.modelContainer)
+                // Drawn over everything, including any sheet: a lock that a
+                // presented sheet sits on top of is not a lock.
+                .overlay {
+                    if environment.appLock.isLocked {
+                        LockScreenView(lock: environment.appLock)
+                    }
+                }
+                .task { await environment.prepareSecurity() }
+                .onChange(of: scenePhase) { _, phase in
+                    switch phase {
+                    case .active:
+                        environment.appLock.applicationWillEnterForeground()
+                    case .inactive, .background:
+                        // `.inactive` as well as `.background`: on macOS that
+                        // is what a hidden window reports, and the app
+                        // switcher's snapshot is taken there too.
+                        environment.appLock.applicationDidEnterBackground()
+                    @unknown default:
+                        environment.appLock.applicationDidEnterBackground()
+                    }
+                }
         }
         .commands {
             ssshCommands(environment: environment)
@@ -52,6 +75,16 @@ struct ssshCommands: Commands {
                 Text("Ga naar…", comment: "Menu item: open the command palette")
             }
             .keyboardShortcut("k", modifiers: .command)
+        }
+
+        CommandGroup(after: .appSettings) {
+            Button {
+                environment.appLock.lockNow()
+            } label: {
+                Text("Vergrendel sssh", comment: "Menu item that locks the app now")
+            }
+            .keyboardShortcut("l", modifiers: [.command, .control])
+            .disabled(!environment.appLock.canLock || !environment.security.isLockEnabled)
         }
 
         CommandMenu(Text("Sessie", comment: "Menu title for session commands")) {

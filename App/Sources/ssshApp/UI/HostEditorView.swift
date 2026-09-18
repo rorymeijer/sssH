@@ -31,6 +31,7 @@ struct HostEditorView: View {
     @State private var hasStoredSecret = false
     @State private var isSaving = false
     @State private var saveFailure: String?
+    @State private var showsKeyGenerator = false
 
     var body: some View {
         NavigationStack {
@@ -93,6 +94,18 @@ struct HostEditorView: View {
                             .foregroundStyle(.secondary)
                         secretStatus
 
+                        if host != nil {
+                            Button {
+                                showsKeyGenerator = true
+                            } label: {
+                                Label {
+                                    Text("Nieuwe sleutel maken…", comment: "Button that opens the key generator")
+                                } icon: {
+                                    Image(systemName: "key.horizontal")
+                                }
+                            }
+                        }
+
                     case .askEveryTime:
                         Text("Er wordt niets bewaard. sssh vraagt bij elke verbinding om een wachtwoord.",
                              comment: "Explains that nothing is stored for this authentication method")
@@ -102,8 +115,14 @@ struct HostEditorView: View {
                 } header: {
                     Text("Aanmelden", comment: "Section header: authentication")
                 } footer: {
-                    Text("Wachtwoorden en sleutels worden alleen in de sleutelhanger van dit apparaat bewaard, nooit in iCloud.",
-                         comment: "Footer explaining that secrets stay in the device Keychain and are not synced")
+                    // The claim has to match the setting. A footer that says
+                    // "never leaves this device" while iCloud Keychain sync is
+                    // on is worse than no footer.
+                    appEnvironment.security.syncsSecrets
+                        ? Text("Wachtwoorden en sleutels gaan via de iCloud-sleutelhanger naar je andere apparaten. Nooit via de gewone iCloud-database.",
+                               comment: "Footer shown when secret sync is on")
+                        : Text("Wachtwoorden en sleutels worden alleen in de sleutelhanger van dit apparaat bewaard, nooit in iCloud.",
+                               comment: "Footer explaining that secrets stay in the device Keychain and are not synced")
                 }
 
                 Section {
@@ -160,6 +179,9 @@ struct HostEditorView: View {
                 }
             }
             .formStyle(.grouped)
+            .sheet(isPresented: $showsKeyGenerator) {
+                KeyGeneratorView(host: host)
+            }
             .navigationTitle(
                 host == nil
                     ? Text("Nieuwe host", comment: "Title when adding a host")

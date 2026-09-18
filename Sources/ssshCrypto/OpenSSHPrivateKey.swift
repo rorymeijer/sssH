@@ -58,6 +58,69 @@ public struct OpenSSHPrivateKey {
     public var publicKeyBlob: [UInt8]
     /// e.g. `ssh-ed25519`, `ssh-rsa`, `ecdsa-sha2-nistp256`.
     public var keyType: String
+
+    /// As read from a file: the blob and the type are taken from the file
+    /// rather than derived, because a file is the authority on what it says.
+    public init(material: Material, comment: String, publicKeyBlob: [UInt8], keyType: String) {
+        self.material = material
+        self.comment = comment
+        self.publicKeyBlob = publicKeyBlob
+        self.keyType = keyType
+    }
+
+    /// As freshly generated: the blob and the type follow from the material,
+    /// because there is no file yet to disagree with.
+    public init(material: Material, comment: String) {
+        self.init(
+            material: material,
+            comment: comment,
+            publicKeyBlob: material.publicKeyBlob,
+            keyType: material.keyType
+        )
+    }
+}
+
+public extension OpenSSHPrivateKey.Material {
+    var keyType: String {
+        switch self {
+        case .ed25519: return "ssh-ed25519"
+        case .ecdsaP256: return "ecdsa-sha2-nistp256"
+        case .ecdsaP384: return "ecdsa-sha2-nistp384"
+        case .ecdsaP521: return "ecdsa-sha2-nistp521"
+        case .rsa: return "ssh-rsa"
+        }
+    }
+
+    /// The public half in SSH's own encoding — the thing that goes into an
+    /// `authorized_keys` line, and the only half that leaves the device by
+    /// default.
+    var publicKeyBlob: [UInt8] {
+        var writer = SSHWireWriter()
+        switch self {
+        case .ed25519(_, let publicKey):
+            writer.writeString("ssh-ed25519")
+            writer.writeString(publicKey)
+        case .ecdsaP256(_, let publicKey):
+            writer.writeString("ecdsa-sha2-nistp256")
+            writer.writeString("nistp256")
+            writer.writeString(publicKey)
+        case .ecdsaP384(_, let publicKey):
+            writer.writeString("ecdsa-sha2-nistp384")
+            writer.writeString("nistp384")
+            writer.writeString(publicKey)
+        case .ecdsaP521(_, let publicKey):
+            writer.writeString("ecdsa-sha2-nistp521")
+            writer.writeString("nistp521")
+            writer.writeString(publicKey)
+        case .rsa(let components):
+            // `e` then `n` — the opposite order to the private half, which is
+            // the single easiest thing to get wrong in this format.
+            writer.writeString("ssh-rsa")
+            writer.writeMPInt(components.publicExponent)
+            writer.writeMPInt(components.modulus)
+        }
+        return writer.bytes
+    }
 }
 
 /// Reads `openssh-key-v1` files: the format `ssh-keygen` has written by default

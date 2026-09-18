@@ -49,6 +49,10 @@ targets:
         product: ssshCore
       - package: sssh
         product: ssshTransportNIOSSH
+      # Key generation writes `openssh-key-v1` and reads the PKCS#1 DER that
+      # swift-crypto hands back, both of which live here.
+      - package: sssh
+        product: ssshCrypto
       - package: SwiftTerm
         product: SwiftTerm
     # Written out rather than generated, because the app exports a uniform
@@ -94,4 +98,5 @@ targets:
         CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.macOS.entitlements
         ENABLE_HARDENED_RUNTIME: YES
       iOS:
+        CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.iOS.entitlements
         TARGETED_DEVICE_FAMILY: "1,2"

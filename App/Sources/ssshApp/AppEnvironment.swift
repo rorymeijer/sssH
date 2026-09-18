@@ -21,8 +21,14 @@ final class AppEnvironment {
     /// Shared so the host editor writes to the same store the session layer
     /// reads from, rather than each making its own.
     let secretsStore: any SecretsStore
+    let security: SecuritySettings
+    let appLock: AppLock
+    /// Which protection the device key actually has, for the settings screen
+    /// to report honestly rather than claim.
+    private(set) var keyProtection: AppSecurityKey.Protection?
 
     private let restoreStore = SessionRestoreStore()
+    private let appSecurityKey: AppSecurityKey
 
     init(modelContainer: ModelContainer) {
         self.modelContainer = modelContainer
@@ -32,8 +38,14 @@ final class AppEnvironment {
         self.hostKeyPrompts = hostKeyPrompts
         self.credentialPrompts = credentialPrompts
 
-        let secretsStore = KeychainSecretsStore()
+        let security = SecuritySettings()
+        self.security = security
+        self.appLock = AppLock(settings: security)
+
+        let appKey = AppSecurityKey()
+        let secretsStore = KeychainSecretsStore(appKey: appKey, scope: security.secretScope)
         self.secretsStore = secretsStore
+        self.appSecurityKey = appKey
 
         self.sessions = SessionManager(
             transportFactory: NIOSSHTransportFactory(),
@@ -43,6 +55,26 @@ final class AppEnvironment {
             credentialPrompts: credentialPrompts,
             modelContainer: modelContainer
         )
+    }
+
+    // MARK: - Security
+
+    /// Finds out what the device key is actually protected by, and applies the
+    /// secret scope the settings ask for.
+    ///
+    /// Both need the Keychain, so they happen once at launch rather than in
+    /// `init`, which runs before there is a window to report a failure in.
+    func prepareSecurity() async {
+        keyProtection = try? await appSecurityKey.currentProtection()
+        await applySecretScope()
+    }
+
+    /// Moves stored secrets into or out of iCloud Keychain to match the
+    /// setting. Called when the switch changes, and at launch in case it was
+    /// changed on another device — or interrupted last time.
+    func applySecretScope() async {
+        guard let store = secretsStore as? KeychainSecretsStore else { return }
+        try? await store.setScope(security.secretScope)
     }
 
     // MARK: - Blocks and search
@@ -127,6 +159,14 @@ final class AppEnvironment {
                 symbol: "magnifyingglass",
                 keywords: ["search", "zoeken", "blok", "block", "find"],
                 perform: { [weak self] in self?.showBlocksAndSearch() }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
+                title: String(localized: "Vergrendel sssh", comment: "Menu item that locks the app now"),
+                subtitle: nil,
+                symbol: "lock",
+                keywords: ["lock", "vergrendel", "slot"],
+                perform: { [weak self] in self?.appLock.lockNow() }
             ))
             items.append(PaletteItem(
                 kind: .action,
@@ -231,16 +271,31 @@ final class AppEnvironment {
 }
 
 enum ModelContainerFactory {
-    /// The app's real store.
+    /// The app's real store, in CloudKit's private database when sync is on.
     ///
-    /// No CloudKit yet — that is Phase 7 — but the schema is already written to
-    /// CloudKit's rules (every attribute defaulted, no unique constraints) so
-    /// turning it on will not need a migration.
-    static func make() throws -> ModelContainer {
-        try ModelContainer(
+    /// The schema was written to CloudKit's rules from Phase 1 — every
+    /// attribute defaulted, no unique constraints — so turning this on needs
+    /// no migration.
+    ///
+    /// Nothing in this store is a secret. Host names, ports, usernames,
+    /// fingerprints, tunnels and snippets sync; private keys, passphrases and
+    /// passwords are in the Keychain and the model holds only an opaque
+    /// reference to them. That separation is the reason this can sync at all:
+    /// CloudKit's private database is not end-to-end encrypted, and a key in
+    /// it would be a key in a database Apple can read.
+    ///
+    /// Whether a store is CloudKit-backed is fixed when it is constructed, so
+    /// the setting is read here and a change takes effect at the next launch.
+    /// The settings screen says so rather than pretending otherwise.
+    static func make(syncsConfiguration: Bool = SecuritySettings.syncsConfiguration()) throws -> ModelContainer {
+        let configuration = ModelConfiguration(
+            "sssh",
+            cloudKitDatabase: syncsConfiguration ? .private("iCloud.nl.rorymeijer.sssh") : .none
+        )
+        return try ModelContainer(
             for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self, Tunnel.self,
             Snippet.self,
-            configurations: ModelConfiguration("sssh")
+            configurations: configuration
         )
     }
 }

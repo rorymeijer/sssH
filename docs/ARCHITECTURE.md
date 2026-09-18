@@ -375,3 +375,63 @@ machine whose shell the user is not looking at, and that preview is the
 difference between a shortcut and a gamble. Snippets are never run on the app's
 own initiative and there is no "run on connect": a saved command that fires by
 itself on an unfamiliar machine is a way to lose an afternoon.
+
+### Secrets, sync and the app lock
+
+Three separate mechanisms, protecting three different things. Confusing them is
+how an app ends up claiming more than it delivers.
+
+**The device key.** A P-256 key generated inside the Secure Enclave, used to
+wrap every stored secret before it reaches the Keychain. It can perform key
+agreement and can never be read out, so a Keychain database lifted off a backup
+is ciphertext without the hardware that made the key. On an Intel Mac with no
+Secure Enclave the fallback is a software key stored `ThisDeviceOnly`, which is
+meaningfully weaker — and the settings screen says which one is in use rather
+than claiming the stronger one everywhere. The scheme is the ordinary one: a
+fresh ephemeral key per secret, ECDH against the device key, HKDF to an AES-GCM
+key. Nothing novel, which is the point.
+
+**What syncs, and how.** Hosts, groups, snippets, tunnels and host-key
+fingerprints go through CloudKit's private database. None of it is secret, and
+fingerprints syncing is what makes trust follow the user between devices.
+Private keys, passphrases and passwords never go there: CloudKit's private
+database is not end-to-end encrypted, and a key in it would be a key in a
+database Apple can read.
+
+Secret sync is off by default and opt-in, and when it is on it goes through
+iCloud Keychain — which *is* end-to-end encrypted. The trade is stated in the
+settings screen rather than buried, because it is real: a synced secret cannot
+be wrapped with the device key, since the device key is device-bound and the
+other machine would have nothing to open it with. So device-only secrets are
+protected by the Enclave *and* the Keychain; synced ones are protected by iCloud
+Keychain alone.
+
+Because of that, the store reads from both scopes and only writes to the
+current one, and switching writes each secret to the new scope before deleting
+the old copy. The other order loses a key if it is interrupted; this order
+leaves a duplicate, which reads fine and is cleaned up next time.
+
+**The app lock** protects neither of those. It protects the *session*: an
+unlocked laptop on a desk with a terminal already connected to production, which
+is the common threat and the one the Keychain does nothing about. It covers the
+screen opaquely rather than blurring it — a blur over a terminal still shows the
+shape of the last command — and it uses `deviceOwnerAuthentication` rather than
+the biometrics-only policy, so a user whose Face ID fails in the dark is not
+locked out of their own terminal.
+
+### Generating keys
+
+On device, which is the whole point: a key generated anywhere else has been
+somewhere else. Ed25519 by default; RSA because people still have servers that
+will not take anything else, and a key you cannot use is not security.
+
+The private half goes straight to the Keychain and is never displayed. The
+public half is shown and copyable, and is the only half meant to leave.
+
+`OpenSSHPrivateKeyWriter` is checked against `ssh-keygen` rather than against
+this package's own parser: a round trip through our own reader would pass just
+as happily with two fields swapped. For an unencrypted key the output is
+byte-for-byte what `ssh-keygen` writes. Two details in that format are easy to
+get wrong and both are pinned by tests: RSA's fields are `e, n` in the public
+blob and `n, e, d, iqmp, p, q` in the private half, and the private section is
+padded with 1, 2, 3, … rather than with zeros.

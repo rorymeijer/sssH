@@ -25,6 +25,7 @@ struct HostListView: View {
     @State private var showsImporter = false
     @State private var showsSnippets = false
     @State private var showsProfiles = false
+    @State private var showsSecurity = false
 
     var body: some View {
         List(selection: $selection) {
@@ -62,6 +63,7 @@ struct HostListView: View {
         .sheet(isPresented: $showsImporter) { SSHConfigImportView() }
         .sheet(isPresented: $showsSnippets) { SnippetLibraryView(feed: nil, host: nil) }
         .sheet(isPresented: $showsProfiles) { TerminalProfileListView() }
+        .sheet(isPresented: $showsSecurity) { SecuritySettingsView() }
     }
 
     private func row(_ host: Host) -> some View {
@@ -156,6 +158,9 @@ struct HostListView: View {
                 }
                 Button { showsImporter = true } label: {
                     Text("SSH-config importeren", comment: "Menu item that opens the ssh config import")
+                }
+                Button { showsSecurity = true } label: {
+                    Text("Beveiliging", comment: "Title of the security settings")
                 }
             }
         } label: {

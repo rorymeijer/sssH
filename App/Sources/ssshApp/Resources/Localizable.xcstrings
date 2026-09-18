@@ -535,6 +535,18 @@
       },
       "comment": "Button: cancel the credential prompt"
     },
+    "Appvergrendeling": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App lock"
+          }
+        }
+      },
+      "comment": "Toggle that turns the app lock on"
+    },
     "Balk": {
       "extractionState": "manual",
       "localizations": {
@@ -654,6 +666,18 @@
         }
       },
       "comment": "Button offering to show the shell integration snippet"
+    },
+    "Beveiliging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security"
+          }
+        }
+      },
+      "comment": "Title of the security settings"
     },
     "Bewaar": {
       "extractionState": "manual",
@@ -810,6 +834,30 @@
         }
       },
       "comment": "Warns that most servers refuse a non-loopback remote bind"
+    },
+    "De opmerking staat achteraan de publieke sleutel en helpt je later terugvinden welke sleutel waar hoort.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The comment goes at the end of the public key and helps you work out later which key belongs where."
+          }
+        }
+      },
+      "comment": "Explains what the key comment is for"
+    },
+    "De privésleutel gaat hoe dan ook versleuteld in de sleutelhanger. Een wachtwoordzin beschermt het bestand áls je het exporteert.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The private key goes into the keychain encrypted either way. A passphrase protects the file if you export it."
+          }
+        }
+      },
+      "comment": "Explains that the passphrase protects an exported file, not the stored key"
     },
     "De server kon de bewerking niet uitvoeren.": {
       "extractionState": "manual",
@@ -1015,6 +1063,18 @@
       },
       "comment": "The passphrase for a private key was wrong"
     },
+    "De wachtwoordzinnen zijn niet gelijk.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The passphrases do not match."
+          }
+        }
+      },
+      "comment": "Shown when the two passphrase fields differ"
+    },
     "Deel": {
       "extractionState": "manual",
       "localizations": {
@@ -1026,6 +1086,18 @@
         }
       },
       "comment": "Menu item that shares a block as text"
+    },
+    "Deze host gebruikt nu deze sleutel.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This host now uses this key."
+          }
+        }
+      },
+      "comment": "Confirms the generated key was attached to the host"
     },
     "Deze host heeft nog geen tunnels.": {
       "extractionState": "manual",
@@ -1099,6 +1171,18 @@
       },
       "comment": "Title of the local side of the file browser"
     },
+    "Dit apparaat heeft geen toegangscode. Zonder toegangscode kan sssh niets vergrendelen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device has no passcode. Without one, sssh has nothing to lock with."
+          }
+        }
+      },
+      "comment": "Explains that the lock needs a device passcode"
+    },
     "Dit kan betekenen dat de server opnieuw is geïnstalleerd. Het kan ook betekenen dat iemand het verkeer onderschept. Verbind alleen als u weet welke van de twee het is.": {
       "extractionState": "manual",
       "localizations": {
@@ -1158,6 +1242,30 @@
         }
       },
       "comment": "Tunnel kind: dynamic SOCKS proxy"
+    },
+    "Ed25519": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ed25519"
+          }
+        }
+      },
+      "comment": "Key type: Ed25519"
+    },
+    "Ed25519 is korter, sneller en op elke server sinds 2014 bruikbaar. Kies dit tenzij je weet dat je RSA nodig hebt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ed25519 is shorter, faster, and works on every server since 2014. Choose this unless you know you need RSA."
+          }
+        }
+      },
+      "comment": "Explains why Ed25519 is the default"
     },
     "Een SOCKS5-proxy op dit apparaat. De server maakt de verbindingen, dus het verkeer lijkt daarvandaan te komen.": {
       "extractionState": "manual",
@@ -1687,6 +1795,30 @@
       },
       "comment": "Sidebar title: the list of saved hosts"
     },
+    "Hosts en instellingen synchroniseren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync hosts and settings"
+          }
+        }
+      },
+      "comment": "Toggle for CloudKit sync of configuration"
+    },
+    "Hosts, groepen, fragmenten, tunnels en hostsleutel-vingerafdrukken gaan via je eigen iCloud. Wachtwoorden en sleutels niet — die staan in de sleutelhanger. Een wijziging werkt bij de volgende start.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hosts, groups, snippets, tunnels and host key fingerprints go through your own iCloud. Passwords and keys do not — those are in the keychain. A change takes effect at the next launch."
+          }
+        }
+      },
+      "comment": "Explains exactly what configuration sync covers and that it needs a restart"
+    },
     "Iets op de server verbindt met een poort daar, en komt uit op dit apparaat.": {
       "extractionState": "manual",
       "localizations": {
@@ -1831,6 +1963,30 @@
       },
       "comment": "Section header listing a snippet's placeholders"
     },
+    "Je privésleutels en wachtwoorden komen dan op je andere Apple-apparaten te staan, via de iCloud-sleutelhanger. Dat is end-to-end versleuteld, maar ze staan dan niet langer alleen hier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your private keys and passwords will then be on your other Apple devices, through iCloud Keychain. That is end-to-end encrypted, but they will no longer be only here."
+          }
+        }
+      },
+      "comment": "Explains what turning on secret sync does before it happens"
+    },
+    "Je sessies blijven open. Ontgrendel om ze weer te zien.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your sessions stay open. Unlock to see them again."
+          }
+        }
+      },
+      "comment": "Body on the lock screen, saying sessions are not closed"
+    },
     "Kan %@ niet bereiken (%@).": {
       "extractionState": "manual",
       "localizations": {
@@ -1938,6 +2094,18 @@
         }
       },
       "comment": "Menu item that copies a block's command"
+    },
+    "Kopieer publieke sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy public key"
+          }
+        }
+      },
+      "comment": "Button that copies the generated public key"
     },
     "Kopieer uitvoer": {
       "extractionState": "manual",
@@ -2070,6 +2238,18 @@
       },
       "comment": "Section header for the local listening address"
     },
+    "Maken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        }
+      },
+      "comment": "Button that generates the key"
+    },
     "Map %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2190,6 +2370,18 @@
       },
       "comment": "Explains the snippet placeholder syntax"
     },
+    "Meteen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immediately"
+          }
+        }
+      },
+      "comment": "Lock delay: immediately"
+    },
     "Mislukt": {
       "extractionState": "manual",
       "localizations": {
@@ -2201,6 +2393,42 @@
         }
       },
       "comment": "Block filter: show only commands that reported a non-zero exit status"
+    },
+    "Na 1 minuut": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 1 minute"
+          }
+        }
+      },
+      "comment": "Lock delay: one minute"
+    },
+    "Na 15 minuten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 15 minutes"
+          }
+        }
+      },
+      "comment": "Lock delay: fifteen minutes"
+    },
+    "Na 5 minuten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 5 minutes"
+          }
+        }
+      },
+      "comment": "Lock delay: five minutes"
     },
     "Naam": {
       "extractionState": "manual",
@@ -2382,6 +2610,30 @@
       },
       "comment": "Title of the new folder prompt"
     },
+    "Nieuwe sleutel maken…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a new key…"
+          }
+        }
+      },
+      "comment": "Button that opens the key generator"
+    },
+    "Nog een keer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once more"
+          }
+        }
+      },
+      "comment": "Field label confirming the passphrase"
+    },
     "Nog geen hosts": {
       "extractionState": "manual",
       "localizations": {
@@ -2405,6 +2657,18 @@
         }
       },
       "comment": "Empty state title for the command block list"
+    },
+    "Nooit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        }
+      },
+      "comment": "Lock delay: never"
     },
     "Octaal": {
       "extractionState": "manual",
@@ -2441,6 +2705,78 @@
         }
       },
       "comment": "Names a config line that could not be parsed at all"
+    },
+    "Onbekend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      },
+      "comment": "The device key's protection could not be determined"
+    },
+    "Ontgrendel met %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock with %@"
+          }
+        }
+      },
+      "comment": "Unlock button, naming the biometric method"
+    },
+    "Ontgrendel sssh om verder te gaan met je sessies.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock sssh to get back to your sessions."
+          }
+        }
+      },
+      "comment": "Reason shown by the system when asking for Face ID, Touch ID or the passcode"
+    },
+    "Ontgrendelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock"
+          }
+        }
+      },
+      "comment": "Unlock button with no biometric method"
+    },
+    "Ontgrendelen kan met %@ of met je toegangscode. Sessies blijven open en komen terug zodra je ontgrendelt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can unlock with %@ or your passcode. Sessions stay open and come back as soon as you unlock."
+          }
+        }
+      },
+      "comment": "Explains the app lock, naming the biometric method"
+    },
+    "Ook wachtwoorden en sleutels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys too"
+          }
+        }
+      },
+      "comment": "Toggle for opt-in secret sync"
     },
     "Op dit adres is de tunnel bereikbaar vanaf het hele netwerk.": {
       "extractionState": "manual",
@@ -2502,6 +2838,18 @@
       },
       "comment": "Menu item that opens a directory"
     },
+    "Opgeslagen geheimen worden versleuteld met een sleutel van dit apparaat voordat ze in de sleutelhanger gaan.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stored secrets are encrypted with a key belonging to this device before they go into the keychain."
+          }
+        }
+      },
+      "comment": "Explains that secrets are wrapped before storage"
+    },
     "Oplopend": {
       "extractionState": "manual",
       "localizations": {
@@ -2513,6 +2861,18 @@
         }
       },
       "comment": "Toggle for ascending sort order"
+    },
+    "Opmerking, bijvoorbeeld jij@laptop": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comment, for example you@laptop"
+          }
+        }
+      },
+      "comment": "Field label for the key comment"
     },
     "Opnieuw proberen": {
       "extractionState": "manual",
@@ -2670,6 +3030,54 @@
       },
       "comment": "Explains that ProxyCommand is not run"
     },
+    "Publieke sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Public key"
+          }
+        }
+      },
+      "comment": "Section header for the generated public key"
+    },
+    "RSA 2048": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA 2048"
+          }
+        }
+      },
+      "comment": "Key type: 2048-bit RSA"
+    },
+    "RSA 4096": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA 4096"
+          }
+        }
+      },
+      "comment": "Key type: 4096-bit RSA"
+    },
+    "RSA voor servers die nog geen Ed25519 aankunnen. Groter en langzamer, verder gelijkwaardig op deze lengtes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA for servers that cannot do Ed25519 yet. Larger and slower, otherwise equivalent at these sizes."
+          }
+        }
+      },
+      "comment": "Explains when RSA is the right choice"
+    },
     "Rechten voor %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2729,6 +3137,18 @@
         }
       },
       "comment": "Permission bit: write"
+    },
+    "Secure Enclave": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure Enclave"
+          }
+        }
+      },
+      "comment": "The device key is hardware-backed"
     },
     "Selecteren": {
       "extractionState": "manual",
@@ -2813,6 +3233,54 @@
         }
       },
       "comment": "Authentication method: private key"
+    },
+    "Sleutel maken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a key"
+          }
+        }
+      },
+      "comment": "Title of the key generator"
+    },
+    "Sleutelbescherming": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key protection"
+          }
+        }
+      },
+      "comment": "Label for how the device key is protected"
+    },
+    "Sleutelhanger van dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device's keychain"
+          }
+        }
+      },
+      "comment": "The device key is software-only"
+    },
+    "Sleutels en wachtwoorden synchroniseren?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync keys and passwords?"
+          }
+        }
+      },
+      "comment": "Title of the secret sync confirmation"
     },
     "Sluit %@": {
       "extractionState": "manual",
@@ -2970,6 +3438,30 @@
       },
       "comment": "Accessibility label for a symlink row"
     },
+    "Synchronisatie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync"
+          }
+        }
+      },
+      "comment": "Section header for sync settings"
+    },
+    "Synchroniseren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync"
+          }
+        }
+      },
+      "comment": "Button that confirms turning on secret sync"
+    },
     "Tekengrootte: %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -3126,6 +3618,18 @@
       },
       "comment": "Toggle: also import LocalForward and friends"
     },
+    "Uit: sleutels en wachtwoorden blijven op dit apparaat, versleuteld met een sleutel die het apparaat niet kan verlaten. Aan: ze gaan via iCloud-sleutelhanger, die end-to-end versleuteld is — maar dan kan dit apparaat ze niet meer met zijn eigen sleutel beschermen. Ze gaan nooit via de gewone iCloud-database.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off: keys and passwords stay on this device, encrypted with a key that cannot leave it. On: they go through iCloud Keychain, which is end-to-end encrypted — but then this device can no longer protect them with its own key. They never go through the ordinary iCloud database."
+          }
+        }
+      },
+      "comment": "Explains the trade-off between device-only secrets and iCloud Keychain sync"
+    },
     "Uitschakelen": {
       "extractionState": "manual",
       "localizations": {
@@ -3257,6 +3761,54 @@
         }
       },
       "comment": "Toggle that shows dotfiles"
+    },
+    "Vergrendel sssh": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock sssh"
+          }
+        }
+      },
+      "comment": "Menu item that locks the app now"
+    },
+    "Vergrendelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        }
+      },
+      "comment": "Label for the lock delay picker"
+    },
+    "Vergrendeling": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        }
+      },
+      "comment": "Section header for the app lock"
+    },
+    "Vergrendelt de app, niet de verbindingen: sessies blijven open en komen terug zodra je ontgrendelt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locks the app, not the connections: sessions stay open and come back as soon as you unlock."
+          }
+        }
+      },
+      "comment": "Explains what the app lock does and does not do"
     },
     "Vernieuwen": {
       "extractionState": "manual",
@@ -3540,6 +4092,18 @@
       },
       "comment": "Title of the password prompt"
     },
+    "Wachtwoorden en sleutels gaan via de iCloud-sleutelhanger naar je andere apparaten. Nooit via de gewone iCloud-database.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys go to your other devices through iCloud Keychain. Never through the ordinary iCloud database."
+          }
+        }
+      },
+      "comment": "Footer shown when secret sync is on"
+    },
     "Wachtwoorden en sleutels worden alleen in de sleutelhanger van dit apparaat bewaard, nooit in iCloud.": {
       "extractionState": "manual",
       "localizations": {
@@ -3588,6 +4152,18 @@
       },
       "comment": "Title of the key passphrase prompt"
     },
+    "Wachtwoordzin, optioneel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase, optional"
+          }
+        }
+      },
+      "comment": "Field label for an optional key passphrase"
+    },
     "Wijzigen": {
       "extractionState": "manual",
       "localizations": {
@@ -3623,6 +4199,18 @@
         }
       },
       "comment": "Section header showing the expanded snippet"
+    },
+    "Zet deze regel in ~/.ssh/authorized_keys op de server. De privésleutel staat in de sleutelhanger en wordt hier niet getoond.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put this line in ~/.ssh/authorized_keys on the server. The private key is in the keychain and is not shown here."
+          }
+        }
+      },
+      "comment": "Tells the user what to do with the public key and that the private one is not shown"
     },
     "Zet dit onderaan %@ op de server.": {
       "extractionState": "manual",
@@ -3755,6 +4343,18 @@
         }
       },
       "comment": "Names the config file line a warning came from"
+    },
+    "sssh is vergrendeld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh is locked"
+          }
+        }
+      },
+      "comment": "Title on the lock screen"
     },
     "sssh kan sleutels van het type %@ nog niet gebruiken. Zet de sleutel om met ssh-keygen.": {
       "extractionState": "manual",
