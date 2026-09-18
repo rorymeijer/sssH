@@ -130,12 +130,16 @@ jobs:
         run: |
           # Without pipefail the pipeline reports xcpretty's status, which is 0
           # whatever xcodebuild did — the step then passes on a failed build.
+          #
+          # SwiftTerm ships a build-tool plugin, and Xcode will not run an
+          # unvalidated one without someone present to agree to it.
           set -o pipefail
           xcodebuild build \
             -project sssh.xcodeproj \
             -scheme sssh_macOS \
             -destination 'platform=macOS' \
             CODE_SIGNING_ALLOWED=NO \
+            -skipPackagePluginValidation \
             | xcpretty || exit ${PIPESTATUS[0]}
 
       - name: Build for iOS Simulator
@@ -147,4 +151,5 @@ jobs:
             -scheme sssh_iOS \
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
+            -skipPackagePluginValidation \
             | xcpretty || exit ${PIPESTATUS[0]}

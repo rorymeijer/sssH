@@ -85,7 +85,12 @@ extension UserAuthenticationStateMachine {
 
         case (.server, .awaitingServiceAcceptance),
              (.server, .awaitingNextRequest),
-             (.server, .awaitingResponses):
+             (.server, .awaitingResponses),
+             // Client-only state: a server never sends an info request, so it
+             // can never be waiting for the answer. Thrown rather than
+             // asserted — a peer must not be able to crash us if that ever
+             // stops being true.
+             (.server, .awaitingInfoResponse):
             throw NIOSSHError.protocolViolation(protocolName: Self.protocolName, violation: "unexpected state for service request: \(message)")
 
         case (.server, .authenticationSucceeded):
@@ -121,6 +126,7 @@ extension UserAuthenticationStateMachine {
             throw NIOSSHError.protocolViolation(protocolName: Self.protocolName, violation: "unsolicited service accept message: \(message)")
         case (.client, .awaitingNextRequest),
              (.client, .awaitingResponses),
+             (.client, .awaitingInfoResponse),
              (.client, .authenticationFailed):
             // In these states we aren't expecting a service accept message
             throw NIOSSHError.protocolViolation(protocolName: Self.protocolName, violation: "unsolicited service accept message: \(message)")
@@ -147,6 +153,10 @@ extension UserAuthenticationStateMachine {
 
         case (.server, .idle), (.server, .awaitingServiceAcceptance):
             throw NIOSSHError.protocolViolation(protocolName: Self.protocolName, violation: "user auth request before service accepted")
+
+        case (.server, .awaitingInfoResponse):
+            // Client-only state, as above.
+            throw NIOSSHError.protocolViolation(protocolName: Self.protocolName, violation: "user auth request while awaiting a keyboard-interactive response")
 
         case (.server, .authenticationSucceeded):
             // We ignore messages after authentication succeeded.
@@ -322,6 +332,7 @@ extension UserAuthenticationStateMachine {
             preconditionFailure("Duplicate service request")
         case (.client, .awaitingNextRequest),
              (.client, .awaitingResponses),
+             (.client, .awaitingInfoResponse),
              (.client, .authenticationSucceeded),
              (.client, .authenticationFailed):
             preconditionFailure("May not send service request in \(self.state)")
@@ -339,6 +350,7 @@ extension UserAuthenticationStateMachine {
             preconditionFailure("Cannot accept a service that hasn't been requested")
         case (.server, .awaitingNextRequest),
              (.server, .awaitingResponses),
+             (.server, .awaitingInfoResponse),
              (.server, .authenticationSucceeded),
              (.server, .authenticationFailed):
             preconditionFailure("May not send service request in \(self.state)")
@@ -407,6 +419,8 @@ extension UserAuthenticationStateMachine {
             }
         case (.server, .authenticationSucceeded):
             preconditionFailure("Authentication already succeeded, further messages are unnecessary.")
+        case (.server, .awaitingInfoResponse):
+            preconditionFailure("Servers never send keyboard-interactive info requests, so can never await one's response")
         case (.server, .authenticationFailed):
             preconditionFailure("Servers can never enter authenticationFailed")
         case (.client, _):
@@ -461,6 +475,8 @@ extension UserAuthenticationStateMachine {
             }
         case (.server, .authenticationSucceeded):
             preconditionFailure("Authentication already succeeded, further messages are unnecessary.")
+        case (.server, .awaitingInfoResponse):
+            preconditionFailure("Servers never send keyboard-interactive info requests, so can never await one's response")
         case (.server, .authenticationFailed):
             preconditionFailure("Servers can never enter authenticationFailed")
         case (.client, _):
@@ -480,6 +496,7 @@ extension UserAuthenticationStateMachine {
         case (.client, .awaitingServiceAcceptance),
              (.client, .awaitingNextRequest),
              (.client, .awaitingResponses),
+             (.client, .awaitingInfoResponse),
              (.client, .authenticationSucceeded),
              (.client, .authenticationFailed):
             // TODO(cory): We could probably support parallel auth attempts if we wanted to.
@@ -498,6 +515,7 @@ extension UserAuthenticationStateMachine {
              (.client, .awaitingServiceAcceptance):
             preconditionFailure("Ran out of auth methods before asking for any")
         case (.client, .awaitingResponses),
+             (.client, .awaitingInfoResponse),
              (.client, .authenticationSucceeded),
              (.client, .authenticationFailed):
             // TODO(cory): We could probably support parallel auth attempts if we wanted to.
