@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- CloudKit's private database, for hosts, groups, snippets, tunnels and
+	     host-key fingerprints. Nothing secret goes here: private keys,
+	     passphrases and passwords live in the Keychain and the synced model
+	     holds only an opaque reference to them. -->
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudKit</string>
+	</array>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.nl.rorymeijer.sssh</string>
+	</array>
+
+	<!-- The Keychain group the secrets store writes to. Secrets are wrapped
+	     with a Secure Enclave key before they go in; iCloud Keychain sync is
+	     opt-in and off by default. -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)nl.rorymeijer.sssh</string>
+	</array>
+
+	<!-- No background modes. A connection that survives the app being closed
+	     is a connection nobody is looking at, and this app does not want one. -->
+</dict>
+</plist>

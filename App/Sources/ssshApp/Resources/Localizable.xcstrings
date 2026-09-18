@@ -1,0 +1,4542 @@
+{
+  "sourceLanguage": "nl",
+  "strings": {
+    "%@ (%@)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (%@)"
+          }
+        }
+      },
+      "comment": "Appends a technical reason to a tunnel failure"
+    },
+    "%@ De server zegt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ The server says: %@"
+          }
+        }
+      },
+      "comment": "Appends the server's own explanation to a failure message"
+    },
+    "%@ begreep sssh niet: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh could not read %@: %@"
+          }
+        }
+      },
+      "comment": "Names a setting whose value could not be read"
+    },
+    "%@ bestaat al.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ already exists."
+          }
+        }
+      },
+      "comment": "Says which path already exists"
+    },
+    "%@ bestaat niet (meer).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ does not exist (any more)."
+          }
+        }
+      },
+      "comment": "An SFTP operation named a path the server does not have"
+    },
+    "%@ is beveiligd met een wachtwoordzin.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is protected by a passphrase."
+          }
+        }
+      },
+      "comment": "An encrypted key was supplied without its passphrase"
+    },
+    "%@ kon niet worden gelezen als sleutelbestand.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ could not be read as a key file."
+          }
+        }
+      },
+      "comment": "The key file could not be parsed at all"
+    },
+    "%@ wordt door sssh niet gebruikt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not use %@."
+          }
+        }
+      },
+      "comment": "Names a setting sssh has no equivalent for"
+    },
+    "%@, afgerond, afsluitcode onbekend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, finished, exit status unknown"
+          }
+        }
+      },
+      "comment": "Accessibility label for a finished block with no reported exit status"
+    },
+    "%@, gelukt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, succeeded"
+          }
+        }
+      },
+      "comment": "Accessibility label for a successful command block"
+    },
+    "%@, loopt nog": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, still running"
+          }
+        }
+      },
+      "comment": "Accessibility label for a running command block"
+    },
+    "%@, mislukt met code %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, failed with status %lld"
+          }
+        }
+      },
+      "comment": "Accessibility label for a failed command block, with its exit status"
+    },
+    "%@/s": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/s"
+          }
+        }
+      },
+      "comment": "A transfer rate, as bytes per second"
+    },
+    "%lld actief": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld active"
+          }
+        }
+      },
+      "comment": "How many connections are open through a tunnel"
+    },
+    "%lld bezig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld in progress"
+          }
+        }
+      },
+      "comment": "How many transfers are still running or waiting"
+    },
+    "%lld geselecteerd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld selected"
+          }
+        }
+      },
+      "comment": "How many files are selected"
+    },
+    "%lld invulveld(en)": {
+      "extractionState": "manual",
+      "comment": "How many placeholders a snippet has",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld invulveld"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld invulvelden"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld field"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fields"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld melding(en)": {
+      "extractionState": "manual",
+      "comment": "How many warnings a host produced during import",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld melding"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld meldingen"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warning"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warnings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld procent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld percent"
+          }
+        }
+      },
+      "comment": "Accessibility value: the divider position as a percentage"
+    },
+    "%lld tunnel(s)": {
+      "extractionState": "manual",
+      "comment": "How many tunnels a host brings with it",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnel"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnels"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnel"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnels"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld vensters": {
+      "extractionState": "manual",
+      "comment": "Accessibility label for the pane count on a tab",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld venster"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld vensters"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pane"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld panes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "(geen opdracht)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(no command)"
+          }
+        }
+      },
+      "comment": "Placeholder for a block whose command could not be recovered"
+    },
+    "Aan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        }
+      },
+      "comment": "Toggle that starts or stops a tunnel"
+    },
+    "Aangeboden sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presented key"
+          }
+        }
+      },
+      "comment": "Label for the host key the server presented"
+    },
+    "Aanmaken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        }
+      },
+      "comment": "Button that creates a new folder"
+    },
+    "Aanmelden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authenticating"
+          }
+        }
+      },
+      "comment": "Section header: authentication"
+    },
+    "Aanmelden is mislukt. Geprobeerd: %@. De server accepteert: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign-in failed. Tried: %@. The server accepts: %@."
+          }
+        }
+      },
+      "comment": "Authentication failed; lists what was tried and what the server accepts"
+    },
+    "Aanmelden met": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with"
+          }
+        }
+      },
+      "comment": "Field label: how to authenticate"
+    },
+    "Actief": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      },
+      "comment": "Section header for running tunnels"
+    },
+    "Adres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Address"
+          }
+        }
+      },
+      "comment": "Field label: hostname or IP address"
+    },
+    "Afgerond wissen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear finished"
+          }
+        }
+      },
+      "comment": "Button that clears finished transfers from the queue"
+    },
+    "Alleen op deze host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On this host only"
+          }
+        }
+      },
+      "comment": "Marks a snippet as host-specific"
+    },
+    "Alles": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        }
+      },
+      "comment": "Block filter: show every command"
+    },
+    "Alles annuleren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel all"
+          }
+        }
+      },
+      "comment": "Button that cancels every queued transfer"
+    },
+    "Alles selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select all"
+          }
+        }
+      },
+      "comment": "Button that selects every host"
+    },
+    "Anderen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Others"
+          }
+        }
+      },
+      "comment": "Permission class: everyone else"
+    },
+    "Annuleer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      },
+      "comment": "Button: cancel the credential prompt"
+    },
+    "Appvergrendeling": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App lock"
+          }
+        }
+      },
+      "comment": "Toggle that turns the app lock on"
+    },
+    "Balk": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bar"
+          }
+        }
+      },
+      "comment": "Cursor style: bar"
+    },
+    "Balk, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bar, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady bar"
+    },
+    "Beide bewaren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep both"
+          }
+        }
+      },
+      "comment": "Collision option: keep both files by renaming the new one"
+    },
+    "Bereikbaar vanaf het netwerk": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reachable from the network"
+          }
+        }
+      },
+      "comment": "Warning that a tunnel is not bound to loopback"
+    },
+    "Bestand %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a file row without a known size"
+    },
+    "Bestand %@, %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File %@, %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a file row, with its size"
+    },
+    "Bestand kiezen…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose file…"
+          }
+        }
+      },
+      "comment": "Button that opens the file picker"
+    },
+    "Bestanden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files"
+          }
+        }
+      },
+      "comment": "Title of the file browser"
+    },
+    "Bestandsoverdracht komt in een volgende versie.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File transfer is coming in a later version."
+          }
+        }
+      },
+      "comment": "SFTP is not implemented yet"
+    },
+    "Betere blokken met shell-integratie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Better blocks with shell integration"
+          }
+        }
+      },
+      "comment": "Button offering to show the shell integration snippet"
+    },
+    "Beveiliging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security"
+          }
+        }
+      },
+      "comment": "Title of the security settings"
+    },
+    "Bewaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      },
+      "comment": "Button: save the host"
+    },
+    "Bewaar opdrachten die je vaker gebruikt. Met {{naam}} vraagt sssh om een waarde voordat het wordt verstuurd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save commands you use often. With {{name}}, sssh asks for a value before sending it."
+          }
+        }
+      },
+      "comment": "Empty state body for the snippet library, explaining the placeholder syntax"
+    },
+    "Bewaren in de sleutelhanger": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save to the keychain"
+          }
+        }
+      },
+      "comment": "Checkbox: store this secret in the Keychain"
+    },
+    "Bewaren is mislukt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving failed: %@"
+          }
+        }
+      },
+      "comment": "Shown when saving the host record failed"
+    },
+    "Bewerken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        }
+      },
+      "comment": "Context menu: edit this host's settings"
+    },
+    "Bezig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running"
+          }
+        }
+      },
+      "comment": "A transfer that is running"
+    },
+    "Blok": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Block"
+          }
+        }
+      },
+      "comment": "Cursor style: block"
+    },
+    "Blok, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Block, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady block"
+    },
+    "Cursor": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cursor"
+          }
+        }
+      },
+      "comment": "Label for the cursor style picker"
+    },
+    "De extra verificatie is afgebroken.": {
+      "comment": "A keyboard-interactive challenge was cancelled or could not be answered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The additional verification was cancelled."
+          }
+        }
+      }
+    },
+    "De hostsleutel van %@ is geweigerd. Er is geen verbinding gemaakt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The host key for %@ was refused. No connection was made."
+          }
+        }
+      },
+      "comment": "Shown after the user refuses a host key, or after a mismatch"
+    },
+    "De hostsleutel van %@ is veranderd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The host key for %@ has changed"
+          }
+        }
+      },
+      "comment": "Title of the sheet shown when a host key does not match the stored one"
+    },
+    "De meeste servers laten alleen 127.0.0.1 toe, tenzij GatewayPorts aanstaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most servers allow only 127.0.0.1 unless GatewayPorts is on."
+          }
+        }
+      },
+      "comment": "Warns that most servers refuse a non-loopback remote bind"
+    },
+    "De opmerking staat achteraan de publieke sleutel en helpt je later terugvinden welke sleutel waar hoort.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The comment goes at the end of the public key and helps you work out later which key belongs where."
+          }
+        }
+      },
+      "comment": "Explains what the key comment is for"
+    },
+    "De privésleutel gaat hoe dan ook versleuteld in de sleutelhanger. Een wachtwoordzin beschermt het bestand áls je het exporteert.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The private key goes into the keychain encrypted either way. A passphrase protects the file if you export it."
+          }
+        }
+      },
+      "comment": "Explains that the passphrase protects an exported file, not the stored key"
+    },
+    "De server kon de bewerking niet uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server could not carry out the operation."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation without saying why"
+    },
+    "De server kon de bewerking op %@ niet uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server could not carry out the operation on %@."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation without saying why, naming the path"
+    },
+    "De server ondersteunt deze bewerking niet: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server does not support this operation: %@."
+          }
+        }
+      },
+      "comment": "The server does not implement the requested SFTP operation"
+    },
+    "De server sprak het SFTP-protocol niet correct: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server did not speak the SFTP protocol correctly: %@."
+          }
+        }
+      },
+      "comment": "The server sent something the SFTP protocol does not allow"
+    },
+    "De server spreekt SFTP-versie %lld; sssh heeft minstens versie 3 nodig.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server speaks SFTP version %lld; sssh needs at least version 3."
+          }
+        }
+      },
+      "comment": "The server offered an SFTP protocol version this client cannot speak"
+    },
+    "De server vraagt om aanvullende gegevens.": {
+      "comment": "Fallback when a keyboard-interactive challenge carries no instruction",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server is asking for more information."
+          }
+        }
+      }
+    },
+    "De server weigerde een verzoek: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server refused a request: %@"
+          }
+        }
+      },
+      "comment": "A channel request was refused; placeholder is a technical detail"
+    },
+    "De server wil niet luisteren op %@:%lld. Vaak staat GatewayPorts uit, of is de poort daar al bezet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server will not listen on %@:%lld. Usually GatewayPorts is off, or the port is already taken there."
+          }
+        }
+      },
+      "comment": "The server refused a remote forward request"
+    },
+    "De shell is gestopt door signaal %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shell was stopped by signal %@."
+          }
+        }
+      },
+      "comment": "Shown when the remote shell was killed by a signal"
+    },
+    "De shell is gestopt met afsluitcode %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shell exited with status %lld."
+          }
+        }
+      },
+      "comment": "Shown when the remote shell exited with a non-zero status"
+    },
+    "De sleutel %@ is beveiligd met een wachtwoordzin.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The key %@ is protected by a passphrase."
+          }
+        }
+      },
+      "comment": "Says which key file needs a passphrase"
+    },
+    "De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssh, en je werk blijft draaien als de verbinding wegvalt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux windows and panes become tabs and splits in sssh, and your work keeps running when the connection drops."
+          }
+        }
+      },
+      "comment": "Footer explaining what tmux control mode buys the user"
+    },
+    "De verbinding is door de server verbroken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server closed the connection."
+          }
+        }
+      },
+      "comment": "The remote end closed the connection"
+    },
+    "De verbinding is verbroken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection was closed."
+          }
+        }
+      },
+      "comment": "The user disconnected"
+    },
+    "De verbinding is weggevallen tijdens de overdracht.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection dropped during the transfer."
+          }
+        }
+      },
+      "comment": "The SSH connection dropped during a transfer"
+    },
+    "De verbinding reageert niet meer.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection has stopped responding."
+          }
+        }
+      },
+      "comment": "Keep-alive probes went unanswered"
+    },
+    "De wachtwoordzin voor %@ klopt niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The passphrase for %@ is not correct."
+          }
+        }
+      },
+      "comment": "The passphrase for a private key was wrong"
+    },
+    "De wachtwoordzinnen zijn niet gelijk.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The passphrases do not match."
+          }
+        }
+      },
+      "comment": "Shown when the two passphrase fields differ"
+    },
+    "Deel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      },
+      "comment": "Menu item that shares a block as text"
+    },
+    "Deze host gebruikt nu deze sleutel.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This host now uses this key."
+          }
+        }
+      },
+      "comment": "Confirms the generated key was attached to the host"
+    },
+    "Deze host heeft nog geen tunnels.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This host has no tunnels yet."
+          }
+        }
+      },
+      "comment": "Empty state in the tunnel panel"
+    },
+    "Deze naam wordt op de server opgezocht, niet hier. Daarom werkt een adres dat alleen daar bestaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This name is resolved on the server, not here, which is why an address that only exists there works."
+          }
+        }
+      },
+      "comment": "Explains that the destination is resolved on the server"
+    },
+    "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.": {
+      "comment": "The server only offers pre-2014 key exchange or ciphers",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This server only offers outdated encryption that sssh does not support. Update the server, or use OpenSSH."
+          }
+        }
+      }
+    },
+    "Deze tunnel is nog niet compleet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This tunnel is not complete yet."
+          }
+        }
+      },
+      "comment": "Shown on a saved tunnel that is missing a host or port"
+    },
+    "Direct uitvoeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run immediately"
+          }
+        }
+      },
+      "comment": "Toggle: send a newline after the snippet"
+    },
+    "Dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device"
+          }
+        }
+      },
+      "comment": "Title of the local side of the file browser"
+    },
+    "Dit apparaat heeft geen toegangscode. Zonder toegangscode kan sssh niets vergrendelen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device has no passcode. Without one, sssh has nothing to lock with."
+          }
+        }
+      },
+      "comment": "Explains that the lock needs a device passcode"
+    },
+    "Dit kan betekenen dat de server opnieuw is geïnstalleerd. Het kan ook betekenen dat iemand het verkeer onderschept. Verbind alleen als u weet welke van de twee het is.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This can mean the server was reinstalled. It can also mean someone is intercepting the traffic. Only connect if you know which it is."
+          }
+        }
+      },
+      "comment": "Explains the two reasons a host key changes and advises caution"
+    },
+    "Dit kan niet ongedaan worden gemaakt: op een server is er geen prullenbak.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This cannot be undone: a server has no trash."
+          }
+        }
+      },
+      "comment": "Warning that remote deletion is permanent"
+    },
+    "Dit sleuteltype wordt nog niet ondersteund.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This key type is not supported yet."
+          }
+        }
+      },
+      "comment": "A private key file type is not supported"
+    },
+    "Download": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download"
+          }
+        }
+      },
+      "comment": "Button that downloads the selected remote files"
+    },
+    "Dynamisch (-D)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic (-D)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: dynamic SOCKS proxy"
+    },
+    "Ed25519": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ed25519"
+          }
+        }
+      },
+      "comment": "Key type: Ed25519"
+    },
+    "Ed25519 is korter, sneller en op elke server sinds 2014 bruikbaar. Kies dit tenzij je weet dat je RSA nodig hebt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ed25519 is shorter, faster, and works on every server since 2014. Choose this unless you know you need RSA."
+          }
+        }
+      },
+      "comment": "Explains why Ed25519 is the default"
+    },
+    "Een SOCKS5-proxy op dit apparaat. De server maakt de verbindingen, dus het verkeer lijkt daarvandaan te komen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A SOCKS5 proxy on this device. The server makes the connections, so the traffic appears to come from there."
+          }
+        }
+      },
+      "comment": "Explains what a dynamic forward does"
+    },
+    "Een naam mag geen schuine streep bevatten en kan niet . of .. zijn.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A name cannot contain a slash, and cannot be . or .."
+          }
+        }
+      },
+      "comment": "Explains why a proposed filename is not allowed"
+    },
+    "Een profiel bepaalt lettertype, kleuren en cursor. Je kunt er een per host of per groep instellen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A profile sets the font, colours and cursor. You can assign one per host or per group."
+          }
+        }
+      },
+      "comment": "Empty state body for the terminal profile list"
+    },
+    "Een tunnel loopt over deze verbinding en stopt als die wegvalt. Tunnels die automatisch starten komen bij elke herverbinding terug.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A tunnel runs over this connection and stops when it drops. Tunnels that start automatically come back on every reconnection."
+          }
+        }
+      },
+      "comment": "Footer explaining that tunnels live and die with the connection"
+    },
+    "Eenmalig verbinden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect once"
+          }
+        }
+      },
+      "comment": "Button: accept the host key for this connection only"
+    },
+    "Eerder vertrouwd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previously trusted"
+          }
+        }
+      },
+      "comment": "Label for a host key that was trusted before"
+    },
+    "Eerste verbinding met %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First connection to %@"
+          }
+        }
+      },
+      "comment": "Title of the sheet shown on a first connection to a host"
+    },
+    "Eigenaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Owner"
+          }
+        }
+      },
+      "comment": "Permission class: the file's owner"
+    },
+    "Elke keer vragen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask every time"
+          }
+        }
+      },
+      "comment": "Authentication method: prompt on every connection"
+    },
+    "Er bestaat al iets met deze naam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something with this name already exists"
+          }
+        }
+      },
+      "comment": "Title of the file collision prompt"
+    },
+    "Er is al iets bewaard voor deze host. Laat het veld leeg om dat te houden.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something is already saved for this host. Leave the field empty to keep it."
+          }
+        }
+      },
+      "comment": "Shown when a secret already exists, explaining that leaving the field blank keeps it"
+    },
+    "Er is geen verbinding.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There is no connection."
+          }
+        }
+      },
+      "comment": "An operation was attempted with no connection"
+    },
+    "Er is iets misgegaan: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong: %@"
+          }
+        }
+      },
+      "comment": "Fallback when a failure has no better description"
+    },
+    "Er kwam een verbinding binnen, maar %@:%lld op dit apparaat antwoordde niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A connection came in, but %@:%lld on this device did not answer."
+          }
+        }
+      },
+      "comment": "A remote forward arrived but the local destination was not listening"
+    },
+    "Er wordt niets bewaard. sssh vraagt bij elke verbinding om een wachtwoord.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is saved. sssh asks for a password on every connection."
+          }
+        }
+      },
+      "comment": "Explains that nothing is stored for this authentication method"
+    },
+    "Extern (-R)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remote (-R)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: remote forward"
+    },
+    "Extra verificatie nodig": {
+      "comment": "Title of a keyboard-interactive prompt when the server gave no name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Additional verification needed"
+          }
+        }
+      }
+    },
+    "Filter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        }
+      },
+      "comment": "Accessibility label for the block outcome filter"
+    },
+    "Fragment": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snippet"
+          }
+        }
+      },
+      "comment": "Title of the snippet editor"
+    },
+    "Fragment toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add snippet"
+          }
+        }
+      },
+      "comment": "Button that adds a snippet"
+    },
+    "Fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snippets"
+          }
+        }
+      },
+      "comment": "Title of the snippet library"
+    },
+    "Ga naar host of voer opdracht uit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to a host or run a command"
+          }
+        }
+      },
+      "comment": "Placeholder in the command palette search field"
+    },
+    "Ga naar…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to…"
+          }
+        }
+      },
+      "comment": "Menu item that opens the command palette"
+    },
+    "Geannuleerd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelled."
+          }
+        }
+      },
+      "comment": "A transfer was cancelled by the user"
+    },
+    "Gebruik de lijst met opdrachten om de uitvoer als tekst te lezen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the command list to read the output as text."
+          }
+        }
+      },
+      "comment": "Accessibility hint pointing VoiceOver users at the command block list"
+    },
+    "Gebruikersnaam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Username"
+          }
+        }
+      },
+      "comment": "Field label: the SSH username"
+    },
+    "Geen fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No snippets"
+          }
+        }
+      },
+      "comment": "Empty state title for the snippet library"
+    },
+    "Geen groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No group"
+          }
+        }
+      },
+      "comment": "Menu item that removes a host from its group"
+    },
+    "Geen opdracht in deze sessie komt overeen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No command in this session matches."
+          }
+        }
+      },
+      "comment": "Empty state body when a block filter matches nothing"
+    },
+    "Geen profielen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No profiles"
+          }
+        }
+      },
+      "comment": "Empty state title for the terminal profile list"
+    },
+    "Geen resultaten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No results"
+          }
+        }
+      },
+      "comment": "Empty state title when a block filter matches nothing"
+    },
+    "Geen sessie geopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No session open"
+          }
+        }
+      },
+      "comment": "Empty state title when no session tab is open"
+    },
+    "Geen toegang tot %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No access to %@."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation for lack of permission"
+    },
+    "Geen uitvoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No output"
+          }
+        }
+      },
+      "comment": "Shown when an expanded block produced no output"
+    },
+    "Gekopieerd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied"
+          }
+        }
+      },
+      "comment": "Confirmation after copying the shell integration snippet"
+    },
+    "Gereed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      },
+      "comment": "Button that closes the shell integration sheet"
+    },
+    "Gewijzigd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modified"
+          }
+        }
+      },
+      "comment": "Sort files by modification date"
+    },
+    "Groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Group"
+          }
+        }
+      },
+      "comment": "Permission class: the file's group"
+    },
+    "Grootte": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size"
+          }
+        }
+      },
+      "comment": "Sort files by size"
+    },
+    "Groter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bigger"
+          }
+        }
+      },
+      "comment": "View menu: increase the terminal text size"
+    },
+    "Hervatten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        }
+      },
+      "comment": "Collision option: continue an interrupted transfer"
+    },
+    "Hervatten werkt alleen als het bestaande bestand korter is dan het origineel. Is het langer, dan is het een ander bestand en wordt er opnieuw begonnen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resuming only applies when the existing file is shorter than the original. If it is longer it is a different file, and the transfer starts over."
+          }
+        }
+      },
+      "comment": "Explains when resuming applies"
+    },
+    "Het bewaren in de sleutelhanger is mislukt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving to the keychain failed: %@"
+          }
+        }
+      },
+      "comment": "Shown when writing a secret to the Keychain failed"
+    },
+    "Host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Host"
+          }
+        }
+      },
+      "comment": "Placeholder for a tunnel's destination host"
+    },
+    "Host bewerken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit host"
+          }
+        }
+      },
+      "comment": "Title when editing a host"
+    },
+    "Hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hosts"
+          }
+        }
+      },
+      "comment": "Sidebar title: the list of saved hosts"
+    },
+    "Hosts en instellingen synchroniseren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync hosts and settings"
+          }
+        }
+      },
+      "comment": "Toggle for CloudKit sync of configuration"
+    },
+    "Hosts, groepen, fragmenten, tunnels en hostsleutel-vingerafdrukken gaan via je eigen iCloud. Wachtwoorden en sleutels niet — die staan in de sleutelhanger. Een wijziging werkt bij de volgende start.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hosts, groups, snippets, tunnels and host key fingerprints go through your own iCloud. Passwords and keys do not — those are in the keychain. A change takes effect at the next launch."
+          }
+        }
+      },
+      "comment": "Explains exactly what configuration sync covers and that it needs a restart"
+    },
+    "Iets op de server verbindt met een poort daar, en komt uit op dit apparaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something on the server connects to a port there and arrives on this device."
+          }
+        }
+      },
+      "comment": "Explains what a remote forward does"
+    },
+    "Iets op dit apparaat verbindt met een poort hier, en komt uit op de server.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something on this device connects to a port here and arrives on the server."
+          }
+        }
+      },
+      "comment": "Explains what a local forward does"
+    },
+    "Ik weet waarom deze sleutel is veranderd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I know why this key changed"
+          }
+        }
+      },
+      "comment": "Checkbox the user must tick before they can trust a changed host key"
+    },
+    "Importeer %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import %lld"
+          }
+        }
+      },
+      "comment": "Button that imports the selected hosts, with the count"
+    },
+    "In wachtrij": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Queued"
+          }
+        }
+      },
+      "comment": "A transfer that has not started yet"
+    },
+    "Include %@ is niet gevolgd. Importeer dat bestand apart.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include %@ was not followed. Import that file separately."
+          }
+        }
+      },
+      "comment": "Explains that Include was not followed"
+    },
+    "Instellingen worden niet bewaard": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings are not being saved"
+          }
+        }
+      },
+      "comment": "Banner title when the database could not be opened"
+    },
+    "Invoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert"
+          }
+        }
+      },
+      "comment": "Button that types a snippet without running it"
+    },
+    "Invoer gaat naar alle %lld vensters": {
+      "extractionState": "manual",
+      "comment": "Banner shown while broadcast input is on, with the number of panes",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Invoer gaat naar alle %lld vensters"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Invoer gaat naar alle %lld vensters"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Input goes to all %lld panes"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Input goes to all %lld panes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Invoer naar alle vensters": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input to all panes"
+          }
+        }
+      },
+      "comment": "Menu item that toggles broadcast input"
+    },
+    "Invoer wordt uitgezonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input is being broadcast"
+          }
+        }
+      },
+      "comment": "Broadcast banner title"
+    },
+    "Invulvelden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fields"
+          }
+        }
+      },
+      "comment": "Section header listing a snippet's placeholders"
+    },
+    "Je privésleutels en wachtwoorden komen dan op je andere Apple-apparaten te staan, via de iCloud-sleutelhanger. Dat is end-to-end versleuteld, maar ze staan dan niet langer alleen hier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your private keys and passwords will then be on your other Apple devices, through iCloud Keychain. That is end-to-end encrypted, but they will no longer be only here."
+          }
+        }
+      },
+      "comment": "Explains what turning on secret sync does before it happens"
+    },
+    "Je sessies blijven open. Ontgrendel om ze weer te zien.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your sessions stay open. Unlock to see them again."
+          }
+        }
+      },
+      "comment": "Body on the lock screen, saying sessions are not closed"
+    },
+    "Kan %@ niet bereiken (%@).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot reach %@ (%@)."
+          }
+        }
+      },
+      "comment": "The TCP connection could not be made; second placeholder is a technical reason"
+    },
+    "Kan %@ niet bereiken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot reach %@."
+          }
+        }
+      },
+      "comment": "The TCP connection could not be made"
+    },
+    "Kant": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Side"
+          }
+        }
+      },
+      "comment": "Accessibility label for the local/remote picker"
+    },
+    "Kies een host in de zijbalk en verbind om te beginnen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a host in the sidebar and connect to get started."
+          }
+        }
+      },
+      "comment": "Empty state body when no session tab is open"
+    },
+    "Kies je SSH-config": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your SSH config"
+          }
+        }
+      },
+      "comment": "Prompt to choose an ssh config file"
+    },
+    "Klaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      },
+      "comment": "A transfer that finished successfully"
+    },
+    "Kleiner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smaller"
+          }
+        }
+      },
+      "comment": "View menu: decrease the terminal text size"
+    },
+    "Kleuren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colours"
+          }
+        }
+      },
+      "comment": "Section header for the colour scheme picker"
+    },
+    "Kopieer naar klembord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy to clipboard"
+          }
+        }
+      },
+      "comment": "Button that copies the shell integration snippet"
+    },
+    "Kopieer opdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy command"
+          }
+        }
+      },
+      "comment": "Menu item that copies a block's command"
+    },
+    "Kopieer publieke sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy public key"
+          }
+        }
+      },
+      "comment": "Button that copies the generated public key"
+    },
+    "Kopieer uitvoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy output"
+          }
+        }
+      },
+      "comment": "Menu item that copies a block's output"
+    },
+    "Laat de wachtwoordzin leeg om er elke keer om te worden gevraagd. Dat is veiliger.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave the passphrase empty to be asked for it every time. That is safer."
+          }
+        }
+      },
+      "comment": "Explains that leaving the passphrase empty means being prompted each time"
+    },
+    "Label: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag: %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a host's tag chip"
+    },
+    "Labels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags"
+          }
+        }
+      },
+      "comment": "Menu section header for the tag filter"
+    },
+    "Labels, door komma's gescheiden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags, separated by commas"
+          }
+        }
+      },
+      "comment": "Field label: comma-separated tags"
+    },
+    "Lezen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read"
+          }
+        }
+      },
+      "comment": "Permission bit: read"
+    },
+    "Ligaturen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligatures"
+          }
+        }
+      },
+      "comment": "Toggle for programming ligatures"
+    },
+    "Lokaal (-L)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local (-L)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: local forward"
+    },
+    "Loopt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running"
+          }
+        }
+      },
+      "comment": "Block filter: show only commands still running"
+    },
+    "Luisteren op de server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen on the server"
+          }
+        }
+      },
+      "comment": "Section header for a remote forward's listening address"
+    },
+    "Luisteren op dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen on this device"
+          }
+        }
+      },
+      "comment": "Section header for the local listening address"
+    },
+    "Maken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        }
+      },
+      "comment": "Button that generates the key"
+    },
+    "Map %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a directory row"
+    },
+    "Map kan niet worden geopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder cannot be opened"
+          }
+        }
+      },
+      "comment": "Title shown when a directory could not be listed"
+    },
+    "Match %@ is overgeslagen: daarvoor zou sssh een opdracht moeten uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Match %@ was skipped: evaluating it would mean sssh running a command."
+          }
+        }
+      },
+      "comment": "Explains that a Match block was skipped"
+    },
+    "Meer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        }
+      },
+      "comment": "Accessibility label for the sidebar's overflow menu"
+    },
+    "Meer regels kosten geheugen, per venster. Bij veel gesplitste vensters telt dat op.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More lines cost memory, per pane. With many splits that adds up."
+          }
+        }
+      },
+      "comment": "Explains the cost of a large scrollback"
+    },
+    "Meestal ~/.ssh/config. sssh leest het bestand alleen; er wordt niets aan veranderd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usually ~/.ssh/config. sssh only reads the file; nothing is changed."
+          }
+        }
+      },
+      "comment": "Explains where the config lives and that sssh does not modify it"
+    },
+    "Meld aan als %@ op %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in as %@ on %@."
+          }
+        }
+      },
+      "comment": "Says which account on which host is being authenticated"
+    },
+    "Melding sluiten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dismiss message"
+          }
+        }
+      },
+      "comment": "Accessibility label for dismissing a tunnel error"
+    },
+    "Met onderstaande regels stuurt je shell zelf de standaardmarkeringen (OSC 133). Andere terminals lezen ze ook, dus je zit nergens aan vast.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The lines below make your shell send the standard markers (OSC 133) itself. Other terminals read them too, so nothing here ties you to sssh."
+          }
+        }
+      },
+      "comment": "Explains that the snippet uses a standard other terminals also read"
+    },
+    "Met {{naam}} vraagt sssh om een waarde. {{naam=standaard}} vult er alvast een in. Accolades in shell-scripts blijven gewoon staan.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With {{name}}, sssh asks for a value. {{name=default}} fills one in. Braces in shell scripts are left alone."
+          }
+        }
+      },
+      "comment": "Explains the snippet placeholder syntax"
+    },
+    "Meteen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immediately"
+          }
+        }
+      },
+      "comment": "Lock delay: immediately"
+    },
+    "Mislukt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed"
+          }
+        }
+      },
+      "comment": "Block filter: show only commands that reported a non-zero exit status"
+    },
+    "Na 1 minuut": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 1 minute"
+          }
+        }
+      },
+      "comment": "Lock delay: one minute"
+    },
+    "Na 15 minuten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 15 minutes"
+          }
+        }
+      },
+      "comment": "Lock delay: fifteen minutes"
+    },
+    "Na 5 minuten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After 5 minutes"
+          }
+        }
+      },
+      "comment": "Lock delay: five minutes"
+    },
+    "Naam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      },
+      "comment": "Field label: the host's display name"
+    },
+    "Naam van de tmux-sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux session name"
+          }
+        }
+      },
+      "comment": "Field for the tmux session to attach to or create"
+    },
+    "Naam wijzigen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        }
+      },
+      "comment": "Title of the rename prompt"
+    },
+    "Naam wijzigen…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename…"
+          }
+        }
+      },
+      "comment": "Menu item that renames a file"
+    },
+    "Naar bovenliggende map": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to enclosing folder"
+          }
+        }
+      },
+      "comment": "Accessibility label for the go-up button"
+    },
+    "Naar thuismap": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to home folder"
+          }
+        }
+      },
+      "comment": "Accessibility label for the go-home button"
+    },
+    "Naartoe, gezien vanaf de server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To, as seen from the server"
+          }
+        }
+      },
+      "comment": "Section header for a local forward's destination"
+    },
+    "Naartoe, op dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To, on this device"
+          }
+        }
+      },
+      "comment": "Section header for a remote forward's local destination"
+    },
+    "Niet alle uitvoer is bewaard.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not all output was kept."
+          }
+        }
+      },
+      "comment": "Warning shown on a block whose output was capped or skipped"
+    },
+    "Niet overgenomen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not imported"
+          }
+        }
+      },
+      "comment": "Section header for settings that were not imported"
+    },
+    "Niet verbonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not connected"
+          }
+        }
+      },
+      "comment": "Connection state: nothing attempted yet"
+    },
+    "Niets selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select none"
+          }
+        }
+      },
+      "comment": "Button that deselects every host"
+    },
+    "Nieuwe groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New group"
+          }
+        }
+      },
+      "comment": "Default name for a newly created group"
+    },
+    "Nieuwe host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New host"
+          }
+        }
+      },
+      "comment": "Title when adding a host"
+    },
+    "Nieuwe map": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New folder"
+          }
+        }
+      },
+      "comment": "Title of the new folder prompt"
+    },
+    "Nieuwe sleutel maken…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a new key…"
+          }
+        }
+      },
+      "comment": "Button that opens the key generator"
+    },
+    "Nog een keer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Once more"
+          }
+        }
+      },
+      "comment": "Field label confirming the passphrase"
+    },
+    "Nog geen hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hosts yet"
+          }
+        }
+      },
+      "comment": "Empty state title when no hosts are saved"
+    },
+    "Nog geen opdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No commands yet"
+          }
+        }
+      },
+      "comment": "Empty state title for the command block list"
+    },
+    "Nooit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        }
+      },
+      "comment": "Lock delay: never"
+    },
+    "Normale grootte": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actual size"
+          }
+        }
+      },
+      "comment": "View menu: reset the terminal text size"
+    },
+    "Octaal": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octal"
+          }
+        }
+      },
+      "comment": "Label for the octal permissions field"
+    },
+    "Omschrijving": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Description"
+          }
+        }
+      },
+      "comment": "Field label for a snippet's description"
+    },
+    "Onbegrepen regel: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Line not understood: %@"
+          }
+        }
+      },
+      "comment": "Names a config line that could not be parsed at all"
+    },
+    "Onbekend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      },
+      "comment": "The device key's protection could not be determined"
+    },
+    "Ontgrendel met %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock with %@"
+          }
+        }
+      },
+      "comment": "Unlock button, naming the biometric method"
+    },
+    "Ontgrendel sssh om verder te gaan met je sessies.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock sssh to get back to your sessions."
+          }
+        }
+      },
+      "comment": "Reason shown by the system when asking for Face ID, Touch ID or the passcode"
+    },
+    "Ontgrendelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock"
+          }
+        }
+      },
+      "comment": "Unlock button with no biometric method"
+    },
+    "Ontgrendelen kan met %@ of met je toegangscode. Sessies blijven open en komen terug zodra je ontgrendelt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can unlock with %@ or your passcode. Sessions stay open and come back as soon as you unlock."
+          }
+        }
+      },
+      "comment": "Explains the app lock, naming the biometric method"
+    },
+    "Ook wachtwoorden en sleutels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys too"
+          }
+        }
+      },
+      "comment": "Toggle for opt-in secret sync"
+    },
+    "Op dit adres is de tunnel bereikbaar vanaf het hele netwerk.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On this address the tunnel is reachable from the whole network."
+          }
+        }
+      },
+      "comment": "Warning shown when a tunnel binds something other than loopback"
+    },
+    "Opdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Command"
+          }
+        }
+      },
+      "comment": "Section header for a snippet's command"
+    },
+    "Opdracht bij starten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Command on start"
+          }
+        }
+      },
+      "comment": "Field label: a command run when the shell starts"
+    },
+    "Opdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commands"
+          }
+        }
+      },
+      "comment": "Menu item: toggle the command block list"
+    },
+    "Openen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      },
+      "comment": "Menu item that opens a directory"
+    },
+    "Opgeslagen geheimen worden versleuteld met een sleutel van dit apparaat voordat ze in de sleutelhanger gaan.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stored secrets are encrypted with a key belonging to this device before they go into the keychain."
+          }
+        }
+      },
+      "comment": "Explains that secrets are wrapped before storage"
+    },
+    "Oplopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ascending"
+          }
+        }
+      },
+      "comment": "Toggle for ascending sort order"
+    },
+    "Opmerking, bijvoorbeeld jij@laptop": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comment, for example you@laptop"
+          }
+        }
+      },
+      "comment": "Field label for the key comment"
+    },
+    "Opnieuw proberen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        }
+      },
+      "comment": "Button that retries a failed directory listing"
+    },
+    "Opnieuw verbinden, poging %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconnecting, attempt %lld"
+          }
+        }
+      },
+      "comment": "Connection state: retrying, with the attempt number"
+    },
+    "Overdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfers"
+          }
+        }
+      },
+      "comment": "Toggle that shows the transfer queue"
+    },
+    "Overig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      },
+      "comment": "Section header: everything else"
+    },
+    "Overslaan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        }
+      },
+      "comment": "Collision option: skip this file"
+    },
+    "Poort": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port"
+          }
+        }
+      },
+      "comment": "Field label: TCP port"
+    },
+    "Poort %lld op %@ kan niet worden geopend. Poorten onder 1024 zijn voorbehouden aan het systeem.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port %lld on %@ cannot be opened. Ports below 1024 are reserved for the system."
+          }
+        }
+      },
+      "comment": "A local tunnel could not bind a privileged port"
+    },
+    "Poort %lld op %@ kan niet worden geopend. Waarschijnlijk is die al in gebruik.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port %lld on %@ cannot be opened. It is most likely already in use."
+          }
+        }
+      },
+      "comment": "A local tunnel could not bind; the port is most likely taken"
+    },
+    "Poortdoorsturing komt in een volgende versie.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port forwarding is coming in a later version."
+          }
+        }
+      },
+      "comment": "Port forwarding is not implemented yet"
+    },
+    "Privésleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private key"
+          }
+        }
+      },
+      "comment": "Accessibility label for the private key field"
+    },
+    "Profiel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        }
+      },
+      "comment": "Title of the terminal profile editor"
+    },
+    "Profiel toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add profile"
+          }
+        }
+      },
+      "comment": "Button that adds a terminal profile"
+    },
+    "ProxyCommand wordt niet uitgevoerd: %@. Gebruik ProxyJump.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ProxyCommand is not run: %@. Use ProxyJump instead."
+          }
+        }
+      },
+      "comment": "Explains that ProxyCommand is not run"
+    },
+    "Publieke sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Public key"
+          }
+        }
+      },
+      "comment": "Section header for the generated public key"
+    },
+    "RSA 2048": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA 2048"
+          }
+        }
+      },
+      "comment": "Key type: 2048-bit RSA"
+    },
+    "RSA 4096": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA 4096"
+          }
+        }
+      },
+      "comment": "Key type: 4096-bit RSA"
+    },
+    "RSA voor servers die nog geen Ed25519 aankunnen. Groter en langzamer, verder gelijkwaardig op deze lengtes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA for servers that cannot do Ed25519 yet. Larger and slower, otherwise equivalent at these sizes."
+          }
+        }
+      },
+      "comment": "Explains when RSA is the right choice"
+    },
+    "Rechten voor %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions for %@"
+          }
+        }
+      },
+      "comment": "Title of the permissions editor, naming the file"
+    },
+    "Rechten…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions…"
+          }
+        }
+      },
+      "comment": "Menu item that edits a file's POSIX permissions"
+    },
+    "SSH-config importeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import SSH config"
+          }
+        }
+      },
+      "comment": "Title of the ssh config import sheet, and the menu item that opens it"
+    },
+    "Scheiding": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Divider"
+          }
+        }
+      },
+      "comment": "Accessibility label for a split divider"
+    },
+    "Schrijven": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write"
+          }
+        }
+      },
+      "comment": "Permission bit: write"
+    },
+    "Secure Enclave": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secure Enclave"
+          }
+        }
+      },
+      "comment": "The device key is hardware-backed"
+    },
+    "Selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        }
+      },
+      "comment": "Accessibility label for a row's selection control"
+    },
+    "Server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Server"
+          }
+        }
+      },
+      "comment": "Title of the remote side of the file browser"
+    },
+    "Sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Session"
+          }
+        }
+      },
+      "comment": "Menu title for session commands"
+    },
+    "Sessies": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sessions"
+          }
+        }
+      },
+      "comment": "Accessibility label for the tab strip"
+    },
+    "Shell": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell"
+          }
+        }
+      },
+      "comment": "Label for the shell picker on the shell integration sheet"
+    },
+    "Shell-integratie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shell integration"
+          }
+        }
+      },
+      "comment": "Title of the shell integration sheet"
+    },
+    "Sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key"
+          }
+        }
+      },
+      "comment": "Authentication method: private key"
+    },
+    "Sleutel maken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a key"
+          }
+        }
+      },
+      "comment": "Title of the key generator"
+    },
+    "Sleutelbescherming": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key protection"
+          }
+        }
+      },
+      "comment": "Label for how the device key is protected"
+    },
+    "Sleutelhanger van dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device's keychain"
+          }
+        }
+      },
+      "comment": "The device key is software-only"
+    },
+    "Sleutels en wachtwoorden synchroniseren?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync keys and passwords?"
+          }
+        }
+      },
+      "comment": "Title of the secret sync confirmation"
+    },
+    "Sluit %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a tab's close button"
+    },
+    "Sluit sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Session"
+          }
+        }
+      },
+      "comment": "Menu item: close the current session tab"
+    },
+    "Sluit venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close pane"
+          }
+        }
+      },
+      "comment": "Menu item that closes the focused pane"
+    },
+    "Soort": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kind"
+          }
+        }
+      },
+      "comment": "Sort files by kind"
+    },
+    "Sorteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort"
+          }
+        }
+      },
+      "comment": "Label for the file sort menu"
+    },
+    "Splits naar beneden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Split down"
+          }
+        }
+      },
+      "comment": "Menu item that splits the focused pane vertically"
+    },
+    "Splits naar rechts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Split right"
+          }
+        }
+      },
+      "comment": "Menu item that splits the focused pane horizontally"
+    },
+    "Staat 'direct uitvoeren' uit, dan wordt de opdracht alleen getypt. Handig voor iets dat je eerst nog wilt nalezen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With 'run immediately' off, the command is only typed. Useful for anything you want to read over first."
+          }
+        }
+      },
+      "comment": "Explains what turning off immediate execution does"
+    },
+    "Start automatisch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start automatically"
+          }
+        }
+      },
+      "comment": "Toggle: start this tunnel when the host connects"
+    },
+    "Stel deze poort in als SOCKS5-proxy in je browser of systeeminstellingen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set this port as the SOCKS5 proxy in your browser or system settings."
+          }
+        }
+      },
+      "comment": "Tells the user what to do with a dynamic forward's port"
+    },
+    "Streep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Underline"
+          }
+        }
+      },
+      "comment": "Cursor style: underline"
+    },
+    "Streep, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Underline, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady underline"
+    },
+    "Symbolische koppeling %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolic link %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a symlink row"
+    },
+    "Synchronisatie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync"
+          }
+        }
+      },
+      "comment": "Section header for sync settings"
+    },
+    "Synchroniseren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sync"
+          }
+        }
+      },
+      "comment": "Button that confirms turning on secret sync"
+    },
+    "Tekengrootte: %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Font size: %lld"
+          }
+        }
+      },
+      "comment": "Label for the font size slider, with the current value"
+    },
+    "Tekst": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      },
+      "comment": "Section header for font settings"
+    },
+    "Terminal voor %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal for %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for the terminal view"
+    },
+    "Terminalprofielen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal profiles"
+          }
+        }
+      },
+      "comment": "Title of the terminal profile list"
+    },
+    "Terug": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      },
+      "comment": "Accessibility label for the back button"
+    },
+    "Terugbladeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollback"
+          }
+        }
+      },
+      "comment": "Label for the scrollback setting"
+    },
+    "Time-out tijdens %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timed out during %@."
+          }
+        }
+      },
+      "comment": "An operation took too long; placeholder names the operation"
+    },
+    "Toepassen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        }
+      },
+      "comment": "Button that applies new permissions"
+    },
+    "Treffer %lld van %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hit %lld of %lld"
+          }
+        }
+      },
+      "comment": "Search result position, as 'hit N of M'"
+    },
+    "Tunnel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tunnel"
+          }
+        }
+      },
+      "comment": "Title of the tunnel editor"
+    },
+    "Tunnel toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add tunnel"
+          }
+        }
+      },
+      "comment": "Button that adds a saved port forward"
+    },
+    "Tunnels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tunnels"
+          }
+        }
+      },
+      "comment": "Section header: saved port forwards"
+    },
+    "Tunnels meenemen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include tunnels"
+          }
+        }
+      },
+      "comment": "Toggle: also import LocalForward and friends"
+    },
+    "Uit: sleutels en wachtwoorden blijven op dit apparaat, versleuteld met een sleutel die het apparaat niet kan verlaten. Aan: ze gaan via iCloud-sleutelhanger, die end-to-end versleuteld is — maar dan kan dit apparaat ze niet meer met zijn eigen sleutel beschermen. Ze gaan nooit via de gewone iCloud-database.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off: keys and passwords stay on this device, encrypted with a key that cannot leave it. On: they go through iCloud Keychain, which is end-to-end encrypted — but then this device can no longer protect them with its own key. They never go through the ordinary iCloud database."
+          }
+        }
+      },
+      "comment": "Explains the trade-off between device-only secrets and iCloud Keychain sync"
+    },
+    "Uitschakelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off"
+          }
+        }
+      },
+      "comment": "Button in the broadcast banner that stops broadcasting"
+    },
+    "Uitvoeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Execute"
+          }
+        }
+      },
+      "comment": "Permission bit: execute"
+    },
+    "Upload": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upload"
+          }
+        }
+      },
+      "comment": "Button that uploads the selected local files"
+    },
+    "Verbind": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect"
+          }
+        }
+      },
+      "comment": "Button: submit the credential and continue connecting"
+    },
+    "Verbind niet": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not connect"
+          }
+        }
+      },
+      "comment": "Button: refuse the host key and abort the connection"
+    },
+    "Verbinden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect"
+          }
+        }
+      },
+      "comment": "Context menu: open a connection to this host"
+    },
+    "Verbinding": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection"
+          }
+        }
+      },
+      "comment": "Section header: basic connection settings"
+    },
+    "Verbinding verbroken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection lost"
+          }
+        }
+      },
+      "comment": "Connection state: dropped unexpectedly"
+    },
+    "Verbinding verbroken. Nieuwe poging %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disconnected. Retrying %@."
+          }
+        }
+      },
+      "comment": "Overlay on a pane that is waiting to reconnect; the placeholder is a relative time"
+    },
+    "Verbonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected"
+          }
+        }
+      },
+      "comment": "Connection state: connected"
+    },
+    "Verborgen bestanden tonen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show hidden files"
+          }
+        }
+      },
+      "comment": "Toggle that shows dotfiles"
+    },
+    "Vergrendel sssh": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock sssh"
+          }
+        }
+      },
+      "comment": "Menu item that locks the app now"
+    },
+    "Vergrendelen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        }
+      },
+      "comment": "Label for the lock delay picker"
+    },
+    "Vergrendeling": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock"
+          }
+        }
+      },
+      "comment": "Section header for the app lock"
+    },
+    "Vergrendelt de app, niet de verbindingen: sessies blijven open en komen terug zodra je ontgrendelt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locks the app, not the connections: sessions stay open and come back as soon as you unlock."
+          }
+        }
+      },
+      "comment": "Explains what the app lock does and does not do"
+    },
+    "Vernieuwen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh"
+          }
+        }
+      },
+      "comment": "Accessibility label for the refresh button"
+    },
+    "Verplaatsen naar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move to"
+          }
+        }
+      },
+      "comment": "Context menu: move this host to a group"
+    },
+    "Vertrouwen en onthouden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trust and remember"
+          }
+        }
+      },
+      "comment": "Button: accept the host key and store it"
+    },
+    "Vervangen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace"
+          }
+        }
+      },
+      "comment": "Collision option: overwrite the existing file"
+    },
+    "Verwijder %lld item(s)": {
+      "extractionState": "manual",
+      "comment": "Confirms deleting N remote items",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Verwijder 1 item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Verwijder %lld items"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Delete 1 item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Delete %lld items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Verwijderen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      },
+      "comment": "Context menu: delete this host"
+    },
+    "Verwijderen van de server?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete from the server?"
+          }
+        }
+      },
+      "comment": "Title of the remote delete confirmation"
+    },
+    "Voeg een host toe om een verbinding te maken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a host to make a connection."
+          }
+        }
+      },
+      "comment": "Empty state body when no hosts are saved"
+    },
+    "Voer opnieuw uit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run again"
+          }
+        }
+      },
+      "comment": "Menu item that runs a block's command again"
+    },
+    "Volgend venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next pane"
+          }
+        }
+      },
+      "comment": "Menu item that moves focus to the next pane"
+    },
+    "Volgende sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next session"
+          }
+        }
+      },
+      "comment": "Menu item that moves to the next tab"
+    },
+    "Volgende treffer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next hit"
+          }
+        }
+      },
+      "comment": "Accessibility label for the next search result button"
+    },
+    "Voorbeeld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        }
+      },
+      "comment": "Section header for the colour scheme preview"
+    },
+    "Voorbeeld van het kleurenschema": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colour scheme preview"
+          }
+        }
+      },
+      "comment": "Accessibility label for the colour scheme preview"
+    },
+    "Vorig venster": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous pane"
+          }
+        }
+      },
+      "comment": "Menu item that moves focus to the previous pane"
+    },
+    "Vorige sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous session"
+          }
+        }
+      },
+      "comment": "Menu item that moves to the previous tab"
+    },
+    "Vorige treffer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous hit"
+          }
+        }
+      },
+      "comment": "Accessibility label for the previous search result button"
+    },
+    "Wacht op antwoord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for an answer"
+          }
+        }
+      },
+      "comment": "A transfer paused for a collision decision"
+    },
+    "Wacht op invoer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for input"
+          }
+        }
+      },
+      "comment": "Accessibility label for a block at a prompt"
+    },
+    "Wachtwoord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        }
+      },
+      "comment": "Field label in the password prompt"
+    },
+    "Wachtwoord nodig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password needed"
+          }
+        }
+      },
+      "comment": "Title of the password prompt"
+    },
+    "Wachtwoorden en sleutels gaan via de iCloud-sleutelhanger naar je andere apparaten. Nooit via de gewone iCloud-database.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys go to your other devices through iCloud Keychain. Never through the ordinary iCloud database."
+          }
+        }
+      },
+      "comment": "Footer shown when secret sync is on"
+    },
+    "Wachtwoorden en sleutels worden alleen in de sleutelhanger van dit apparaat bewaard, nooit in iCloud.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys are kept only in this device's keychain, never in iCloud."
+          }
+        }
+      },
+      "comment": "Footer explaining that secrets stay in the device Keychain and are not synced"
+    },
+    "Wachtwoordzin": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase"
+          }
+        }
+      },
+      "comment": "Field label in the passphrase prompt"
+    },
+    "Wachtwoordzin (optioneel)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase (optional)"
+          }
+        }
+      },
+      "comment": "Field label: the passphrase protecting a private key"
+    },
+    "Wachtwoordzin nodig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase needed"
+          }
+        }
+      },
+      "comment": "Title of the key passphrase prompt"
+    },
+    "Wachtwoordzin, optioneel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase, optional"
+          }
+        }
+      },
+      "comment": "Field label for an optional key passphrase"
+    },
+    "Wijzigen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        }
+      },
+      "comment": "Button that confirms a rename"
+    },
+    "Wis zoekopdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear search"
+          }
+        }
+      },
+      "comment": "Accessibility label for the clear-search button"
+    },
+    "Wordt verstuurd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Will be sent"
+          }
+        }
+      },
+      "comment": "Section header showing the expanded snippet"
+    },
+    "Zet deze regel in ~/.ssh/authorized_keys op de server. De privésleutel staat in de sleutelhanger en wordt hier niet getoond.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put this line in ~/.ssh/authorized_keys on the server. The private key is in the keychain and is not shown here."
+          }
+        }
+      },
+      "comment": "Tells the user what to do with the public key and that the private one is not shown"
+    },
+    "Zet dit onderaan %@ op de server.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put this at the end of %@ on the server."
+          }
+        }
+      },
+      "comment": "Instruction naming the shell's configuration file"
+    },
+    "Zodra je iets uitvoert verschijnt het hier.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As soon as you run something it appears here."
+          }
+        }
+      },
+      "comment": "Empty state body for the command block list"
+    },
+    "Zoek fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search snippets"
+          }
+        }
+      },
+      "comment": "Search field placeholder in the snippet library"
+    },
+    "Zoek hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search hosts"
+          }
+        }
+      },
+      "comment": "Placeholder in the host search field"
+    },
+    "Zoek in deze sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search this session"
+          }
+        }
+      },
+      "comment": "Placeholder in the in-session search field"
+    },
+    "Zoek in sessie…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search session…"
+          }
+        }
+      },
+      "comment": "Menu item: search the current session's commands and output"
+    },
+    "Zonder groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No group"
+          }
+        }
+      },
+      "comment": "Section header for hosts that are in no group"
+    },
+    "Zonder shell-integratie raadt sssh waar een opdracht begint en eindigt aan de hand van de regel die je shell teruggeeft. Dat werkt, maar de afsluitcode blijft onbekend en de grens klopt niet altijd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Without shell integration, sssh works out where a command starts and ends from the line your shell echoes back. That works, but the exit status stays unknown and the boundary is not always right."
+          }
+        }
+      },
+      "comment": "Explains what the fallback segmentation can and cannot do"
+    },
+    "geen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "none"
+          }
+        }
+      },
+      "comment": "Placeholder when no credential was offered"
+    },
+    "poort %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "port %lld"
+          }
+        }
+      },
+      "comment": "Shows which port a tunnel actually bound"
+    },
+    "regel %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "line %lld"
+          }
+        }
+      },
+      "comment": "Names the config file line a warning came from"
+    },
+    "sssh is vergrendeld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh is locked"
+          }
+        }
+      },
+      "comment": "Title on the lock screen"
+    },
+    "sssh kan sleutels van het type %@ nog niet gebruiken. Zet de sleutel om met ssh-keygen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh cannot use %@ keys yet. Convert the key with ssh-keygen."
+          }
+        }
+      },
+      "comment": "The key file is a type the app cannot use yet; suggests converting it"
+    },
+    "sssh kent deze server nog niet. Controleer de vingerafdruk voordat u verbindt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not know this server yet. Check the fingerprint before connecting."
+          }
+        }
+      },
+      "comment": "Asks the user to verify the fingerprint on a first connection"
+    },
+    "sssh ondersteunt ssh-agent nog niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not support ssh-agent yet."
+          }
+        }
+      },
+      "comment": "Agent forwarding is not implemented"
+    },
+    "sssh past zelf niets aan op de server. Plak het er zelf in, zodat je ziet wat er verandert.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh changes nothing on the server itself. Paste it in yourself, so you can see what changes."
+          }
+        }
+      },
+      "comment": "States that sssh never edits the remote configuration itself"
+    },
+    "tmux gebruiken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use tmux"
+          }
+        }
+      },
+      "comment": "Toggle that enables tmux control mode for a host"
+    },
+    "tmux-besturingsmodus wordt nog niet ondersteund.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux control mode is not supported yet."
+          }
+        }
+      },
+      "comment": "tmux control mode is not implemented"
+    }
+  },
+  "version": "1.0"
+}

@@ -1,0 +1,124 @@
+# XcodeGen spec for the sssh app.
+#
+# The project file is generated rather than committed: a .pbxproj is unreadable
+# in review and merges badly, and this is the same information in a form a
+# person can actually check. Regenerate after changing anything here:
+#
+#     brew install xcodegen
+#     cd App && xcodegen generate
+#
+# The transport stack stays in SwiftPM at the repository root so that it can be
+# built and tested on Linux in CI; this project consumes it as a local package.
+name: sssh
+options:
+  bundleIdPrefix: nl.rorymeijer
+  deploymentTarget:
+    macOS: "14.0"
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+packages:
+  sssh:
+    path: ..
+  SwiftTerm:
+    url: https://github.com/migueldeicaza/SwiftTerm
+    # Pinned to the last tagged release. `main` is a 2.x rewrite with a
+    # different view API (no `getTerminal()`, a reworked delegate); moving to it
+    # is a deliberate step, not something to pick up by drifting.
+    exactVersion: 1.20.0
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_LANGUAGE: nl
+    SWIFT_EMIT_LOC_STRINGS: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  sssh:
+    type: application
+    platform: [macOS, iOS]
+    sources:
+      - path: Sources/ssshApp
+    dependencies:
+      - package: sssh
+        product: ssshCore
+      - package: sssh
+        product: ssshTransportNIOSSH
+      # Key generation writes `openssh-key-v1` and reads the PKCS#1 DER that
+      # swift-crypto hands back, both of which live here.
+      - package: sssh
+        product: ssshCrypto
+      - package: SwiftTerm
+        product: SwiftTerm
+    # Written out rather than generated, because the app exports a uniform
+    # type identifier for dragging a file selection between the browser's two
+    # panes, and `UTExportedTypeDeclarations` is an array of dictionaries that
+    # no `INFOPLIST_KEY_*` setting can express. Platform-specific keys sit in
+    # the same file and are ignored by the platform they do not belong to.
+    info:
+      # Deliberately outside `Sources/ssshApp`, which is the target's source
+      # path: a generated plist sitting inside it would also be picked up as a
+      # resource and shipped in the bundle twice.
+      path: Supporting/Info.plist
+      properties:
+        CFBundleDisplayName: sssh
+        # Dutch first, English as the fallback locale.
+        CFBundleLocalizations: [nl, en]
+        LSApplicationCategoryType: public.app-category.developer-tools
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: nl.rorymeijer.sssh.file-selection
+            UTTypeDescription: sssh file selection
+            # Conforms to `public.data` only. A remote file has no URL — it
+            # lives on another machine and the only handle on it is a path
+            # plus the connection it belongs to — so advertising this as a
+            # file URL would let other apps accept a drop they cannot read.
+            UTTypeConformsTo: [public.data]
+            UTTypeTagSpecification: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: nl.rorymeijer.sssh
+        PRODUCT_NAME: sssh
+        SWIFT_STRICT_CONCURRENCY: targeted
+      macOS:
+        # Outgoing connections only. No incoming server, no camera, no
+        # microphone, no address book: an SSH client needs none of it, and the
+        # entitlements file is where that gets enforced rather than promised.
+        CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.macOS.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+      iOS:
+        CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.iOS.entitlements
+        TARGETED_DEVICE_FAMILY: "1,2"
+
+# XcodeGen writes no schemes unless they are declared, and `xcodebuild` needs
+# one by name. A multi-platform target is generated once per platform with the
+# platform as a suffix, so these are `sssh_macOS` and `sssh_iOS` rather than
+# plain `sssh`.
+schemes:
+  sssh_macOS:
+    build:
+      targets:
+        sssh_macOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  sssh_iOS:
+    build:
+      targets:
+        sssh_iOS: all
+    run:
+      config: Debug
+    archive:
+      config: Release

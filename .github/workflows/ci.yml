@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The transport stack is deliberately free of platform UI, so it builds and
+  # unit-tests on Linux. That is what makes the Phase 0 integration run
+  # possible on a cheap runner.
+  linux:
+    name: Linux (build, unit tests, PTY integration)
+    runs-on: ubuntu-latest
+    container:
+      image: swift:6.0-noble
+    steps:
+      - uses: actions/checkout@v4
+
+      # The vendored fork emits its warnings once per file compiled, which
+      # buries the handful of lines that actually matter. On a failure, print
+      # the unique `error:` lines on their own.
+      - name: Build
+        run: |
+          swift build --build-tests 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Unique errors"
+            grep -E "error:" build.log | sort -u
+            echo "::endgroup::"
+          fi
+          exit "$status"
+
+      - name: Unit tests
+        run: swift test --skip-build
+
+  # The PTY harness needs a real sshd, so it runs outside the Swift container
+  # and talks to a service container over loopback.
+  pty-integration:
+    name: Phase 0 PTY conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+
+      - name: Build the harness
+        run: swift build --product sssh-ptyspike
+
+      - name: Start the test SSH server
+        run: |
+          docker compose -f Integration/docker-compose.yml up --build -d
+          # The container writes the fingerprint file last, so its presence is
+          # the readiness signal.
+          for _ in $(seq 1 60); do
+            [ -f Integration/.keys/host_key_fingerprint ] && break
+            sleep 1
+          done
+          test -f Integration/.keys/host_key_fingerprint || {
+            echo "sshd did not become ready" >&2
+            docker compose -f Integration/docker-compose.yml logs sshd >&2
+            exit 1
+          }
+
+      - name: Run the PTY conformance checks
+        run: ./Integration/run-spike.sh verify
+
+      - name: Server logs on failure
+        if: failure()
+        run: docker compose -f Integration/docker-compose.yml logs sshd
+
+      - name: Tear down
+        if: always()
+        run: docker compose -f Integration/docker-compose.yml down -v
+
+  # Apple platforms are where the app ships, so the same package is built with
+  # the Xcode toolchain.
+  apple:
+    name: macOS (package build, unit tests)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: swift --version
+
+      # The vendored fork emits its warnings once per file compiled, which
+      # buries the handful of lines that actually matter. On a failure, print
+      # the unique `error:` lines on their own.
+      - name: Build
+        run: |
+          swift build --build-tests 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            echo "::group::Unique errors"
+            grep -E "error:" build.log | sort -u
+            echo "::endgroup::"
+          fi
+          exit "$status"
+
+      - name: Unit tests
+        run: swift test --skip-build
+
+  # The app, which needs Xcode rather than SwiftPM because it is an app bundle.
+  # Signing is off: this checks that it compiles, not that it ships.
+  app:
+    name: App (macOS and iOS)
+    # macos-15, not macos-14: XcodeGen emits Xcode 16's project format
+    # (objectVersion 77), which Xcode 15 refuses to even open.
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate the project
+        working-directory: App
+        run: xcodegen generate
+
+      - name: Build for macOS
+        working-directory: App
+        run: |
+          # Without pipefail the pipeline reports xcpretty's status, which is 0
+          # whatever xcodebuild did — the step then passes on a failed build.
+          #
+          # SwiftTerm ships a build-tool plugin, and Xcode will not run an
+          # unvalidated one without someone present to agree to it.
+          set -o pipefail
+          xcodebuild build \
+            -project sssh.xcodeproj \
+            -scheme sssh_macOS \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            -skipPackagePluginValidation \
+            | xcpretty || exit ${PIPESTATUS[0]}
+
+      - name: Build for iOS Simulator
+        working-directory: App
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project sssh.xcodeproj \
+            -scheme sssh_iOS \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            -skipPackagePluginValidation \
+            | xcpretty || exit ${PIPESTATUS[0]}

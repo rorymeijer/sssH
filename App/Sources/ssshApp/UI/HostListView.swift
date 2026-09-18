@@ -1,0 +1,305 @@
+import SwiftData
+import SwiftUI
+
+/// The sidebar: saved hosts in their groups, searchable and filterable by tag.
+///
+/// Groups are sections rather than a collapsible tree. A tree is the obvious
+/// design and the wrong one here: the list is a launcher, the sidebar is
+/// narrow, and every level of nesting is a click between someone and the
+/// machine they wanted. Nested groups still exist in the model and show as
+/// `parent / child` on the section header.
+struct HostListView: View {
+    @Binding var selection: Host?
+    let onConnect: (Host) -> Void
+    let onEdit: (Host) -> Void
+    let onCreate: () -> Void
+
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: [SortDescriptor(\Host.name), SortDescriptor(\Host.hostname)])
+    private var hosts: [Host]
+    @Query(sort: [SortDescriptor(\HostGroup.order), SortDescriptor(\HostGroup.name)])
+    private var groups: [HostGroup]
+
+    @State private var searchText = ""
+    @State private var activeTags: Set<String> = []
+    @State private var showsImporter = false
+    @State private var showsSnippets = false
+    @State private var showsProfiles = false
+    @State private var showsSecurity = false
+
+    var body: some View {
+        List(selection: $selection) {
+            if filteredHosts.isEmpty {
+                emptyState
+            } else {
+                ForEach(sections, id: \.title) { section in
+                    Section(section.title) {
+                        ForEach(section.hosts) { host in
+                            row(host)
+                        }
+                    }
+                }
+            }
+        }
+        .searchable(
+            text: $searchText,
+            prompt: Text("Zoek hosts", comment: "Placeholder in the host search field")
+        )
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: onCreate) {
+                    Label {
+                        Text("Nieuwe host", comment: "Toolbar button: add a new host")
+                    } icon: {
+                        Image(systemName: "plus")
+                    }
+                }
+                .keyboardShortcut("n", modifiers: .command)
+            }
+            ToolbarItem {
+                libraryMenu
+            }
+        }
+        .sheet(isPresented: $showsImporter) { SSHConfigImportView() }
+        .sheet(isPresented: $showsSnippets) { SnippetLibraryView(feed: nil, host: nil) }
+        .sheet(isPresented: $showsProfiles) { TerminalProfileListView() }
+        .sheet(isPresented: $showsSecurity) { SecuritySettingsView() }
+    }
+
+    private func row(_ host: Host) -> some View {
+        HostRow(host: host)
+            .tag(host)
+            .contentShape(Rectangle())
+            .onTapGesture(count: 2) { onConnect(host) }
+            .contextMenu {
+                            Button {
+                                onConnect(host)
+                            } label: {
+                                Label {
+                                    Text("Verbinden", comment: "Context menu: open a connection to this host")
+                                } icon: {
+                                    Image(systemName: "bolt.horizontal")
+                                }
+                            }
+                            Button {
+                                onEdit(host)
+                            } label: {
+                                Label {
+                                    Text("Bewerken", comment: "Context menu: edit this host's settings")
+                                } icon: {
+                                    Image(systemName: "pencil")
+                                }
+                            }
+                Menu {
+                    Button {
+                        host.group = nil
+                    } label: {
+                        Text("Geen groep", comment: "Menu item that removes a host from its group")
+                    }
+                    ForEach(groups) { group in
+                        Button {
+                            host.group = group
+                        } label: {
+                            Text(verbatim: group.breadcrumb.joined(separator: " / "))
+                        }
+                    }
+                    Divider()
+                    Button {
+                        let group = HostGroup(name: String(localized: "Nieuwe groep", comment: "Default name for a newly created group"))
+                        modelContext.insert(group)
+                        host.group = group
+                    } label: {
+                        Text("Nieuwe groep", comment: "Default name for a newly created group")
+                    }
+                } label: {
+                    Text("Verplaatsen naar", comment: "Context menu: move this host to a group")
+                }
+
+                Divider()
+                Button(role: .destructive) {
+                    delete(host)
+                } label: {
+                    Label {
+                        Text("Verwijderen", comment: "Context menu: delete this host")
+                    } icon: {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
+    }
+
+    /// Filtering, importing and the two libraries, behind one button so the
+    /// sidebar toolbar stays two items wide on a phone.
+    private var libraryMenu: some View {
+        Menu {
+            if !allTags.isEmpty {
+                Section {
+                    ForEach(allTags, id: \.self) { tag in
+                        Toggle(isOn: Binding(
+                            get: { activeTags.contains(tag) },
+                            set: { isOn in
+                                if isOn { activeTags.insert(tag) } else { activeTags.remove(tag) }
+                            }
+                        )) {
+                            Text(verbatim: tag)
+                        }
+                    }
+                } header: {
+                    Text("Labels", comment: "Menu section header for the tag filter")
+                }
+            }
+
+            Section {
+                Button { showsSnippets = true } label: {
+                    Text("Fragmenten", comment: "Title of the snippet library")
+                }
+                Button { showsProfiles = true } label: {
+                    Text("Terminalprofielen", comment: "Title of the terminal profile list")
+                }
+                Button { showsImporter = true } label: {
+                    Text("SSH-config importeren", comment: "Menu item that opens the ssh config import")
+                }
+                Button { showsSecurity = true } label: {
+                    Text("Beveiliging", comment: "Title of the security settings")
+                }
+            }
+        } label: {
+            Label {
+                Text("Meer", comment: "Accessibility label for the sidebar's overflow menu")
+            } icon: {
+                Image(systemName: activeTags.isEmpty ? "ellipsis.circle" : "line.3.horizontal.decrease.circle.fill")
+            }
+        }
+    }
+
+    /// Every tag in use, so the filter offers what exists rather than what was
+    /// typed once and deleted.
+    private var allTags: [String] {
+        Array(Set(hosts.flatMap(\.tags))).sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
+    }
+
+    /// Hosts by group, ungrouped last.
+    ///
+    /// Last rather than first: a fresh install has everything ungrouped, and a
+    /// heading above the only section is noise; once groups exist, the
+    /// ungrouped ones are the leftovers.
+    private var sections: [(title: String, hosts: [Host])] {
+        var byGroup: [PersistentIdentifier: [Host]] = [:]
+        var ungrouped: [Host] = []
+        for host in filteredHosts {
+            if let group = host.group {
+                byGroup[group.persistentModelID, default: []].append(host)
+            } else {
+                ungrouped.append(host)
+            }
+        }
+
+        var result: [(title: String, hosts: [Host])] = []
+        for group in groups {
+            guard let hosts = byGroup[group.persistentModelID], !hosts.isEmpty else { continue }
+            result.append((group.breadcrumb.joined(separator: " / "), hosts))
+        }
+        if !ungrouped.isEmpty {
+            let title = result.isEmpty
+                ? String(localized: "Hosts", comment: "Section header listing importable hosts")
+                : String(localized: "Zonder groep", comment: "Section header for hosts that are in no group")
+            result.append((title, ungrouped))
+        }
+        return result
+    }
+
+    private var filteredHosts: [Host] {
+        let query = searchText.trimmingCharacters(in: .whitespaces).lowercased()
+        return hosts.filter { host in
+            // Every selected tag has to be present, not just one. Tags
+            // narrow — "customer-a" *and* "production" — and a filter that
+            // widens as you add to it is the opposite of what the gesture
+            // means.
+            guard activeTags.isSubset(of: Set(host.tags)) else { return false }
+            guard !query.isEmpty else { return true }
+
+            // Matching the tags and the group as well as the name is what
+            // makes search usable once there are more than a handful of hosts.
+            return host.name.lowercased().contains(query)
+                || host.hostname.lowercased().contains(query)
+                || host.username.lowercased().contains(query)
+                || host.tags.contains { $0.lowercased().contains(query) }
+                || (host.group?.name.lowercased().contains(query) ?? false)
+        }
+    }
+
+    @ViewBuilder
+    private var emptyState: some View {
+        if searchText.isEmpty {
+            ContentUnavailableView {
+                Label {
+                    Text("Nog geen hosts", comment: "Empty state title when no hosts are saved")
+                } icon: {
+                    Image(systemName: "server.rack")
+                }
+            } description: {
+                Text("Voeg een host toe om een verbinding te maken.",
+                     comment: "Empty state body when no hosts are saved")
+            } actions: {
+                Button(action: onCreate) {
+                    Text("Nieuwe host", comment: "Button in the empty state that adds a host")
+                }
+            }
+        } else {
+            ContentUnavailableView.search(text: searchText)
+        }
+    }
+
+    private func delete(_ host: Host) {
+        if selection == host { selection = nil }
+        modelContext.delete(host)
+        // Note: the host's Keychain secret is intentionally left alone here.
+        // Reaping orphaned secrets is a single reconciliation pass against
+        // `allReferences()`, which is safer than deleting on every edit where a
+        // half-finished change could take a still-referenced secret with it.
+        try? modelContext.save()
+    }
+}
+
+private struct HostRow: View {
+    let host: Host
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "terminal")
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(host.displayName)
+                    .lineLimit(1)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+
+            Spacer(minLength: 0)
+
+            if !host.tags.isEmpty {
+                Text(host.tags.first ?? "")
+                    .font(.caption2)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(.quaternary, in: Capsule())
+                    .accessibilityLabel(Text("Label: \(host.tags.first ?? "")",
+                                             comment: "Accessibility label for a host's tag chip"))
+            }
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
+    }
+
+    private var subtitle: String {
+        var parts: [String] = []
+        if !host.username.isEmpty { parts.append(host.username) }
+        parts.append(host.port == 22 ? host.hostname : "\(host.hostname):\(host.port)")
+        if let group = host.group?.name, !group.isEmpty { parts.append(group) }
+        return parts.joined(separator: " · ")
+    }
+}
