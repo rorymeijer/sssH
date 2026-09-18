@@ -81,7 +81,7 @@ final class CredentialPromptCoordinator {
     }
 
     func submit(_ values: [String], remember: Bool) {
-        deliver(Answer(values: values.map(SecretString.init), remember: remember))
+        deliver(Answer(values: values.map { SecretString($0) }, remember: remember))
     }
 
     func cancel() {
