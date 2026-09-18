@@ -7,6 +7,8 @@ import PackageDescription
 //
 // Layering (see docs/ARCHITECTURE.md):
 //
+//   ssshCrypto            the primitives swift-crypto does not expose and the
+//                         openssh-key-v1 parser built on them. No SwiftNIO.
 //   ssshCore              pure Swift. Protocols + value types. No SwiftNIO, no
 //                         Citadel, no platform UI. This is what the app layer
 //                         imports.
@@ -25,6 +27,7 @@ let package = Package(
         .iOS(.v17),
     ],
     products: [
+        .library(name: "ssshCrypto", targets: ["ssshCrypto"]),
         .library(name: "ssshCore", targets: ["ssshCore"]),
         .library(name: "ssshTransportNIOSSH", targets: ["ssshTransportNIOSSH"]),
         .executable(name: "sssh-ptyspike", targets: ["ssshPTYSpike"]),
@@ -45,6 +48,12 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "ssshCrypto",
+            dependencies: [
+                .product(name: "Crypto", package: "swift-crypto"),
+            ]
+        ),
+        .target(
             name: "ssshCore",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
@@ -54,6 +63,7 @@ let package = Package(
             name: "ssshTransportNIOSSH",
             dependencies: [
                 "ssshCore",
+                "ssshCrypto",
                 // swift-nio-ssh is driven directly (see
                 // docs/PHASE-0-BACKEND-DECISION.md); Citadel is used for the
                 // algorithms and key parsing NIOSSH lacks.
@@ -72,6 +82,10 @@ let package = Package(
                 "ssshTransportNIOSSH",
                 .product(name: "Logging", package: "swift-log"),
             ]
+        ),
+        .testTarget(
+            name: "ssshCryptoTests",
+            dependencies: ["ssshCrypto"]
         ),
         .testTarget(
             name: "ssshCoreTests",

@@ -1,36 +1,48 @@
-import Citadel
 import Crypto
 import Foundation
 import NIOSSH
 import ssshCore
+import ssshCrypto
 
 /// Turns stored key material into something NIOSSH can sign with.
 ///
-/// ## Coverage, and why it is what it is
+/// The container parsing is `ssshCrypto`'s job; this is only the mapping from
+/// parsed material to a `NIOSSHPrivateKey`, plus turning every failure into an
+/// error a user can act on.
 ///
-/// Citadel exposes exactly one public OpenSSH private-key parser —
-/// `Curve25519.Signing.PrivateKey(sshEd25519:decryptionKey:)` — even though it
-/// implements the container format generically internally. So:
+/// ## Coverage
 ///
-/// | key file | supported | how |
-/// |---|---|---|
-/// | `openssh-key-v1`, ed25519, plain or passphrase-protected | yes | Citadel |
-/// | PEM PKCS#8 / SEC1 P-256/384/521 | yes | swift-crypto |
-/// | `openssh-key-v1`, RSA or ECDSA | no | needs our own container parser |
-/// | PKCS#1 `BEGIN RSA PRIVATE KEY` | no | as above |
+/// | key file | usable for authentication |
+/// |---|---|
+/// | `openssh-key-v1` ed25519, plain or passphrase-protected | yes |
+/// | `openssh-key-v1` ECDSA P-256/384/521 | yes |
+/// | PEM PKCS#8 / SEC1 P-256/384/521 | yes |
+/// | `openssh-key-v1` RSA | **read, not yet usable** — see below |
 ///
-/// The gap is not a protocol limitation: RSA *authentication* works (Citadel's
-/// `Insecure.RSA` is registered with NIOSSH), only reading the file does not.
-/// Closing it means parsing `openssh-key-v1` ourselves — bcrypt-pbkdf, AES-CTR,
-/// then the per-algorithm key material — which is Phase 1 work tracked in
-/// docs/PHASE-0-BACKEND-DECISION.md. Until then the error is specific, so the
-/// user is told to convert the key rather than left guessing.
+/// ### Why RSA stops here
+///
+/// The file is parsed correctly; what is missing is a signer. NIOSSH omits RSA
+/// entirely, and the two ways to add it both have a catch:
+///
+/// - Citadel's `Insecure.RSA` signs with SHA-1 under the name `ssh-rsa`, which
+///   OpenSSH has refused by default since 8.8 (2021). It would authenticate
+///   against almost nothing.
+/// - Implementing `rsa-sha2-256`/`rsa-sha2-512` ourselves runs into NIOSSH's
+///   custom-key API keying everything off one prefix string, while RFC 8332
+///   deliberately separates the key-blob format name (`ssh-rsa`) from the
+///   signature algorithm name (`rsa-sha2-*`). Getting that wrong produces
+///   something that looks right and fails against real servers.
+///
+/// So this reports `unsupportedKeyType("ssh-rsa")` rather than half-working,
+/// and the UI can tell the user to convert the key — which is a one-line
+/// `ssh-keygen` away — while the proper fix is tracked in
+/// docs/PHASE-0-BACKEND-DECISION.md.
 enum PrivateKeyLoader {
     static func load(_ material: SSHPrivateKeyMaterial) throws -> NIOSSHPrivateKey {
         let text = material.openSSHPrivateKey.reveal()
         let label = material.label ?? "private key"
 
-        if OpenSSHKeyInspector.isOpenSSHFormat(text) {
+        if OpenSSHPrivateKeyParser.isOpenSSHFormat(text) {
             return try loadOpenSSH(text, material: material, label: label)
         }
 
@@ -46,43 +58,66 @@ enum PrivateKeyLoader {
         material: SSHPrivateKeyMaterial,
         label: String
     ) throws -> NIOSSHPrivateKey {
-        guard let header = OpenSSHKeyInspector(armoredText: text) else {
-            throw SSHTransportError.credentialUnusable(credential: label, reason: .malformedKey)
-        }
-
-        // Key type before passphrase: telling someone to supply a passphrase
-        // for a key we then refuse to read is a worse experience than saying
-        // up front that the format is not supported.
-        guard header.keyType == "ssh-ed25519" else {
+        let parsed: OpenSSHPrivateKey
+        do {
+            parsed = try OpenSSHPrivateKeyParser.parse(
+                armoredText: text,
+                passphrase: material.passphrase?.revealBytes()
+            )
+        } catch let failure as OpenSSHPrivateKeyParser.Failure {
             throw SSHTransportError.credentialUnusable(
                 credential: label,
-                reason: .unsupportedKeyType(header.keyType)
+                reason: problem(for: failure)
             )
         }
-
-        if header.isEncrypted, material.passphrase == nil {
-            throw SSHTransportError.credentialUnusable(credential: label, reason: .passphraseRequired)
-        }
-
-        // Citadel takes the passphrase bytes as the "decryption key" and runs
-        // bcrypt-pbkdf over them itself.
-        let decryptionKey = material.passphrase.map { Data($0.revealBytes()) }
 
         do {
-            let key = try Curve25519.Signing.PrivateKey(sshEd25519: text, decryptionKey: decryptionKey)
-            return NIOSSHPrivateKey(ed25519Key: key)
+            switch parsed.material {
+            case .ed25519(let seed, _):
+                return NIOSSHPrivateKey(ed25519Key: try Curve25519.Signing.PrivateKey(rawRepresentation: seed))
+            case .ecdsaP256(let scalar, _):
+                return NIOSSHPrivateKey(p256Key: try P256.Signing.PrivateKey(rawRepresentation: scalar))
+            case .ecdsaP384(let scalar, _):
+                return NIOSSHPrivateKey(p384Key: try P384.Signing.PrivateKey(rawRepresentation: scalar))
+            case .ecdsaP521(let scalar, _):
+                return NIOSSHPrivateKey(p521Key: try P521.Signing.PrivateKey(rawRepresentation: scalar))
+            case .rsa:
+                throw SSHTransportError.credentialUnusable(
+                    credential: label,
+                    reason: .unsupportedKeyType(parsed.keyType)
+                )
+            }
+        } catch let error as SSHTransportError {
+            throw error
         } catch {
-            // A parse failure on an encrypted key is overwhelmingly a wrong
-            // passphrase: the container's checksum words are what fail to
-            // match. On a plaintext key it is genuinely malformed.
-            throw SSHTransportError.credentialUnusable(
-                credential: label,
-                reason: header.isEncrypted ? .wrongPassphrase : .malformedKey
-            )
+            // The container decoded but the scalar was not a valid key for its
+            // curve — a corrupt file rather than a wrong passphrase, since the
+            // check words already passed.
+            throw SSHTransportError.credentialUnusable(credential: label, reason: .malformedKey)
         }
     }
 
-    /// PEM-armored NIST curve keys, which swift-crypto can read directly.
+    private static func problem(for failure: OpenSSHPrivateKeyParser.Failure) -> SSHTransportError.CredentialProblem {
+        switch failure {
+        case .passphraseRequired:
+            return .passphraseRequired
+        case .incorrectPassphrase:
+            return .wrongPassphrase
+        case .unsupportedKeyType(let type):
+            return .unsupportedKeyType(type)
+        case .unsupportedCipher(let name):
+            // Worth naming: the remedy is `ssh-keygen -p -Z aes256-ctr`.
+            return .unsupportedKeyType("encrypted with \(name)")
+        case .unsupportedKDF(let name):
+            return .unsupportedKeyType("key derivation \(name)")
+        case .multipleKeys:
+            return .malformedKey
+        case .notOpenSSHFormat, .malformed:
+            return .malformedKey
+        }
+    }
+
+    /// PEM-armored NIST curve keys, which swift-crypto reads directly.
     /// Encrypted PEM is not supported by swift-crypto and is not attempted.
     private static func loadPEMECDSA(_ text: String) throws -> NIOSSHPrivateKey {
         if let key = try? P256.Signing.PrivateKey(pemRepresentation: text) {

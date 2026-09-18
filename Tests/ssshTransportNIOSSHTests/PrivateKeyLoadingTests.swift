@@ -1,12 +1,12 @@
 import Foundation
 import XCTest
 @testable import ssshCore
+@testable import ssshCrypto
 @testable import ssshTransportNIOSSH
 
-/// These cover the decisions the loader makes *before* any crypto happens —
-/// which is where the difference between a useful and a useless error message
-/// is decided. Actually decrypting a real key is covered by the integration
-/// run against the sshd container.
+/// The mapping from parsed key material to a NIOSSH signing key, and from
+/// parse failures to errors a user can act on. Container parsing itself is
+/// covered by `ssshCryptoTests` against real `openssl`-generated keys.
 final class PrivateKeyLoadingTests: XCTestCase {
     private func material(_ text: String, passphrase: String? = nil) -> SSHPrivateKeyMaterial {
         SSHPrivateKeyMaterial(
@@ -28,62 +28,43 @@ final class PrivateKeyLoadingTests: XCTestCase {
         }
     }
 
-    func testAnUnreadableKeyTypeIsNamed() {
-        // Naming the type is what lets the UI say "convert this key with
-        // ssh-keygen" instead of "could not load key".
-        XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armored(keyType: "ssh-rsa")),
-            .unsupportedKeyType("ssh-rsa")
-        )
-        XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armored(keyType: "ecdsa-sha2-nistp256")),
-            .unsupportedKeyType("ecdsa-sha2-nistp256")
+    func testLoadsEd25519() throws {
+        // NIOSSHPrivateKey exposes no public accessor for its algorithm, so the
+        // assertion is that the key loads at all — which is what the auth
+        // delegate needs. That the *right* key came out is covered by
+        // `ssshCryptoTests`, which compares the material byte for byte.
+        _ = try PrivateKeyLoader.load(material(TransportKeyFixtures.ed25519Plain))
+    }
+
+    func testLoadsPassphraseProtectedEd25519() throws {
+        _ = try PrivateKeyLoader.load(
+            material(TransportKeyFixtures.ed25519Encrypted, passphrase: TransportKeyFixtures.passphrase)
         )
     }
 
-    func testKeyTypeIsReportedBeforeAMissingPassphrase() {
-        // Otherwise a user is asked for a passphrase and then told the key is
-        // unsupported anyway.
-        XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armored(keyType: "ssh-rsa", cipher: "aes256-ctr", kdf: "bcrypt")),
-            .unsupportedKeyType("ssh-rsa")
-        )
+    func testLoadsECDSA() throws {
+        _ = try PrivateKeyLoader.load(material(TransportKeyFixtures.ecdsaP256Plain))
     }
 
-    func testEncryptedKeyWithoutAPassphraseAsksForOne() {
+    func testWrongPassphraseIsNamed() {
         XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armored(keyType: "ssh-ed25519", cipher: "aes256-ctr", kdf: "bcrypt")),
-            .passphraseRequired
-        )
-    }
-
-    func testEncryptedKeyWithAWrongPassphraseSaysSo() {
-        // The fixture's private section is zeroes, so decryption cannot produce
-        // matching checksum words — which is exactly what a wrong passphrase
-        // looks like.
-        XCTAssertEqual(
-            problem(
-                loading: OpenSSHKeyFixture.armored(keyType: "ssh-ed25519", cipher: "aes256-ctr", kdf: "bcrypt"),
-                passphrase: "not-the-passphrase"
-            ),
+            problem(loading: TransportKeyFixtures.ed25519Encrypted, passphrase: "wrong"),
             .wrongPassphrase
         )
     }
 
-    func testGarbageIsMalformed() {
-        XCTAssertEqual(problem(loading: "this is not a key"), .malformedKey)
-        XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armor(base64: Data("nope".utf8).base64EncodedString())),
-            .malformedKey
-        )
+    func testMissingPassphraseIsNamed() {
+        XCTAssertEqual(problem(loading: TransportKeyFixtures.ed25519Encrypted), .passphraseRequired)
     }
 
-    func testAPlainUnparsableOpenSSHKeyIsMalformedRatherThanAPassphraseProblem() {
-        // Unencrypted but structurally broken: blaming the passphrase would
-        // send the user looking for one that does not exist.
-        XCTAssertEqual(
-            problem(loading: OpenSSHKeyFixture.armored(keyType: "ssh-ed25519")),
-            .malformedKey
-        )
+    func testRSAIsReadButReportedUnusable() {
+        // The file parses; what is missing is an rsa-sha2-* signer. The error
+        // has to name the type so the UI can suggest converting the key rather
+        // than leaving the user guessing.
+        XCTAssertEqual(problem(loading: TransportKeyFixtures.rsaPlain), .unsupportedKeyType("ssh-rsa"))
+    }
+
+    func testGarbageIsMalformed() {
+        XCTAssertEqual(problem(loading: "this is not a key"), .malformedKey)
     }
 }
