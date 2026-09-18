@@ -31,7 +31,7 @@ public enum SSHKeyGenerator {
         }
     }
 
-    public struct Generated {
+    public struct Generated: Sendable {
         public var privateKey: OpenSSHPrivateKey
         /// The armoured private key, encrypted when a passphrase was given.
         public var armoredPrivateKey: String
