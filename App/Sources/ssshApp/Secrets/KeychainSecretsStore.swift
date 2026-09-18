@@ -217,7 +217,7 @@ actor KeychainSecretsStore: SecretsStore {
     }
 
     private func accounts(in scope: SecretStorageScope) throws -> [String] {
-        var query: [String: Any] = [
+        let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrSynchronizable as String: scope == .iCloudKeychain,
