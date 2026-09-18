@@ -34,7 +34,11 @@
 	<array>
 		<string>$(AppIdentifierPrefix)nl.rorymeijer.sssh</string>
 	</array>
-
+<key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
+<array>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)-spks</string>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)-spki</string>
+</array>
 	<!-- Deliberately absent: network.server, device.camera, device.microphone,
 	     personal-information.*, and automation. An SSH client needs none of
 	     them, and leaving them out is what makes that checkable. -->
