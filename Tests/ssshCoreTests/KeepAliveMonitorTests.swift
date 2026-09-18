@@ -45,8 +45,9 @@ final class KeepAliveMonitorTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(200))
         await monitor.stop()
 
+        let missed = await monitor.missedProbes
         XCTAssertFalse(died.isFulfilled)
-        XCTAssertEqual(await monitor.missedProbes, 0)
+        XCTAssertEqual(missed, 0)
     }
 
     func testDoesNotProbeWhileDisconnected() async throws {

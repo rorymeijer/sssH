@@ -44,7 +44,8 @@ final class HostKeyPolicyTests: XCTestCase {
         let store = InMemoryStore()
         let policy = SSHKnownHostsPolicy(store: store, verifier: RecordingVerifier(decision: .trustOnce))
 
-        XCTAssertTrue(await policy.validate(key(7), for: endpoint))
+        let accepted = await policy.validate(key(7), for: endpoint)
+        XCTAssertTrue(accepted)
         let remembered = await store.trustedKeys(for: endpoint)
         XCTAssertTrue(remembered.isEmpty)
     }
@@ -67,7 +68,8 @@ final class HostKeyPolicyTests: XCTestCase {
     func testDefaultVerifierFailsClosed() async {
         let store = InMemoryStore()
         let policy = SSHKnownHostsPolicy(store: store, verifier: RejectingHostKeyVerifier())
-        XCTAssertFalse(await policy.validate(key(9), for: endpoint))
+        let accepted = await policy.validate(key(9), for: endpoint)
+        XCTAssertFalse(accepted)
     }
 
     func testAHostLegitimatelyOffersSeveralAlgorithms() async {
@@ -78,8 +80,10 @@ final class HostKeyPolicyTests: XCTestCase {
 
         // Same wire bytes, different algorithm: these are different keys, and
         // both are trusted, so neither should prompt.
-        XCTAssertTrue(await policy.validate(ed25519, for: endpoint))
-        XCTAssertTrue(await policy.validate(rsa, for: endpoint))
+        let ed25519Accepted = await policy.validate(ed25519, for: endpoint)
+        let rsaAccepted = await policy.validate(rsa, for: endpoint)
+        XCTAssertTrue(ed25519Accepted)
+        XCTAssertTrue(rsaAccepted)
     }
 
     func testFingerprintIsNotPartOfKeyIdentity() {

@@ -67,6 +67,17 @@ public struct SSHWireWriter {
 
     public init() {}
 
+    /// Appends bytes with no length prefix.
+    ///
+    /// Almost nothing in SSH wire format is raw — a string carries its length,
+    /// and reaching past that is how a parser and a writer stop agreeing. The
+    /// exception this exists for is `openssh-key-v1\0`, the magic at the head
+    /// of a private key file, which is a NUL-terminated C string rather than an
+    /// SSH one. Anything else should use ``writeString(_:)``.
+    public mutating func writeRaw(_ value: [UInt8]) {
+        bytes.append(contentsOf: value)
+    }
+
     public mutating func writeUInt32(_ value: UInt32) {
         bytes.append(UInt8(truncatingIfNeeded: value >> 24))
         bytes.append(UInt8(truncatingIfNeeded: value >> 16))

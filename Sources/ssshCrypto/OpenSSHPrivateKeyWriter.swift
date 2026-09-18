@@ -63,8 +63,9 @@ public enum OpenSSHPrivateKeyWriter {
         var privateSection = try privateSection(for: key, checkInt: checkInt ?? UInt32.random(in: 0...UInt32.max))
 
         var writer = SSHWireWriter()
-        writer.bytes.append(contentsOf: Array("openssh-key-v1".utf8))
-        writer.bytes.append(0)
+        // AUTH_MAGIC: a NUL-terminated C string, not a length-prefixed SSH
+        // string. It is the one raw field in the container.
+        writer.writeRaw(Array("openssh-key-v1".utf8) + [0])
 
         if let encryption {
             // 32 bytes of AES key and 16 of IV, which is the layout
