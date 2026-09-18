@@ -116,7 +116,7 @@ readonly GENERATE_APPCAST="$SPARKLE_BIN_DIR/generate_appcast"
 [[ "$BUILD_NUMBER" =~ ^[1-9][0-9]*$ ]] ||
     die "Buildnummer moet een positief geheel getal zijn."
 
-for command_name in git gh xcodegen xcodebuild xcrun codesign spctl ditto perl grep curl; do
+for command_name in git gh xcodegen xcodebuild xcrun codesign spctl security ditto perl grep curl; do
     require_command "$command_name"
 done
 
@@ -170,6 +170,11 @@ visibility="$(gh repo view "$GITHUB_REPOSITORY" --json visibility --jq .visibili
 step "Notarisatieprofiel controleren"
 if ! xcrun notarytool history --keychain-profile "$NOTARY_PROFILE" >/dev/null; then
     die "Keychain-profiel '$NOTARY_PROFILE' ontbreekt of werkt niet. Maak het met 'xcrun notarytool store-credentials'."
+fi
+
+step "Developer ID-certificaat controleren"
+if ! security find-identity -v -p codesigning | grep -F "Developer ID Application" | grep -F "($TEAM_ID)" >/dev/null; then
+    die "Geen Developer ID Application-certificaat met private sleutel gevonden voor team $TEAM_ID. Voeg het account en certificaat toe in Xcode Settings > Accounts."
 fi
 
 current_version="$(perl -ne 'print "$1\n" if /MARKETING_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
