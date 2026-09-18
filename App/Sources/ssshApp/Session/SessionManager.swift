@@ -61,6 +61,13 @@ final class SessionManager {
     /// connection.
     var showsBlockInspector = false
 
+    /// Whether the file browser is open for the focused session.
+    ///
+    /// Only a direct session has one: a tmux pane shares its connection with
+    /// the other panes and has no transport of its own to open an SFTP channel
+    /// on, which is exactly what ``focusedSession`` being nil there means.
+    var showsFileBrowser = false
+
     // MARK: - Opening
 
     /// Opens a tab for `host` and starts connecting.

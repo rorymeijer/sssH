@@ -20,6 +20,10 @@ public protocol SFTPService: AnyObject, Sendable {
     func removeDirectory(at path: String) async throws
     func rename(from: String, to: String) async throws
 
+    /// The raw target of a symlink, unresolved.
+    func readLink(at path: String) async throws -> String
+    func createSymbolicLink(at path: String, to target: String) async throws
+
     /// Opens a remote file. The handle is closed when the returned value is
     /// closed, not when it is deallocated — SFTP handles are a server
     /// resource and leaking them exhausts the session.
@@ -28,7 +32,20 @@ public protocol SFTPService: AnyObject, Sendable {
     func close() async
 }
 
-public struct RemoteFileEntry: Hashable, Sendable {
+public extension RemoteFileAttributes {
+    /// True for a directory, following nothing: a symlink to a directory is a
+    /// symlink here. The browser resolves those itself, because resolving them
+    /// in the transport would hide the loops.
+    var isDirectory: Bool { kind == .directory }
+}
+
+/// One directory entry.
+///
+/// `Identifiable` by name, which is unique within a directory and nowhere else
+/// — which is exactly the scope a file list uses it in.
+public struct RemoteFileEntry: Hashable, Sendable, Identifiable {
+    public var id: String { name }
+
     public var name: String
     public var attributes: RemoteFileAttributes
     /// For a symlink, the raw target as stored on the server. Resolving it is

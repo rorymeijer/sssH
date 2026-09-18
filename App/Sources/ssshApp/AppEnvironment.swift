@@ -130,6 +130,14 @@ final class AppEnvironment {
             ))
             items.append(PaletteItem(
                 kind: .action,
+                title: String(localized: "Bestanden", comment: "Title of the file browser"),
+                subtitle: nil,
+                symbol: "folder",
+                keywords: ["sftp", "files", "bestanden", "upload", "download"],
+                perform: { [weak self] in self?.sessions.showsFileBrowser = true }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
                 title: String(localized: "Opdrachten", comment: "Menu item: toggle the command block list"),
                 subtitle: nil,
                 symbol: "list.bullet.rectangle",

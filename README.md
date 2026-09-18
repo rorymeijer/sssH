@@ -3,8 +3,8 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 3 done — command blocks with OSC 133 shell integration, a
-fallback that works without it, per-block actions and in-session search.**
+**Status: Phase 4 done — a dual-pane SFTP browser with a transfer queue,
+drag and drop, and sssh's own SFTP implementation underneath it.**
 
 ## Where things are
 
@@ -14,7 +14,7 @@ fallback that works without it, per-block actions and in-session search.**
 | `Sources/ssshCore` | Backend-agnostic protocols and value types. Pure Swift. |
 | `Sources/ssshCrypto` | `openssh-key-v1` parsing, and the primitives swift-crypto does not expose (Blowfish, bcrypt_pbkdf, AES-CTR, DER). |
 | `Vendor/swift-nio-ssh` | A fork, carrying keyboard-interactive auth and the RFC 8332 RSA fix. See [Vendor/README.md](Vendor/README.md). |
-| `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport. The only module that knows about SwiftNIO. |
+| `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport, and sssh's own SFTP v3 implementation. The only module that knows about SwiftNIO. |
 | `Sources/ssshPTYSpike` | `sssh-ptyspike`, the Phase 0 interactive-PTY harness. |
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
 | `docs/PHASE-0-BACKEND-DECISION.md` | Which backend, why, and every library limitation found. **Start here.** |
@@ -79,7 +79,7 @@ external values. See "Verification status" in the Phase 0 report.
 - [x] **1** — Core terminal app: SwiftTerm host, password + key auth, `keyboard-interactive`, known-hosts prompt, tabs, host list
 - [x] **2** — Splits, broadcast, session restore, command palette, tmux, reconnect
 - [x] **3** — Command blocks (OSC 133 + fallback), per-block actions, in-session search
-- [ ] **4** — SFTP browser, transfer queue, drag and drop
+- [x] **4** — SFTP browser, transfer queue, drag and drop
 - [ ] **5** — Port forwarding: local, remote, dynamic
 - [ ] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes
 - [ ] **7** — CloudKit sync, Keychain/Secure Enclave, app lock

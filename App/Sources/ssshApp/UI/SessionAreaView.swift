@@ -60,6 +60,18 @@ struct SessionAreaView: View {
                 }
             }
         }
+        .sheet(isPresented: Binding(
+            get: { sessions.showsFileBrowser && sessions.focusedSession != nil },
+            set: { sessions.showsFileBrowser = $0 }
+        )) {
+            if let session = sessions.focusedSession {
+                FileBrowserView(session: session)
+                    // The browser belongs to one connection. Rebuilding it for
+                    // another session is right: its two panes, its queue and
+                    // its SFTP channel are all that session's.
+                    .id(session.id)
+            }
+        }
     }
 }
 

@@ -394,8 +394,14 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
     }
 
     public func openSFTP() async throws -> any SFTPService {
-        // Phase 4.
-        throw SSHTransportError.unsupported(.sftp)
+        let connection = try requireConnection()
+        return try await NIOSFTPService.open(
+            on: connection.sshHandler,
+            eventLoop: connection.channel.eventLoop,
+            allocator: connection.channel.allocator,
+            channelOpenTimeout: .seconds(15),
+            logger: logger
+        )
     }
 
     public func portForwarding() async throws -> any PortForwardService {

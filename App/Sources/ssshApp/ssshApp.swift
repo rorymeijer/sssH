@@ -111,6 +111,16 @@ struct ssshCommands: Commands {
             .keyboardShortcut("f", modifiers: .command)
             .disabled(environment.sessions.selectedTab == nil)
 
+            Button {
+                environment.sessions.showsFileBrowser = true
+            } label: {
+                Text("Bestanden", comment: "Title of the file browser")
+            }
+            .keyboardShortcut("b", modifiers: [.command, .option])
+            // A tmux pane shares its connection with the other panes and has
+            // no transport of its own, so there is nothing to open SFTP on.
+            .disabled(environment.sessions.focusedSession == nil)
+
             Divider()
 
             Button {

@@ -91,7 +91,13 @@ let package = Package(
         ),
         .testTarget(
             name: "ssshTransportNIOSSHTests",
-            dependencies: ["ssshCore", "ssshTransportNIOSSH"]
+            dependencies: [
+                "ssshCore",
+                "ssshTransportNIOSSH",
+                // The SFTP codec deals in ByteBuffer, so its tests do too.
+                .product(name: "NIOCore", package: "swift-nio"),
+                .product(name: "NIOEmbedded", package: "swift-nio"),
+            ]
         ),
     ]
 )

@@ -36,7 +36,6 @@ settings:
     DEVELOPMENT_LANGUAGE: nl
     SWIFT_EMIT_LOC_STRINGS: YES
     ENABLE_USER_SCRIPT_SANDBOXING: YES
-    GENERATE_INFOPLIST_FILE: YES
     CODE_SIGN_STYLE: Automatic
 
 targets:
@@ -52,26 +51,47 @@ targets:
         product: ssshTransportNIOSSH
       - package: SwiftTerm
         product: SwiftTerm
+    # Written out rather than generated, because the app exports a uniform
+    # type identifier for dragging a file selection between the browser's two
+    # panes, and `UTExportedTypeDeclarations` is an array of dictionaries that
+    # no `INFOPLIST_KEY_*` setting can express. Platform-specific keys sit in
+    # the same file and are ignored by the platform they do not belong to.
+    info:
+      # Deliberately outside `Sources/ssshApp`, which is the target's source
+      # path: a generated plist sitting inside it would also be picked up as a
+      # resource and shipped in the bundle twice.
+      path: Supporting/Info.plist
+      properties:
+        CFBundleDisplayName: sssh
+        # Dutch first, English as the fallback locale.
+        CFBundleLocalizations: [nl, en]
+        LSApplicationCategoryType: public.app-category.developer-tools
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: nl.rorymeijer.sssh.file-selection
+            UTTypeDescription: sssh file selection
+            # Conforms to `public.data` only. A remote file has no URL — it
+            # lives on another machine and the only handle on it is a path
+            # plus the connection it belongs to — so advertising this as a
+            # file URL would let other apps accept a drop they cannot read.
+            UTTypeConformsTo: [public.data]
+            UTTypeTagSpecification: {}
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: nl.rorymeijer.sssh
         PRODUCT_NAME: sssh
-        INFOPLIST_KEY_CFBundleDisplayName: sssh
-        # Dutch first, English as the fallback locale.
-        INFOPLIST_KEY_CFBundleLocalizations: nl en
         SWIFT_STRICT_CONCURRENCY: targeted
       macOS:
-        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
         # Outgoing connections only. No incoming server, no camera, no
         # microphone, no address book: an SSH client needs none of it, and the
         # entitlements file is where that gets enforced rather than promised.
         CODE_SIGN_ENTITLEMENTS: Sources/ssshApp/Resources/sssh.macOS.entitlements
         ENABLE_HARDENED_RUNTIME: YES
       iOS:
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations: >-
-          UIInterfaceOrientationPortrait
-          UIInterfaceOrientationLandscapeLeft
-          UIInterfaceOrientationLandscapeRight
         TARGETED_DEVICE_FAMILY: "1,2"

@@ -72,6 +72,11 @@ final class TerminalSession: TerminalFeed {
     private let output = PendingOutputBuffer()
     let blocks = SessionBlocks()
 
+    private var sftpService: (any SFTPService)?
+    /// Held so that two browsers opening at once share one channel instead of
+    /// racing to open two.
+    private var sftpTask: Task<any SFTPService, Error>?
+
     init(
         hostDisplayName: String,
         endpoint: SSHEndpoint,
@@ -133,6 +138,7 @@ final class TerminalSession: TerminalFeed {
 
     func disconnect() async {
         blocks.finish()
+        await closeSFTP()
         outputTask?.cancel()
         outputTask = nil
 
@@ -168,6 +174,10 @@ final class TerminalSession: TerminalFeed {
             case .connecting(let attempt):
                 retryingAt = nil
                 state = attempt == 1 ? .connecting : .reconnecting(attempt: attempt, nextAttemptIn: .zero)
+                // The SFTP channel belonged to the connection that just went
+                // away. Callers ask for it per operation, so dropping it here
+                // is all that is needed for the next one to open a fresh one.
+                if attempt > 1 { Task { await self.closeSFTP() } }
 
             case .connected:
                 retryingAt = nil
@@ -197,6 +207,40 @@ final class TerminalSession: TerminalFeed {
                 state = .disconnected(reason)
             }
         }
+    }
+
+    // MARK: - File transfer
+
+    /// Opens an SFTP channel on this session's connection.
+    ///
+    /// One per session, shared by every file browser and every transfer:
+    /// opening a channel per transfer works, but a queue of thirty files then
+    /// opens thirty channels, and servers have limits.
+    func sftp() async throws -> any SFTPService {
+        if let sftpService { return sftpService }
+        if let inFlight = sftpTask { return try await inFlight.value }
+
+        let task = Task<any SFTPService, Error> { [transport] in
+            try await transport.openSFTP()
+        }
+        sftpTask = task
+        do {
+            let service = try await task.value
+            sftpService = service
+            sftpTask = nil
+            return service
+        } catch {
+            sftpTask = nil
+            throw error
+        }
+    }
+
+    private func closeSFTP() async {
+        sftpTask?.cancel()
+        sftpTask = nil
+        let service = sftpService
+        sftpService = nil
+        await service?.close()
     }
 
     /// Records the real connection details once they are known. The supervisor

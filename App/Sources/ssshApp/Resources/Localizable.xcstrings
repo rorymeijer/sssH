@@ -1,6 +1,42 @@
 {
   "sourceLanguage": "nl",
   "strings": {
+    "%@ De server zegt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ The server says: %@"
+          }
+        }
+      },
+      "comment": "Appends the server's own explanation to a failure message"
+    },
+    "%@ bestaat al.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ already exists."
+          }
+        }
+      },
+      "comment": "Says which path already exists"
+    },
+    "%@ bestaat niet (meer).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ does not exist (any more)."
+          }
+        }
+      },
+      "comment": "An SFTP operation named a path the server does not have"
+    },
     "%@ is beveiligd met een wachtwoordzin.": {
       "extractionState": "manual",
       "localizations": {
@@ -73,6 +109,42 @@
       },
       "comment": "Accessibility label for a failed command block, with its exit status"
     },
+    "%@/s": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/s"
+          }
+        }
+      },
+      "comment": "A transfer rate, as bytes per second"
+    },
+    "%lld bezig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld in progress"
+          }
+        }
+      },
+      "comment": "How many transfers are still running or waiting"
+    },
+    "%lld geselecteerd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld selected"
+          }
+        }
+      },
+      "comment": "How many files are selected"
+    },
     "%lld procent": {
       "extractionState": "manual",
       "localizations": {
@@ -120,6 +192,18 @@
         }
       },
       "comment": "Label for the host key the server presented"
+    },
+    "Aanmaken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create"
+          }
+        }
+      },
+      "comment": "Button that creates a new folder"
     },
     "Aanmelden": {
       "extractionState": "manual",
@@ -169,6 +253,18 @@
       },
       "comment": "Field label: hostname or IP address"
     },
+    "Afgerond wissen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear finished"
+          }
+        }
+      },
+      "comment": "Button that clears finished transfers from the queue"
+    },
     "Alles": {
       "extractionState": "manual",
       "localizations": {
@@ -181,6 +277,30 @@
       },
       "comment": "Block filter: show every command"
     },
+    "Alles annuleren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel all"
+          }
+        }
+      },
+      "comment": "Button that cancels every queued transfer"
+    },
+    "Anderen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Others"
+          }
+        }
+      },
+      "comment": "Permission class: everyone else"
+    },
     "Annuleer": {
       "extractionState": "manual",
       "localizations": {
@@ -192,6 +312,54 @@
         }
       },
       "comment": "Button: cancel the credential prompt"
+    },
+    "Beide bewaren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep both"
+          }
+        }
+      },
+      "comment": "Collision option: keep both files by renaming the new one"
+    },
+    "Bestand %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a file row without a known size"
+    },
+    "Bestand %@, %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File %@, %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a file row, with its size"
+    },
+    "Bestanden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files"
+          }
+        }
+      },
+      "comment": "Title of the file browser"
     },
     "Bestandsoverdracht komt in een volgende versie.": {
       "extractionState": "manual",
@@ -265,6 +433,18 @@
       },
       "comment": "Context menu: edit this host's settings"
     },
+    "Bezig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running"
+          }
+        }
+      },
+      "comment": "A transfer that is running"
+    },
     "De extra verificatie is afgebroken.": {
       "comment": "A keyboard-interactive challenge was cancelled or could not be answered",
       "extractionState": "manual",
@@ -300,6 +480,66 @@
         }
       },
       "comment": "Title of the sheet shown when a host key does not match the stored one"
+    },
+    "De server kon de bewerking niet uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server could not carry out the operation."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation without saying why"
+    },
+    "De server kon de bewerking op %@ niet uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server could not carry out the operation on %@."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation without saying why, naming the path"
+    },
+    "De server ondersteunt deze bewerking niet: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server does not support this operation: %@."
+          }
+        }
+      },
+      "comment": "The server does not implement the requested SFTP operation"
+    },
+    "De server sprak het SFTP-protocol niet correct: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server did not speak the SFTP protocol correctly: %@."
+          }
+        }
+      },
+      "comment": "The server sent something the SFTP protocol does not allow"
+    },
+    "De server spreekt SFTP-versie %lld; sssh heeft minstens versie 3 nodig.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server speaks SFTP version %lld; sssh needs at least version 3."
+          }
+        }
+      },
+      "comment": "The server offered an SFTP protocol version this client cannot speak"
     },
     "De server vraagt om aanvullende gegevens.": {
       "comment": "Fallback when a keyboard-interactive challenge carries no instruction",
@@ -397,6 +637,18 @@
       },
       "comment": "The user disconnected"
     },
+    "De verbinding is weggevallen tijdens de overdracht.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection dropped during the transfer."
+          }
+        }
+      },
+      "comment": "The SSH connection dropped during a transfer"
+    },
     "De verbinding reageert niet meer.": {
       "extractionState": "manual",
       "localizations": {
@@ -445,6 +697,18 @@
         }
       }
     },
+    "Dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This device"
+          }
+        }
+      },
+      "comment": "Title of the local side of the file browser"
+    },
     "Dit kan betekenen dat de server opnieuw is geïnstalleerd. Het kan ook betekenen dat iemand het verkeer onderschept. Verbind alleen als u weet welke van de twee het is.": {
       "extractionState": "manual",
       "localizations": {
@@ -457,6 +721,18 @@
       },
       "comment": "Explains the two reasons a host key changes and advises caution"
     },
+    "Dit kan niet ongedaan worden gemaakt: op een server is er geen prullenbak.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This cannot be undone: a server has no trash."
+          }
+        }
+      },
+      "comment": "Warning that remote deletion is permanent"
+    },
     "Dit sleuteltype wordt nog niet ondersteund.": {
       "extractionState": "manual",
       "localizations": {
@@ -468,6 +744,30 @@
         }
       },
       "comment": "A private key file type is not supported"
+    },
+    "Download": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download"
+          }
+        }
+      },
+      "comment": "Button that downloads the selected remote files"
+    },
+    "Een naam mag geen schuine streep bevatten en kan niet . of .. zijn.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A name cannot contain a slash, and cannot be . or .."
+          }
+        }
+      },
+      "comment": "Explains why a proposed filename is not allowed"
     },
     "Eenmalig verbinden": {
       "extractionState": "manual",
@@ -505,6 +805,18 @@
       },
       "comment": "Title of the sheet shown on a first connection to a host"
     },
+    "Eigenaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Owner"
+          }
+        }
+      },
+      "comment": "Permission class: the file's owner"
+    },
     "Elke keer vragen": {
       "extractionState": "manual",
       "localizations": {
@@ -516,6 +828,18 @@
         }
       },
       "comment": "Authentication method: prompt on every connection"
+    },
+    "Er bestaat al iets met deze naam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something with this name already exists"
+          }
+        }
+      },
+      "comment": "Title of the file collision prompt"
     },
     "Er is al iets bewaard voor deze host. Laat het veld leeg om dat te houden.": {
       "extractionState": "manual",
@@ -613,6 +937,18 @@
       },
       "comment": "Menu item that opens the command palette"
     },
+    "Geannuleerd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelled."
+          }
+        }
+      },
+      "comment": "A transfer was cancelled by the user"
+    },
     "Gebruikersnaam": {
       "extractionState": "manual",
       "localizations": {
@@ -661,6 +997,18 @@
       },
       "comment": "Empty state title when no session tab is open"
     },
+    "Geen toegang tot %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No access to %@."
+          }
+        }
+      },
+      "comment": "The server refused an SFTP operation for lack of permission"
+    },
     "Geen uitvoer": {
       "extractionState": "manual",
       "localizations": {
@@ -696,6 +1044,66 @@
         }
       },
       "comment": "Button that closes the shell integration sheet"
+    },
+    "Gewijzigd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modified"
+          }
+        }
+      },
+      "comment": "Sort files by modification date"
+    },
+    "Groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Group"
+          }
+        }
+      },
+      "comment": "Permission class: the file's group"
+    },
+    "Grootte": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size"
+          }
+        }
+      },
+      "comment": "Sort files by size"
+    },
+    "Hervatten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        }
+      },
+      "comment": "Collision option: continue an interrupted transfer"
+    },
+    "Hervatten werkt alleen als het bestaande bestand korter is dan het origineel. Is het langer, dan is het een ander bestand en wordt er opnieuw begonnen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resuming only applies when the existing file is shorter than the original. If it is longer it is a different file, and the transfer starts over."
+          }
+        }
+      },
+      "comment": "Explains when resuming applies"
     },
     "Het bewaren in de sleutelhanger is mislukt: %@": {
       "extractionState": "manual",
@@ -744,6 +1152,18 @@
         }
       },
       "comment": "Checkbox the user must tick before they can trust a changed host key"
+    },
+    "In wachtrij": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Queued"
+          }
+        }
+      },
+      "comment": "A transfer that has not started yet"
     },
     "Instellingen worden niet bewaard": {
       "extractionState": "manual",
@@ -817,6 +1237,18 @@
       },
       "comment": "The TCP connection could not be made"
     },
+    "Kant": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Side"
+          }
+        }
+      },
+      "comment": "Accessibility label for the local/remote picker"
+    },
     "Kies een host in de zijbalk en verbind om te beginnen.": {
       "extractionState": "manual",
       "localizations": {
@@ -828,6 +1260,18 @@
         }
       },
       "comment": "Empty state body when no session tab is open"
+    },
+    "Klaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      },
+      "comment": "A transfer that finished successfully"
     },
     "Kopieer naar klembord": {
       "extractionState": "manual",
@@ -900,6 +1344,18 @@
       },
       "comment": "Field label: comma-separated tags"
     },
+    "Lezen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read"
+          }
+        }
+      },
+      "comment": "Permission bit: read"
+    },
     "Loopt": {
       "extractionState": "manual",
       "localizations": {
@@ -911,6 +1367,30 @@
         }
       },
       "comment": "Block filter: show only commands still running"
+    },
+    "Map %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a directory row"
+    },
+    "Map kan niet worden geopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder cannot be opened"
+          }
+        }
+      },
+      "comment": "Title shown when a directory could not be listed"
     },
     "Meld aan als %@ op %@.": {
       "extractionState": "manual",
@@ -972,6 +1452,54 @@
       },
       "comment": "Field for the tmux session to attach to or create"
     },
+    "Naam wijzigen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        }
+      },
+      "comment": "Title of the rename prompt"
+    },
+    "Naam wijzigen…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename…"
+          }
+        }
+      },
+      "comment": "Menu item that renames a file"
+    },
+    "Naar bovenliggende map": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to enclosing folder"
+          }
+        }
+      },
+      "comment": "Accessibility label for the go-up button"
+    },
+    "Naar thuismap": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go to home folder"
+          }
+        }
+      },
+      "comment": "Accessibility label for the go-home button"
+    },
     "Niet alle uitvoer is bewaard.": {
       "extractionState": "manual",
       "localizations": {
@@ -1008,6 +1536,18 @@
       },
       "comment": "Title when adding a host"
     },
+    "Nieuwe map": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New folder"
+          }
+        }
+      },
+      "comment": "Title of the new folder prompt"
+    },
     "Nog geen hosts": {
       "extractionState": "manual",
       "localizations": {
@@ -1031,6 +1571,18 @@
         }
       },
       "comment": "Empty state title for the command block list"
+    },
+    "Octaal": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octal"
+          }
+        }
+      },
+      "comment": "Label for the octal permissions field"
     },
     "Opdracht bij starten": {
       "extractionState": "manual",
@@ -1056,6 +1608,42 @@
       },
       "comment": "Menu item: toggle the command block list"
     },
+    "Openen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open"
+          }
+        }
+      },
+      "comment": "Menu item that opens a directory"
+    },
+    "Oplopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ascending"
+          }
+        }
+      },
+      "comment": "Toggle for ascending sort order"
+    },
+    "Opnieuw proberen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        }
+      },
+      "comment": "Button that retries a failed directory listing"
+    },
     "Opnieuw verbinden, poging %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -1068,6 +1656,18 @@
       },
       "comment": "Connection state: retrying, with the attempt number"
     },
+    "Overdrachten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfers"
+          }
+        }
+      },
+      "comment": "Toggle that shows the transfer queue"
+    },
     "Overig": {
       "extractionState": "manual",
       "localizations": {
@@ -1079,6 +1679,18 @@
         }
       },
       "comment": "Section header: everything else"
+    },
+    "Overslaan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip"
+          }
+        }
+      },
+      "comment": "Collision option: skip this file"
     },
     "Poort": {
       "extractionState": "manual",
@@ -1116,6 +1728,30 @@
       },
       "comment": "Accessibility label for the private key field"
     },
+    "Rechten voor %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions for %@"
+          }
+        }
+      },
+      "comment": "Title of the permissions editor, naming the file"
+    },
+    "Rechten…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permissions…"
+          }
+        }
+      },
+      "comment": "Menu item that edits a file's POSIX permissions"
+    },
     "Scheiding": {
       "extractionState": "manual",
       "localizations": {
@@ -1127,6 +1763,42 @@
         }
       },
       "comment": "Accessibility label for a split divider"
+    },
+    "Schrijven": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write"
+          }
+        }
+      },
+      "comment": "Permission bit: write"
+    },
+    "Selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        }
+      },
+      "comment": "Accessibility label for a row's selection control"
+    },
+    "Server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Server"
+          }
+        }
+      },
+      "comment": "Title of the remote side of the file browser"
     },
     "Sessie": {
       "extractionState": "manual",
@@ -1224,6 +1896,30 @@
       },
       "comment": "Menu item that closes the focused pane"
     },
+    "Soort": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kind"
+          }
+        }
+      },
+      "comment": "Sort files by kind"
+    },
+    "Sorteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort"
+          }
+        }
+      },
+      "comment": "Label for the file sort menu"
+    },
     "Splits naar beneden": {
       "extractionState": "manual",
       "localizations": {
@@ -1248,6 +1944,18 @@
       },
       "comment": "Menu item that splits the focused pane horizontally"
     },
+    "Symbolische koppeling %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Symbolic link %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a symlink row"
+    },
     "Terminal voor %@": {
       "extractionState": "manual",
       "localizations": {
@@ -1260,6 +1968,18 @@
       },
       "comment": "Accessibility label for the terminal view"
     },
+    "Terug": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      },
+      "comment": "Accessibility label for the back button"
+    },
     "Time-out tijdens %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -1271,6 +1991,18 @@
         }
       },
       "comment": "An operation took too long; placeholder names the operation"
+    },
+    "Toepassen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        }
+      },
+      "comment": "Button that applies new permissions"
     },
     "Treffer %lld van %lld": {
       "extractionState": "manual",
@@ -1295,6 +2027,30 @@
         }
       },
       "comment": "Button in the broadcast banner that stops broadcasting"
+    },
+    "Uitvoeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Execute"
+          }
+        }
+      },
+      "comment": "Permission bit: execute"
+    },
+    "Upload": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upload"
+          }
+        }
+      },
+      "comment": "Button that uploads the selected local files"
     },
     "Verbind": {
       "extractionState": "manual",
@@ -1380,6 +2136,30 @@
       },
       "comment": "Connection state: connected"
     },
+    "Verborgen bestanden tonen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show hidden files"
+          }
+        }
+      },
+      "comment": "Toggle that shows dotfiles"
+    },
+    "Vernieuwen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Refresh"
+          }
+        }
+      },
+      "comment": "Accessibility label for the refresh button"
+    },
     "Vertrouwen en onthouden": {
       "extractionState": "manual",
       "localizations": {
@@ -1392,6 +2172,60 @@
       },
       "comment": "Button: accept the host key and store it"
     },
+    "Vervangen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace"
+          }
+        }
+      },
+      "comment": "Collision option: overwrite the existing file"
+    },
+    "Verwijder %lld item(s)": {
+      "extractionState": "manual",
+      "comment": "Confirms deleting N remote items",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Verwijder 1 item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Verwijder %lld items"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Delete 1 item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Delete %lld items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Verwijderen": {
       "extractionState": "manual",
       "localizations": {
@@ -1403,6 +2237,18 @@
         }
       },
       "comment": "Context menu: delete this host"
+    },
+    "Verwijderen van de server?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete from the server?"
+          }
+        }
+      },
+      "comment": "Title of the remote delete confirmation"
     },
     "Voeg een host toe om een verbinding te maken.": {
       "extractionState": "manual",
@@ -1500,6 +2346,18 @@
       },
       "comment": "Accessibility label for the previous search result button"
     },
+    "Wacht op antwoord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for an answer"
+          }
+        }
+      },
+      "comment": "A transfer paused for a collision decision"
+    },
     "Wacht op invoer": {
       "extractionState": "manual",
       "localizations": {
@@ -1583,6 +2441,18 @@
         }
       },
       "comment": "Title of the key passphrase prompt"
+    },
+    "Wijzigen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename"
+          }
+        }
+      },
+      "comment": "Button that confirms a rename"
     },
     "Wis zoekopdracht": {
       "extractionState": "manual",
