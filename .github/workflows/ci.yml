@@ -70,9 +70,9 @@ jobs:
         run: docker compose -f Integration/docker-compose.yml down -v
 
   # Apple platforms are where the app ships, so the same package is built with
-  # the Xcode toolchain. The SwiftUI app targets join this job in Phase 1.
+  # the Xcode toolchain.
   apple:
-    name: macOS (build, unit tests)
+    name: macOS (package build, unit tests)
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -85,3 +85,38 @@ jobs:
 
       - name: Unit tests
         run: swift test --skip-build
+
+  # The app, which needs Xcode rather than SwiftPM because it is an app bundle.
+  # Signing is off: this checks that it compiles, not that it ships.
+  app:
+    name: App (macOS and iOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate the project
+        working-directory: App
+        run: xcodegen generate
+
+      - name: Build for macOS
+        working-directory: App
+        run: |
+          xcodebuild build \
+            -project sssh.xcodeproj \
+            -scheme sssh \
+            -destination 'platform=macOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty || exit ${PIPESTATUS[0]}
+
+      - name: Build for iOS Simulator
+        working-directory: App
+        run: |
+          xcodebuild build \
+            -project sssh.xcodeproj \
+            -scheme sssh \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcpretty || exit ${PIPESTATUS[0]}

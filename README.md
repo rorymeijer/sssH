@@ -3,19 +3,28 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 0 complete — SSH backend chosen and the interactive-PTY
-transport written. No app UI yet.**
+**Status: Phase 1 in progress — the app exists: host list, key and password
+authentication, host-key prompt, tabs, SwiftTerm.**
 
 ## Where things are
 
 | Path | What |
 |---|---|
+| `App/` | The SwiftUI app for macOS, iPadOS and iOS. See [App/README.md](App/README.md). |
 | `Sources/ssshCore` | Backend-agnostic protocols and value types. Pure Swift. |
+| `Sources/ssshCrypto` | `openssh-key-v1` parsing, and the primitives swift-crypto does not expose (Blowfish, bcrypt_pbkdf, AES-CTR). |
 | `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport. The only module that knows about SwiftNIO. |
 | `Sources/ssshPTYSpike` | `sssh-ptyspike`, the Phase 0 interactive-PTY harness. |
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
 | `docs/PHASE-0-BACKEND-DECISION.md` | Which backend, why, and every library limitation found. **Start here.** |
 | `docs/ARCHITECTURE.md` | Layering, and the reasoning behind the awkward parts. |
+
+## Building the app
+
+```sh
+brew install xcodegen
+cd App && xcodegen generate && open sssh.xcodeproj
+```
 
 ## Running the Phase 0 harness
 
@@ -49,15 +58,22 @@ cost (Citadel's SFTP client becomes unreachable) and the four library gaps
 found along the way are in
 [docs/PHASE-0-BACKEND-DECISION.md](docs/PHASE-0-BACKEND-DECISION.md).
 
-**The code has not been compiled**: it was written against the libraries'
-actual sources, but the environment it was written in has no Swift toolchain.
-Expect ordinary compile errors on the first build. See "Verification status" in
-the Phase 0 report.
+**The code has not been compiled.** It was written against the libraries' actual
+sources — every API it calls was checked to exist — but the environment it was
+written in has no Swift toolchain and no route to one. Expect ordinary compile
+errors on the first build.
+
+The cryptography is the exception, and is worth trusting: every algorithm in
+`ssshCrypto` was transcribed to Python line for line and run against external
+ground truth (OpenBSD's own `bcrypt_pbkdf.c`, compiled and run; FIPS-197 and
+`openssl enc` for AES; ten containers built around real openssl-generated key
+pairs for the parser). All of it matched, and the test vectors are those same
+external values. See "Verification status" in the Phase 0 report.
 
 ## Phases
 
 - [x] **0** — PTY spike, backend decision, `SSHTransport` protocol
-- [ ] **1** — Core terminal app: SwiftTerm host, password + key auth, known-hosts prompt, tabs, host list
+- [~] **1** — Core terminal app: SwiftTerm host, password + key auth, known-hosts prompt, tabs, host list. *Remaining: RSA signing, `keyboard-interactive`.*
 - [ ] **2** — Splits, broadcast, session restore, command palette, tmux, reconnect
 - [ ] **3** — Command blocks (OSC 133 + heuristics), per-block actions, in-session search
 - [ ] **4** — SFTP browser, transfer queue, drag and drop

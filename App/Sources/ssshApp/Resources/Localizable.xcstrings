@@ -1,0 +1,1025 @@
+{
+  "sourceLanguage": "nl",
+  "strings": {
+    "%@ is beveiligd met een wachtwoordzin.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is protected by a passphrase."
+          }
+        }
+      },
+      "comment": "An encrypted key was supplied without its passphrase"
+    },
+    "%@ kon niet worden gelezen als sleutelbestand.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ could not be read as a key file."
+          }
+        }
+      },
+      "comment": "The key file could not be parsed at all"
+    },
+    "Aangeboden sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presented key"
+          }
+        }
+      },
+      "comment": "Label for the host key the server presented"
+    },
+    "Aanmelden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Authenticating"
+          }
+        }
+      },
+      "comment": "Section header: authentication"
+    },
+    "Aanmelden is mislukt. Geprobeerd: %@. De server accepteert: %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign-in failed. Tried: %@. The server accepts: %@."
+          }
+        }
+      },
+      "comment": "Authentication failed; lists what was tried and what the server accepts"
+    },
+    "Aanmelden met": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with"
+          }
+        }
+      },
+      "comment": "Field label: how to authenticate"
+    },
+    "Adres": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Address"
+          }
+        }
+      },
+      "comment": "Field label: hostname or IP address"
+    },
+    "Annuleer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      },
+      "comment": "Button: cancel the credential prompt"
+    },
+    "Bestandsoverdracht komt in een volgende versie.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File transfer is coming in a later version."
+          }
+        }
+      },
+      "comment": "SFTP is not implemented yet"
+    },
+    "Bewaar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      },
+      "comment": "Button: save the host"
+    },
+    "Bewaren in de sleutelhanger": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save to the keychain"
+          }
+        }
+      },
+      "comment": "Checkbox: store this secret in the Keychain"
+    },
+    "Bewaren is mislukt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving failed: %@"
+          }
+        }
+      },
+      "comment": "Shown when saving the host record failed"
+    },
+    "Bewerken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        }
+      },
+      "comment": "Context menu: edit this host's settings"
+    },
+    "De hostsleutel van %@ is geweigerd. Er is geen verbinding gemaakt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The host key for %@ was refused. No connection was made."
+          }
+        }
+      },
+      "comment": "Shown after the user refuses a host key, or after a mismatch"
+    },
+    "De hostsleutel van %@ is veranderd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The host key for %@ has changed"
+          }
+        }
+      },
+      "comment": "Title of the sheet shown when a host key does not match the stored one"
+    },
+    "De server weigerde een verzoek: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server refused a request: %@"
+          }
+        }
+      },
+      "comment": "A channel request was refused; placeholder is a technical detail"
+    },
+    "De shell is gestopt door signaal %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shell was stopped by signal %@."
+          }
+        }
+      },
+      "comment": "Shown when the remote shell was killed by a signal"
+    },
+    "De shell is gestopt met afsluitcode %lld.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The shell exited with status %lld."
+          }
+        }
+      },
+      "comment": "Shown when the remote shell exited with a non-zero status"
+    },
+    "De sleutel %@ is beveiligd met een wachtwoordzin.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The key %@ is protected by a passphrase."
+          }
+        }
+      },
+      "comment": "Says which key file needs a passphrase"
+    },
+    "De verbinding is door de server verbroken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server closed the connection."
+          }
+        }
+      },
+      "comment": "The remote end closed the connection"
+    },
+    "De verbinding is verbroken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection was closed."
+          }
+        }
+      },
+      "comment": "The user disconnected"
+    },
+    "De verbinding reageert niet meer.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection has stopped responding."
+          }
+        }
+      },
+      "comment": "Keep-alive probes went unanswered"
+    },
+    "De wachtwoordzin voor %@ klopt niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The passphrase for %@ is not correct."
+          }
+        }
+      },
+      "comment": "The passphrase for a private key was wrong"
+    },
+    "Deze server vraagt om keyboard-interactive aanmelding (vaak tweestapsverificatie). Dat ondersteunt sssh nog niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This server asks for keyboard-interactive sign-in, which is usually two-factor authentication. sssh cannot do that yet."
+          }
+        }
+      },
+      "comment": "The server requires keyboard-interactive, which the SSH backend cannot do"
+    },
+    "Dit kan betekenen dat de server opnieuw is geïnstalleerd. Het kan ook betekenen dat iemand het verkeer onderschept. Verbind alleen als u weet welke van de twee het is.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This can mean the server was reinstalled. It can also mean someone is intercepting the traffic. Only connect if you know which it is."
+          }
+        }
+      },
+      "comment": "Explains the two reasons a host key changes and advises caution"
+    },
+    "Dit sleuteltype wordt nog niet ondersteund.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This key type is not supported yet."
+          }
+        }
+      },
+      "comment": "A private key file type is not supported"
+    },
+    "Eenmalig verbinden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect once"
+          }
+        }
+      },
+      "comment": "Button: accept the host key for this connection only"
+    },
+    "Eerder vertrouwd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previously trusted"
+          }
+        }
+      },
+      "comment": "Label for a host key that was trusted before"
+    },
+    "Eerste verbinding met %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First connection to %@"
+          }
+        }
+      },
+      "comment": "Title of the sheet shown on a first connection to a host"
+    },
+    "Elke keer vragen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask every time"
+          }
+        }
+      },
+      "comment": "Authentication method: prompt on every connection"
+    },
+    "Er is al iets bewaard voor deze host. Laat het veld leeg om dat te houden.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something is already saved for this host. Leave the field empty to keep it."
+          }
+        }
+      },
+      "comment": "Shown when a secret already exists, explaining that leaving the field blank keeps it"
+    },
+    "Er is geen verbinding.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There is no connection."
+          }
+        }
+      },
+      "comment": "An operation was attempted with no connection"
+    },
+    "Er is iets misgegaan: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong: %@"
+          }
+        }
+      },
+      "comment": "Fallback when a failure has no better description"
+    },
+    "Er wordt niets bewaard. sssh vraagt bij elke verbinding om een wachtwoord.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is saved. sssh asks for a password on every connection."
+          }
+        }
+      },
+      "comment": "Explains that nothing is stored for this authentication method"
+    },
+    "Gebruikersnaam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Username"
+          }
+        }
+      },
+      "comment": "Field label: the SSH username"
+    },
+    "Geen sessie geopend": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No session open"
+          }
+        }
+      },
+      "comment": "Empty state title when no session tab is open"
+    },
+    "Het bewaren in de sleutelhanger is mislukt: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving to the keychain failed: %@"
+          }
+        }
+      },
+      "comment": "Shown when writing a secret to the Keychain failed"
+    },
+    "Host bewerken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit host"
+          }
+        }
+      },
+      "comment": "Title when editing a host"
+    },
+    "Hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hosts"
+          }
+        }
+      },
+      "comment": "Sidebar title: the list of saved hosts"
+    },
+    "Ik weet waarom deze sleutel is veranderd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I know why this key changed"
+          }
+        }
+      },
+      "comment": "Checkbox the user must tick before they can trust a changed host key"
+    },
+    "Instellingen worden niet bewaard": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings are not being saved"
+          }
+        }
+      },
+      "comment": "Banner title when the database could not be opened"
+    },
+    "Kan %@ niet bereiken (%@).": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot reach %@ (%@)."
+          }
+        }
+      },
+      "comment": "The TCP connection could not be made; second placeholder is a technical reason"
+    },
+    "Kan %@ niet bereiken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot reach %@."
+          }
+        }
+      },
+      "comment": "The TCP connection could not be made"
+    },
+    "Kies een host in de zijbalk en verbind om te beginnen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a host in the sidebar and connect to get started."
+          }
+        }
+      },
+      "comment": "Empty state body when no session tab is open"
+    },
+    "Laat de wachtwoordzin leeg om er elke keer om te worden gevraagd. Dat is veiliger.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave the passphrase empty to be asked for it every time. That is safer."
+          }
+        }
+      },
+      "comment": "Explains that leaving the passphrase empty means being prompted each time"
+    },
+    "Label: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tag: %@"
+          }
+        }
+      }
+    },
+    "Labels, door komma's gescheiden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags, separated by commas"
+          }
+        }
+      },
+      "comment": "Field label: comma-separated tags"
+    },
+    "Meld aan als %@ op %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in as %@ on %@."
+          }
+        }
+      },
+      "comment": "Says which account on which host is being authenticated"
+    },
+    "Naam": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        }
+      },
+      "comment": "Field label: the host's display name"
+    },
+    "Niet verbonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not connected"
+          }
+        }
+      },
+      "comment": "Connection state: nothing attempted yet"
+    },
+    "Nieuwe host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New host"
+          }
+        }
+      },
+      "comment": "Title when adding a host"
+    },
+    "Nog geen hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hosts yet"
+          }
+        }
+      },
+      "comment": "Empty state title when no hosts are saved"
+    },
+    "Opdracht bij starten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Command on start"
+          }
+        }
+      },
+      "comment": "Field label: a command run when the shell starts"
+    },
+    "Opnieuw verbinden, poging %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconnecting, attempt %lld"
+          }
+        }
+      },
+      "comment": "Connection state: retrying, with the attempt number"
+    },
+    "Overig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        }
+      },
+      "comment": "Section header: everything else"
+    },
+    "Poort": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port"
+          }
+        }
+      },
+      "comment": "Field label: TCP port"
+    },
+    "Poortdoorsturing komt in een volgende versie.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port forwarding is coming in a later version."
+          }
+        }
+      },
+      "comment": "Port forwarding is not implemented yet"
+    },
+    "Privésleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Private key"
+          }
+        }
+      },
+      "comment": "Accessibility label for the private key field"
+    },
+    "Sessies": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sessions"
+          }
+        }
+      },
+      "comment": "Accessibility label for the tab strip"
+    },
+    "Sleutel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key"
+          }
+        }
+      },
+      "comment": "Authentication method: private key"
+    },
+    "Sluit %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for a tab's close button"
+    },
+    "Sluit sessie": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Session"
+          }
+        }
+      },
+      "comment": "Menu item: close the current session tab"
+    },
+    "Terminal voor %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal for %@"
+          }
+        }
+      },
+      "comment": "Accessibility label for the terminal view"
+    },
+    "Time-out tijdens %@.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timed out during %@."
+          }
+        }
+      },
+      "comment": "An operation took too long; placeholder names the operation"
+    },
+    "Verbind": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect"
+          }
+        }
+      },
+      "comment": "Button: submit the credential and continue connecting"
+    },
+    "Verbind niet": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do not connect"
+          }
+        }
+      },
+      "comment": "Button: refuse the host key and abort the connection"
+    },
+    "Verbinden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect"
+          }
+        }
+      },
+      "comment": "Context menu: open a connection to this host"
+    },
+    "Verbinding": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection"
+          }
+        }
+      },
+      "comment": "Section header: basic connection settings"
+    },
+    "Verbinding verbroken": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connection lost"
+          }
+        }
+      },
+      "comment": "Connection state: dropped unexpectedly"
+    },
+    "Verbonden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected"
+          }
+        }
+      },
+      "comment": "Connection state: connected"
+    },
+    "Vertrouwen en onthouden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trust and remember"
+          }
+        }
+      },
+      "comment": "Button: accept the host key and store it"
+    },
+    "Verwijderen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        }
+      },
+      "comment": "Context menu: delete this host"
+    },
+    "Voeg een host toe om een verbinding te maken.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a host to make a connection."
+          }
+        }
+      },
+      "comment": "Empty state body when no hosts are saved"
+    },
+    "Wachtwoord": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        }
+      },
+      "comment": "Field label in the password prompt"
+    },
+    "Wachtwoord nodig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password needed"
+          }
+        }
+      },
+      "comment": "Title of the password prompt"
+    },
+    "Wachtwoorden en sleutels worden alleen in de sleutelhanger van dit apparaat bewaard, nooit in iCloud.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords and keys are kept only in this device's keychain, never in iCloud."
+          }
+        }
+      },
+      "comment": "Footer explaining that secrets stay in the device Keychain and are not synced"
+    },
+    "Wachtwoordzin": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase"
+          }
+        }
+      },
+      "comment": "Field label in the passphrase prompt"
+    },
+    "Wachtwoordzin (optioneel)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase (optional)"
+          }
+        }
+      },
+      "comment": "Field label: the passphrase protecting a private key"
+    },
+    "Wachtwoordzin nodig": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passphrase needed"
+          }
+        }
+      },
+      "comment": "Title of the key passphrase prompt"
+    },
+    "Zoek hosts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search hosts"
+          }
+        }
+      },
+      "comment": "Placeholder in the host search field"
+    },
+    "geen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "none"
+          }
+        }
+      },
+      "comment": "Placeholder when no credential was offered"
+    },
+    "sssh kan sleutels van het type %@ nog niet gebruiken. Zet de sleutel om met ssh-keygen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh cannot use %@ keys yet. Convert the key with ssh-keygen."
+          }
+        }
+      },
+      "comment": "The key file is a type the app cannot use yet; suggests converting it"
+    },
+    "sssh kent deze server nog niet. Controleer de vingerafdruk voordat u verbindt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not know this server yet. Check the fingerprint before connecting."
+          }
+        }
+      },
+      "comment": "Asks the user to verify the fingerprint on a first connection"
+    },
+    "sssh ondersteunt ssh-agent nog niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not support ssh-agent yet."
+          }
+        }
+      },
+      "comment": "Agent forwarding is not implemented"
+    },
+    "tmux-besturingsmodus wordt nog niet ondersteund.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tmux control mode is not supported yet."
+          }
+        }
+      },
+      "comment": "tmux control mode is not implemented"
+    }
+  },
+  "version": "1.0"
+}

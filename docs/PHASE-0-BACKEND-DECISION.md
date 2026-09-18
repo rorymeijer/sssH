@@ -160,11 +160,32 @@ Neither library has it. Reading identities from a local agent is a separate
 no agent to talk to anyway. Reported as
 `SSHTransportError.unsupported(.agentForwarding)`.
 
-### Only ed25519 OpenSSH private-key *files* can be read
+### RSA authentication needs a key type NIOSSH does not have
 
-Citadel's `openssh-key-v1` container parser is generic over key type
-internally, but the only public entry point is
-`Curve25519.Signing.PrivateKey(sshEd25519:decryptionKey:)`. So:
+*(Updated in Phase 1.)* Key **files** of every type now parse — see
+`Sources/ssshCrypto`. What is still missing is an RSA **signer**, and the reason
+is worth writing down because it is not obvious:
+
+- Citadel's `Insecure.RSA` signs with SHA-1 under the algorithm name `ssh-rsa`.
+  OpenSSH has refused that by default since 8.8 (2021), so it would
+  authenticate against almost nothing.
+- Implementing `rsa-sha2-256`/`rsa-sha2-512` ourselves is the right answer, and
+  `_CryptoExtras` has everything needed to sign. The catch is NIOSSH's
+  custom-key API: `NIOSSHPublicKeyProtocol` has one `publicKeyPrefix`, and
+  NIOSSH matches on it for both the key blob and the negotiated algorithm.
+  RFC 8332 deliberately separates the two — an RSA key blob always says
+  `ssh-rsa` even when the signature algorithm is `rsa-sha2-512`. Reconciling
+  that needs either two registered types with careful prefixes, or a change to
+  NIOSSH.
+
+`PrivateKeyLoader` reports `unsupportedKeyType("ssh-rsa")` by name, so the UI
+tells the user to convert the key rather than leaving them guessing.
+
+### The historical note: only ed25519 *was* readable
+
+This is what prompted item 1. Citadel's `openssh-key-v1` container parser is
+generic over key type internally, but the only public entry point is
+`Curve25519.Signing.PrivateKey(sshEd25519:decryptionKey:)`:
 
 | Key file | Readable |
 |---|---|
@@ -265,8 +286,9 @@ asks for, and worth building the key-management UI around in Phase 7.
 
 | # | Task | Phase | Notes |
 |---|---|---|---|
-| 1 | Write an `openssh-key-v1` parser for RSA and ECDSA key files | 1 | Users have `id_rsa`. Needs bcrypt-pbkdf. |
-| 2 | Decide `keyboard-interactive`: upstream it, or ship without it and say so | 1 | Needs a product decision, not just code. |
+| 1 | ~~Write an `openssh-key-v1` parser for RSA and ECDSA key files~~ | 1 | **Done** — `ssshCrypto`. All three key types parse; RSA *signing* is now item 1b. |
+| 1b | Give NIOSSH an `rsa-sha2-256`/`rsa-sha2-512` key type | 1 | RSA files parse but cannot authenticate. See below. |
+| 2 | Implement `keyboard-interactive` in a swift-nio-ssh fork and upstream it | 1 | Decided: implement rather than ship without. Not started. |
 | 3 | SFTP: upstream a Citadel change, or write our own client | 4 | Preference is upstream; both are viable. |
 | 4 | Remote forwarding via `inboundChildChannelInitializer` | 5 | The pipeline is already ours, so this is now just work. |
 | 5 | Upstream arbitrary global requests to NIOSSH for a proper keep-alive | later | Current probe works; this is cleanliness. |
