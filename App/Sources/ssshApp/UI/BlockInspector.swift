@@ -160,7 +160,9 @@ private struct MatchStepper: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            Text(matchDescription)
+            // Already a `Text`: the wording differs per state so each can be
+            // its own localised string.
+            matchDescription
                 .font(.caption)
                 .foregroundStyle(.secondary)
 

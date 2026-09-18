@@ -26,6 +26,11 @@ jobs:
       # buries the handful of lines that actually matter. On a failure, print
       # the unique `error:` lines on their own.
       - name: Build
+        # Explicitly bash: the Linux job runs inside the Swift container, where
+        # the default shell is dash, and `${PIPESTATUS[0]}` is a bashism that
+        # dash answers with "Bad substitution" — failing the step on a build
+        # that actually succeeded.
+        shell: bash
         run: |
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
@@ -95,6 +100,11 @@ jobs:
       # buries the handful of lines that actually matter. On a failure, print
       # the unique `error:` lines on their own.
       - name: Build
+        # Explicitly bash: the Linux job runs inside the Swift container, where
+        # the default shell is dash, and `${PIPESTATUS[0]}` is a bashism that
+        # dash answers with "Bad substitution" — failing the step on a build
+        # that actually succeeded.
+        shell: bash
         run: |
           swift build --build-tests 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
