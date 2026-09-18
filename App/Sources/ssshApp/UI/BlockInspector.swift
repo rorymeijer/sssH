@@ -160,7 +160,7 @@ private struct MatchStepper: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            Text(matchDescription)
+            matchDescription
                 .font(.caption)
                 .foregroundStyle(.secondary)
 

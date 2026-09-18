@@ -84,6 +84,9 @@ enum ConnectionFailureText {
         case .timedOut(let operation, _):
             return String(localized: "Time-out tijdens \(operation).",
                           comment: "An operation took too long; placeholder names the operation")
+
+        case .portForwardingFailed:
+            return TunnelFailureText.describe(transportError)
         }
     }
 

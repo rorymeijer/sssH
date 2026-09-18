@@ -13,11 +13,19 @@ struct ssshApp: App {
             let container = try ModelContainerFactory.make()
             _environment = State(initialValue: AppEnvironment(modelContainer: container))
         } catch {
-            // Falling back to an in-memory store keeps the app usable for the
-            // current session instead of refusing to launch; the banner makes
-            // clear that nothing will be saved.
-            _environment = State(initialValue: .ephemeral())
-            _storeFailure = State(initialValue: error.localizedDescription)
+            // A CloudKit-backed store needs the iCloud entitlement, which a
+            // build signed without a development team does not have. A local
+            // store still keeps everything on this device, so try that before
+            // giving up on persistence entirely.
+            if let container = try? ModelContainerFactory.make(syncsConfiguration: false) {
+                _environment = State(initialValue: AppEnvironment(modelContainer: container))
+            } else {
+                // Falling back to an in-memory store keeps the app usable for
+                // the current session instead of refusing to launch; the
+                // banner makes clear that nothing will be saved.
+                _environment = State(initialValue: .ephemeral())
+                _storeFailure = State(initialValue: error.localizedDescription)
+            }
         }
     }
 
