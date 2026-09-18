@@ -90,7 +90,9 @@ jobs:
   # Signing is off: this checks that it compiles, not that it ships.
   app:
     name: App (macOS and iOS)
-    runs-on: macos-14
+    # macos-15, not macos-14: XcodeGen emits Xcode 16's project format
+    # (objectVersion 77), which Xcode 15 refuses to even open.
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
@@ -121,6 +123,6 @@ jobs:
           xcodebuild build \
             -project sssh.xcodeproj \
             -scheme sssh \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             | xcpretty || exit ${PIPESTATUS[0]}

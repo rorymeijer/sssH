@@ -565,6 +565,15 @@ private extension UserAuthenticationStateMachine {
             // We don't known the algorithm, the auth attempt has failed.
             return self.loop.makeSucceededFuture(.failure(.init(authentications: delegate.supportedAuthenticationMethods.strings, partialSuccess: false)))
 
+        case .keyboardInteractive:
+            // This fork added keyboard-interactive for the client only.
+            // `NIOSSHServerUserAuthenticationDelegate` has no way to run the
+            // prompt exchange, so a server built on this cannot service the
+            // request: fail it, and advertise what the delegate does support.
+            // Succeeding here without asking the delegate anything would be
+            // authenticating a user nobody agreed to authenticate.
+            return self.loop.makeSucceededFuture(.failure(.init(authentications: delegate.supportedAuthenticationMethods.strings, partialSuccess: false)))
+
         case .none:
             let request = NIOSSHUserAuthenticationRequest(username: request.username, serviceName: request.service, request: .none)
             let promise = self.loop.makePromise(of: NIOSSHUserAuthenticationOutcome.self)
