@@ -303,7 +303,13 @@ struct SpikeChecks {
         try await write("tmux -f /dev/null attach -t ssshspike\n")
 
         do {
-            try await expectAny(["ssshspike", "[0]"], timeout: .seconds(20))
+            // The alternate screen, not the session name. "ssshspike" appears
+            // in the echo of the command line we just sent, so waiting for it
+            // matches before tmux has done anything at all — and the detach
+            // keys then go to the shell, which types them onto the next
+            // command line. Entering the alternate screen is tmux actually
+            // taking the terminal over.
+            try await expectAny(Self.alternateScreenEnter, timeout: .seconds(20))
         } catch {
             try? await detachTmux()
             return .failed(reason: "tmux did not attach: \(collector.tail(300).debugDescription)")
@@ -332,8 +338,15 @@ struct SpikeChecks {
     /// leaving the alternate screen.
     private func detachTmux() async throws {
         try await writeBytes([0x02, UInt8(ascii: "d")])
-        try await expectAny(["[detached", "\u{1B}[?1049l"], timeout: .seconds(10))
+        try await expectAny(["[detached"] + Self.alternateScreenLeave, timeout: .seconds(10))
     }
+
+    /// The sequences a full-screen program uses to borrow the terminal and to
+    /// give it back. 1049 is what xterm-256color's terminfo gives tmux; the
+    /// older two are there so a stripped-down remote terminfo does not turn
+    /// this check into a mystery.
+    private static let alternateScreenEnter = ["\u{1B}[?1049h", "\u{1B}[?1047h", "\u{1B}[?47h"]
+    private static let alternateScreenLeave = ["\u{1B}[?1049l", "\u{1B}[?1047l", "\u{1B}[?47l"]
 
     /// Tabs and split panes all share one TCP connection, so opening a second
     /// session channel has to work.
