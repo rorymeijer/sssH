@@ -130,6 +130,10 @@ Het script gebruikt standaard de volledige Xcode-installatie in
 naar de losse Command Line Tools wijst. Stel bij een afwijkende Xcode-locatie
 `SSSH_XCODE_DEVELOPER_DIR` in.
 
+De Developer ID-export gebruikt handmatige signing met het geïnstalleerde
+provisioning profile `sssH Developer ID`. Stel bij een andere profielnaam
+`SSSH_PROVISIONING_PROFILE_NAME` in.
+
 Releasebestanden komen buiten de repository in
 `~/Documents/sssH-Releases/<versie>`. Controleer na afloop de GitHub-draft en
 publiceer hem pas als de ZIP en `appcast.xml` beide als assets aanwezig zijn.

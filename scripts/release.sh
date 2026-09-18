@@ -13,6 +13,7 @@ readonly TEAM_ID="GPYS6SK835"
 readonly GITHUB_REPOSITORY="rorymeijer/sssH"
 readonly EXPECTED_SPARKLE_PUBLIC_KEY="gbxFgROhkDGw8Tmhvotvm4rCnaFjzUgu/2qDEAyYHMQ="
 readonly NOTARY_PROFILE="${SSSH_NOTARY_PROFILE:-sssH-notary}"
+readonly PROVISIONING_PROFILE_NAME="${SSSH_PROVISIONING_PROFILE_NAME:-sssH Developer ID}"
 readonly SPARKLE_BIN_DIR="${SSSH_SPARKLE_BIN_DIR:-$HOME/Documents/Sparkle/bin}"
 readonly RELEASES_ROOT="${SSSH_RELEASES_DIR:-$HOME/Documents/sssH-Releases}"
 readonly XCODE_DEVELOPER_DIR="${SSSH_XCODE_DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
@@ -50,6 +51,7 @@ Voorbeeld:
 
 Optionele omgevingsvariabelen:
   SSSH_NOTARY_PROFILE     notarytool-Keychain-profiel (standaard: sssH-notary)
+  SSSH_PROVISIONING_PROFILE_NAME Developer ID-profiel (standaard: sssH Developer ID)
   SSSH_SPARKLE_BIN_DIR    map met generate_keys en generate_appcast
   SSSH_RELEASES_DIR       uitvoermap (standaard: ~/Documents/sssH-Releases)
   SSSH_XCODE_DEVELOPER_DIR volledige Xcode Developer-map
@@ -231,10 +233,17 @@ cat > "$EXPORT_OPTIONS" <<EOF
     <string>export</string>
     <key>method</key>
     <string>developer-id</string>
+    <key>signingCertificate</key>
+    <string>Developer ID Application</string>
     <key>signingStyle</key>
-    <string>automatic</string>
+    <string>manual</string>
     <key>teamID</key>
     <string>$TEAM_ID</string>
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>nl.rorymeijer.sssh</key>
+        <string>$PROVISIONING_PROFILE_NAME</string>
+    </dict>
 </dict>
 </plist>
 EOF
@@ -252,8 +261,7 @@ step "Developer ID-app exporteren"
 xcodebuild -exportArchive \
     -archivePath "$ARCHIVE_PATH" \
     -exportPath "$EXPORT_DIR" \
-    -exportOptionsPlist "$EXPORT_OPTIONS" \
-    -allowProvisioningUpdates
+    -exportOptionsPlist "$EXPORT_OPTIONS"
 
 [[ -d "$APP_PATH" ]] || die "De export bevat geen $APP_PATH."
 
