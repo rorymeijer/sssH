@@ -78,7 +78,8 @@ final class DERReaderTests: XCTestCase {
         // The three relations that hold for every RSA key and for no mistaken
         // reading of one.
         XCTAssertEqual(p * q, n)
-        XCTAssertEqual((e * d) % ((p - 1) * (q - 1) / BigUInt.gcd(p - 1, q - 1)), 1)
+        let greatestCommonDivisor = (p - 1).greatestCommonDivisor(with: q - 1)
+        XCTAssertEqual((e * d) % ((p - 1) * (q - 1) / greatestCommonDivisor), 1)
         XCTAssertEqual((iqmp * q) % p, 1)
     }
 
