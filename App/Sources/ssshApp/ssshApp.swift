@@ -129,6 +129,14 @@ struct ssshCommands: Commands {
             .keyboardShortcut("t", modifiers: [.command, .option])
             .disabled(environment.sessions.focusedSession == nil)
 
+            Button {
+                environment.sessions.showsSnippets = true
+            } label: {
+                Text("Fragmenten", comment: "Title of the snippet library")
+            }
+            .keyboardShortcut("s", modifiers: [.command, .shift])
+            .disabled(environment.sessions.focusedFeed == nil)
+
             Divider()
 
             Button {

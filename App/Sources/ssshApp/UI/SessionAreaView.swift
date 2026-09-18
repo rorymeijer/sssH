@@ -73,6 +73,14 @@ struct SessionAreaView: View {
             }
         }
         .sheet(isPresented: Binding(
+            get: { sessions.showsSnippets && sessions.focusedFeed != nil },
+            set: { sessions.showsSnippets = $0 }
+        )) {
+            // A tmux pane can receive a snippet just as well as a direct
+            // session: it is typing, not a channel operation.
+            SnippetLibraryView(feed: sessions.focusedFeed, host: sessions.focusedHost)
+        }
+        .sheet(isPresented: Binding(
             get: { sessions.showsTunnels && sessions.focusedSession != nil },
             set: { sessions.showsTunnels = $0 }
         )) {

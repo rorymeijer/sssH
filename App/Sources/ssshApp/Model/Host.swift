@@ -51,6 +51,14 @@ final class Host {
     @Relationship(deleteRule: .cascade, inverse: \Tunnel.host)
     var tunnels: [Tunnel]? = []
 
+    /// Snippets saved against this host specifically. Global snippets have no
+    /// host and are offered everywhere.
+    ///
+    /// Nullify rather than cascade: deleting a host should not take a command
+    /// the user wrote with it. It becomes a global snippet instead.
+    @Relationship(deleteRule: .nullify, inverse: \Snippet.host)
+    var snippets: [Snippet]? = []
+
     /// Run tmux in control mode (`tmux -CC`) on connect.
     ///
     /// When on, tmux's windows and panes become sssh's tabs and splits, and the

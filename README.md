@@ -3,8 +3,8 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 5 done — local, remote and dynamic port forwarding, with
-saved tunnels per host, auto-start on connect and live throughput.**
+**Status: Phase 6 done — groups and tags, snippets with parameters, an
+`~/.ssh/config` importer checked against `ssh -G`, and a theme library.**
 
 ## Where things are
 
@@ -81,7 +81,7 @@ external values. See "Verification status" in the Phase 0 report.
 - [x] **3** — Command blocks (OSC 133 + fallback), per-block actions, in-session search
 - [x] **4** — SFTP browser, transfer queue, drag and drop
 - [x] **5** — Port forwarding: local, remote, dynamic
-- [ ] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes
+- [x] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes
 - [ ] **7** — CloudKit sync, Keychain/Secure Enclave, app lock
 - [ ] **8** — Dutch localisation pass, accessibility, macOS/iPad platform work, hardening
 

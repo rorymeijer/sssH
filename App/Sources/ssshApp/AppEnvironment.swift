@@ -130,6 +130,14 @@ final class AppEnvironment {
             ))
             items.append(PaletteItem(
                 kind: .action,
+                title: String(localized: "Fragmenten", comment: "Title of the snippet library"),
+                subtitle: nil,
+                symbol: "text.badge.plus",
+                keywords: ["snippet", "fragment", "command", "opdracht"],
+                perform: { [weak self] in self?.sessions.showsSnippets = true }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
                 title: String(localized: "Tunnels", comment: "Section header: saved port forwards"),
                 subtitle: nil,
                 symbol: "point.3.filled.connected.trianglepath.dotted",
@@ -152,6 +160,39 @@ final class AppEnvironment {
                 keywords: ["blocks", "blokken", "commands", "geschiedenis"],
                 perform: { [weak self] in self?.sessions.showsBlockInspector.toggle() }
             ))
+        }
+
+        // Snippets in the palette, which is the fastest path from "I want to
+        // restart nginx" to it happening. Only when there is a session to send
+        // them to, and only the ones that apply to the host in front of you.
+        if let feed = sessions.focusedFeed {
+            let hostID = sessions.focusedHost?.persistentModelID
+            let snippets = (try? modelContainer.mainContext.fetch(
+                FetchDescriptor<Snippet>(sortBy: [SortDescriptor(\Snippet.useCount, order: .reverse)])
+            )) ?? []
+
+            for snippet in snippets where snippet.host == nil || snippet.host?.persistentModelID == hostID {
+                // A snippet with placeholders opens the library rather than
+                // running: the palette has nowhere to ask, and sending a
+                // command with empty holes in it is worse than one more step.
+                let needsValues = !snippet.parameters.isEmpty
+                items.append(PaletteItem(
+                    kind: .action,
+                    title: snippet.name.isEmpty ? snippet.command : snippet.name,
+                    subtitle: snippet.command,
+                    symbol: needsValues ? "text.cursor" : "text.badge.plus",
+                    keywords: snippet.keywords,
+                    perform: { [weak self] in
+                        guard let self else { return }
+                        guard !needsValues else {
+                            self.sessions.showsSnippets = true
+                            return
+                        }
+                        feed.send(ArraySlice(snippet.input(with: [:])))
+                        snippet.recordUse()
+                    }
+                ))
+            }
         }
 
         return items
@@ -182,6 +223,7 @@ final class AppEnvironment {
     static func ephemeral() -> AppEnvironment {
         let container = try! ModelContainer(
             for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self, Tunnel.self,
+            Snippet.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         return AppEnvironment(modelContainer: container)
@@ -197,6 +239,7 @@ enum ModelContainerFactory {
     static func make() throws -> ModelContainer {
         try ModelContainer(
             for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self, Tunnel.self,
+            Snippet.self,
             configurations: ModelConfiguration("sssh")
         )
     }

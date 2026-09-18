@@ -25,6 +25,18 @@
       },
       "comment": "Appends the server's own explanation to a failure message"
     },
+    "%@ begreep sssh niet: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh could not read %@: %@"
+          }
+        }
+      },
+      "comment": "Names a setting whose value could not be read"
+    },
     "%@ bestaat al.": {
       "extractionState": "manual",
       "localizations": {
@@ -72,6 +84,18 @@
         }
       },
       "comment": "The key file could not be parsed at all"
+    },
+    "%@ wordt door sssh niet gebruikt.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sssh does not use %@."
+          }
+        }
+      },
+      "comment": "Names a setting sssh has no equivalent for"
     },
     "%@, afgerond, afsluitcode onbekend": {
       "extractionState": "manual",
@@ -169,6 +193,90 @@
       },
       "comment": "How many files are selected"
     },
+    "%lld invulveld(en)": {
+      "extractionState": "manual",
+      "comment": "How many placeholders a snippet has",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld invulveld"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld invulvelden"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld field"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld fields"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld melding(en)": {
+      "extractionState": "manual",
+      "comment": "How many warnings a host produced during import",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld melding"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld meldingen"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warning"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld warnings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld procent": {
       "extractionState": "manual",
       "localizations": {
@@ -180,6 +288,48 @@
         }
       },
       "comment": "Accessibility value: the divider position as a percentage"
+    },
+    "%lld tunnel(s)": {
+      "extractionState": "manual",
+      "comment": "How many tunnels a host brings with it",
+      "localizations": {
+        "nl": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnel"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnels"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnel"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tunnels"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "%lld vensters": {
       "extractionState": "manual",
@@ -313,6 +463,18 @@
       },
       "comment": "Button that clears finished transfers from the queue"
     },
+    "Alleen op deze host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On this host only"
+          }
+        }
+      },
+      "comment": "Marks a snippet as host-specific"
+    },
     "Alles": {
       "extractionState": "manual",
       "localizations": {
@@ -337,6 +499,18 @@
       },
       "comment": "Button that cancels every queued transfer"
     },
+    "Alles selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select all"
+          }
+        }
+      },
+      "comment": "Button that selects every host"
+    },
     "Anderen": {
       "extractionState": "manual",
       "localizations": {
@@ -360,6 +534,30 @@
         }
       },
       "comment": "Button: cancel the credential prompt"
+    },
+    "Balk": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bar"
+          }
+        }
+      },
+      "comment": "Cursor style: bar"
+    },
+    "Balk, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bar, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady bar"
     },
     "Beide bewaren": {
       "extractionState": "manual",
@@ -409,6 +607,18 @@
       },
       "comment": "Accessibility label for a file row, with its size"
     },
+    "Bestand kiezen…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose file…"
+          }
+        }
+      },
+      "comment": "Button that opens the file picker"
+    },
     "Bestanden": {
       "extractionState": "manual",
       "localizations": {
@@ -457,6 +667,18 @@
       },
       "comment": "Button: save the host"
     },
+    "Bewaar opdrachten die je vaker gebruikt. Met {{naam}} vraagt sssh om een waarde voordat het wordt verstuurd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save commands you use often. With {{name}}, sssh asks for a value before sending it."
+          }
+        }
+      },
+      "comment": "Empty state body for the snippet library, explaining the placeholder syntax"
+    },
     "Bewaren in de sleutelhanger": {
       "extractionState": "manual",
       "localizations": {
@@ -504,6 +726,42 @@
         }
       },
       "comment": "A transfer that is running"
+    },
+    "Blok": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Block"
+          }
+        }
+      },
+      "comment": "Cursor style: block"
+    },
+    "Blok, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Block, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady block"
+    },
+    "Cursor": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cursor"
+          }
+        }
+      },
+      "comment": "Label for the cursor style picker"
     },
     "De extra verificatie is afgebroken.": {
       "comment": "A keyboard-interactive challenge was cancelled or could not be answered",
@@ -817,6 +1075,18 @@
       },
       "comment": "Shown on a saved tunnel that is missing a host or port"
     },
+    "Direct uitvoeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Run immediately"
+          }
+        }
+      },
+      "comment": "Toggle: send a newline after the snippet"
+    },
     "Dit apparaat": {
       "extractionState": "manual",
       "localizations": {
@@ -912,6 +1182,18 @@
         }
       },
       "comment": "Explains why a proposed filename is not allowed"
+    },
+    "Een profiel bepaalt lettertype, kleuren en cursor. Je kunt er een per host of per groep instellen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A profile sets the font, colours and cursor. You can assign one per host or per group."
+          }
+        }
+      },
+      "comment": "Empty state body for the terminal profile list"
     },
     "Een tunnel loopt over deze verbinding en stopt als die wegvalt. Tunnels die automatisch starten komen bij elke herverbinding terug.": {
       "extractionState": "manual",
@@ -1093,6 +1375,42 @@
       },
       "comment": "Accessibility label for the block outcome filter"
     },
+    "Fragment": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snippet"
+          }
+        }
+      },
+      "comment": "Title of the snippet editor"
+    },
+    "Fragment toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add snippet"
+          }
+        }
+      },
+      "comment": "Button that adds a snippet"
+    },
+    "Fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snippets"
+          }
+        }
+      },
+      "comment": "Title of the snippet library"
+    },
     "Ga naar host of voer opdracht uit": {
       "extractionState": "manual",
       "localizations": {
@@ -1141,6 +1459,30 @@
       },
       "comment": "Field label: the SSH username"
     },
+    "Geen fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No snippets"
+          }
+        }
+      },
+      "comment": "Empty state title for the snippet library"
+    },
+    "Geen groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No group"
+          }
+        }
+      },
+      "comment": "Menu item that removes a host from its group"
+    },
     "Geen opdracht in deze sessie komt overeen.": {
       "extractionState": "manual",
       "localizations": {
@@ -1152,6 +1494,18 @@
         }
       },
       "comment": "Empty state body when a block filter matches nothing"
+    },
+    "Geen profielen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No profiles"
+          }
+        }
+      },
+      "comment": "Empty state title for the terminal profile list"
     },
     "Geen resultaten": {
       "extractionState": "manual",
@@ -1369,6 +1723,18 @@
       },
       "comment": "Checkbox the user must tick before they can trust a changed host key"
     },
+    "Importeer %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import %lld"
+          }
+        }
+      },
+      "comment": "Button that imports the selected hosts, with the count"
+    },
     "In wachtrij": {
       "extractionState": "manual",
       "localizations": {
@@ -1381,6 +1747,18 @@
       },
       "comment": "A transfer that has not started yet"
     },
+    "Include %@ is niet gevolgd. Importeer dat bestand apart.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include %@ was not followed. Import that file separately."
+          }
+        }
+      },
+      "comment": "Explains that Include was not followed"
+    },
     "Instellingen worden niet bewaard": {
       "extractionState": "manual",
       "localizations": {
@@ -1392,6 +1770,18 @@
         }
       },
       "comment": "Banner title when the database could not be opened"
+    },
+    "Invoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insert"
+          }
+        }
+      },
+      "comment": "Button that types a snippet without running it"
     },
     "Invoer gaat naar alle %lld vensters": {
       "extractionState": "manual",
@@ -1428,6 +1818,18 @@
         }
       },
       "comment": "Broadcast banner title"
+    },
+    "Invulvelden": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fields"
+          }
+        }
+      },
+      "comment": "Section header listing a snippet's placeholders"
     },
     "Kan %@ niet bereiken (%@).": {
       "extractionState": "manual",
@@ -1477,6 +1879,18 @@
       },
       "comment": "Empty state body when no session tab is open"
     },
+    "Kies je SSH-config": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your SSH config"
+          }
+        }
+      },
+      "comment": "Prompt to choose an ssh config file"
+    },
     "Klaar": {
       "extractionState": "manual",
       "localizations": {
@@ -1488,6 +1902,18 @@
         }
       },
       "comment": "A transfer that finished successfully"
+    },
+    "Kleuren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colours"
+          }
+        }
+      },
+      "comment": "Section header for the colour scheme picker"
     },
     "Kopieer naar klembord": {
       "extractionState": "manual",
@@ -1548,6 +1974,18 @@
         }
       }
     },
+    "Labels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags"
+          }
+        }
+      },
+      "comment": "Menu section header for the tag filter"
+    },
     "Labels, door komma's gescheiden": {
       "extractionState": "manual",
       "localizations": {
@@ -1571,6 +2009,18 @@
         }
       },
       "comment": "Permission bit: read"
+    },
+    "Ligaturen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligatures"
+          }
+        }
+      },
+      "comment": "Toggle for programming ligatures"
     },
     "Lokaal (-L)": {
       "extractionState": "manual",
@@ -1644,6 +2094,54 @@
       },
       "comment": "Title shown when a directory could not be listed"
     },
+    "Match %@ is overgeslagen: daarvoor zou sssh een opdracht moeten uitvoeren.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Match %@ was skipped: evaluating it would mean sssh running a command."
+          }
+        }
+      },
+      "comment": "Explains that a Match block was skipped"
+    },
+    "Meer": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        }
+      },
+      "comment": "Accessibility label for the sidebar's overflow menu"
+    },
+    "Meer regels kosten geheugen, per venster. Bij veel gesplitste vensters telt dat op.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More lines cost memory, per pane. With many splits that adds up."
+          }
+        }
+      },
+      "comment": "Explains the cost of a large scrollback"
+    },
+    "Meestal ~/.ssh/config. sssh leest het bestand alleen; er wordt niets aan veranderd.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usually ~/.ssh/config. sssh only reads the file; nothing is changed."
+          }
+        }
+      },
+      "comment": "Explains where the config lives and that sssh does not modify it"
+    },
     "Meld aan als %@ op %@.": {
       "extractionState": "manual",
       "localizations": {
@@ -1679,6 +2177,18 @@
         }
       },
       "comment": "Explains that the snippet uses a standard other terminals also read"
+    },
+    "Met {{naam}} vraagt sssh om een waarde. {{naam=standaard}} vult er alvast een in. Accolades in shell-scripts blijven gewoon staan.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With {{name}}, sssh asks for a value. {{name=default}} fills one in. Braces in shell scripts are left alone."
+          }
+        }
+      },
+      "comment": "Explains the snippet placeholder syntax"
     },
     "Mislukt": {
       "extractionState": "manual",
@@ -1800,6 +2310,18 @@
       },
       "comment": "Warning shown on a block whose output was capped or skipped"
     },
+    "Niet overgenomen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not imported"
+          }
+        }
+      },
+      "comment": "Section header for settings that were not imported"
+    },
     "Niet verbonden": {
       "extractionState": "manual",
       "localizations": {
@@ -1811,6 +2333,30 @@
         }
       },
       "comment": "Connection state: nothing attempted yet"
+    },
+    "Niets selecteren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select none"
+          }
+        }
+      },
+      "comment": "Button that deselects every host"
+    },
+    "Nieuwe groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New group"
+          }
+        }
+      },
+      "comment": "Default name for a newly created group"
     },
     "Nieuwe host": {
       "extractionState": "manual",
@@ -1872,6 +2418,30 @@
       },
       "comment": "Label for the octal permissions field"
     },
+    "Omschrijving": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Description"
+          }
+        }
+      },
+      "comment": "Field label for a snippet's description"
+    },
+    "Onbegrepen regel: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Line not understood: %@"
+          }
+        }
+      },
+      "comment": "Names a config line that could not be parsed at all"
+    },
     "Op dit adres is de tunnel bereikbaar vanaf het hele netwerk.": {
       "extractionState": "manual",
       "localizations": {
@@ -1883,6 +2453,18 @@
         }
       },
       "comment": "Warning shown when a tunnel binds something other than loopback"
+    },
+    "Opdracht": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Command"
+          }
+        }
+      },
+      "comment": "Section header for a snippet's command"
     },
     "Opdracht bij starten": {
       "extractionState": "manual",
@@ -2052,6 +2634,42 @@
       },
       "comment": "Accessibility label for the private key field"
     },
+    "Profiel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profile"
+          }
+        }
+      },
+      "comment": "Title of the terminal profile editor"
+    },
+    "Profiel toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add profile"
+          }
+        }
+      },
+      "comment": "Button that adds a terminal profile"
+    },
+    "ProxyCommand wordt niet uitgevoerd: %@. Gebruik ProxyJump.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ProxyCommand is not run: %@. Use ProxyJump instead."
+          }
+        }
+      },
+      "comment": "Explains that ProxyCommand is not run"
+    },
     "Rechten voor %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2075,6 +2693,18 @@
         }
       },
       "comment": "Menu item that edits a file's POSIX permissions"
+    },
+    "SSH-config importeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import SSH config"
+          }
+        }
+      },
+      "comment": "Title of the ssh config import sheet, and the menu item that opens it"
     },
     "Scheiding": {
       "extractionState": "manual",
@@ -2268,6 +2898,18 @@
       },
       "comment": "Menu item that splits the focused pane horizontally"
     },
+    "Staat 'direct uitvoeren' uit, dan wordt de opdracht alleen getypt. Handig voor iets dat je eerst nog wilt nalezen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With 'run immediately' off, the command is only typed. Useful for anything you want to read over first."
+          }
+        }
+      },
+      "comment": "Explains what turning off immediate execution does"
+    },
     "Start automatisch": {
       "extractionState": "manual",
       "localizations": {
@@ -2292,6 +2934,30 @@
       },
       "comment": "Tells the user what to do with a dynamic forward's port"
     },
+    "Streep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Underline"
+          }
+        }
+      },
+      "comment": "Cursor style: underline"
+    },
+    "Streep, stil": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Underline, steady"
+          }
+        }
+      },
+      "comment": "Cursor style: steady underline"
+    },
     "Symbolische koppeling %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2303,6 +2969,30 @@
         }
       },
       "comment": "Accessibility label for a symlink row"
+    },
+    "Tekengrootte: %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Font size: %lld"
+          }
+        }
+      },
+      "comment": "Label for the font size slider, with the current value"
+    },
+    "Tekst": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      },
+      "comment": "Section header for font settings"
     },
     "Terminal voor %@": {
       "extractionState": "manual",
@@ -2316,6 +3006,18 @@
       },
       "comment": "Accessibility label for the terminal view"
     },
+    "Terminalprofielen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminal profiles"
+          }
+        }
+      },
+      "comment": "Title of the terminal profile list"
+    },
     "Terug": {
       "extractionState": "manual",
       "localizations": {
@@ -2327,6 +3029,18 @@
         }
       },
       "comment": "Accessibility label for the back button"
+    },
+    "Terugbladeren": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrollback"
+          }
+        }
+      },
+      "comment": "Label for the scrollback setting"
     },
     "Time-out tijdens %@.": {
       "extractionState": "manual",
@@ -2399,6 +3113,18 @@
         }
       },
       "comment": "Section header: saved port forwards"
+    },
+    "Tunnels meenemen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include tunnels"
+          }
+        }
+      },
+      "comment": "Toggle: also import LocalForward and friends"
     },
     "Uitschakelen": {
       "extractionState": "manual",
@@ -2543,6 +3269,18 @@
         }
       },
       "comment": "Accessibility label for the refresh button"
+    },
+    "Verplaatsen naar": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move to"
+          }
+        }
+      },
+      "comment": "Context menu: move this host to a group"
     },
     "Vertrouwen en onthouden": {
       "extractionState": "manual",
@@ -2693,6 +3431,30 @@
         }
       },
       "comment": "Accessibility label for the next search result button"
+    },
+    "Voorbeeld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview"
+          }
+        }
+      },
+      "comment": "Section header for the colour scheme preview"
+    },
+    "Voorbeeld van het kleurenschema": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colour scheme preview"
+          }
+        }
+      },
+      "comment": "Accessibility label for the colour scheme preview"
     },
     "Vorig venster": {
       "extractionState": "manual",
@@ -2850,6 +3612,18 @@
       },
       "comment": "Accessibility label for the clear-search button"
     },
+    "Wordt verstuurd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Will be sent"
+          }
+        }
+      },
+      "comment": "Section header showing the expanded snippet"
+    },
     "Zet dit onderaan %@ op de server.": {
       "extractionState": "manual",
       "localizations": {
@@ -2873,6 +3647,18 @@
         }
       },
       "comment": "Empty state body for the command block list"
+    },
+    "Zoek fragmenten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search snippets"
+          }
+        }
+      },
+      "comment": "Search field placeholder in the snippet library"
     },
     "Zoek hosts": {
       "extractionState": "manual",
@@ -2910,6 +3696,18 @@
       },
       "comment": "Menu item: search the current session's commands and output"
     },
+    "Zonder groep": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No group"
+          }
+        }
+      },
+      "comment": "Section header for hosts that are in no group"
+    },
     "Zonder shell-integratie raadt sssh waar een opdracht begint en eindigt aan de hand van de regel die je shell teruggeeft. Dat werkt, maar de afsluitcode blijft onbekend en de grens klopt niet altijd.": {
       "extractionState": "manual",
       "localizations": {
@@ -2945,6 +3743,18 @@
         }
       },
       "comment": "Shows which port a tunnel actually bound"
+    },
+    "regel %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "line %lld"
+          }
+        }
+      },
+      "comment": "Names the config file line a warning came from"
     },
     "sssh kan sleutels van het type %@ nog niet gebruiken. Zet de sleutel om met ssh-keygen.": {
       "extractionState": "manual",

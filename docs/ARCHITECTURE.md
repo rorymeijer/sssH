@@ -319,3 +319,59 @@ prefix for the same reason: `127.0.0.1.example.com` is not loopback.
 The SOCKS implementation is checked against PySocks, an independent client: the
 request bytes in the tests were captured from it, and it accepted this
 handler's success reply and went on to use the tunnel.
+
+### Reading `~/.ssh/config`
+
+The format looks simpler than it is, and four things trip up every naive
+parser. All four appear in real files, and all four are tested:
+
+- `Keyword=Value` is as valid as `Keyword Value`, with optional whitespace
+  around the `=`.
+- Values can be quoted, and `#` inside quotes is part of the value — which
+  matters, because a path can contain one.
+- **The first value wins**, not the last. Every other configuration format in
+  common use is the other way round, and getting it backwards silently changes
+  which user or port a host connects as. `IdentityFile`, `LocalForward`,
+  `RemoteForward` and `DynamicForward` are the exceptions: those accumulate.
+- `Match host` compares against the **resolved `HostName`**, not the alias;
+  `Match originalhost` is the one that matches what the user typed. A file with
+  `Host web` / `HostName web.example.com` / `Match host web` has a block that
+  looks like it applies and does not.
+
+The parser was checked against OpenSSH 9.6's own `ssh -G` on every case in its
+test file, including the ones where `ssh` refuses the input.
+
+sssh diverges from `ssh` in exactly one place, on purpose: **`Match exec` is
+never evaluated and `ProxyCommand` is never run.** Both ask a configuration
+file to run a shell command, and a config file can arrive by import, by sync,
+or from a colleague. Blocks containing one are skipped and the import says so,
+by line number. `ProxyJump` covers the common case and is supported.
+
+Nothing is imported until the user has seen what will be. Every setting sssh
+cannot honour is listed, because an import that silently drops half a host's
+configuration produces a saved connection that behaves differently from the
+same alias in `ssh` — and that is discovered at the worst possible moment. The
+file is chosen through the system picker rather than read from `~/.ssh/config`
+directly, and private keys named by `IdentityFile` are recorded as paths, never
+read.
+
+### Snippets
+
+`{{name}}` is a parameter and `{{name=default}}` gives it one. Everything else
+is literal — including a lone `{`, an unclosed `{{`, and `${VAR}`. The syntax is
+doubled braces precisely because shell scripts are full of single ones, and a
+template language that eats `awk '{print $1}'` is worse than no template
+language at all.
+
+A default belongs to a *name*, not to an occurrence: `{{a}} … {{a=d}}` is one
+parameter with one default, because resolving it per occurrence makes the same
+name expand to two different things in one command. A parameter with nothing to
+fill it becomes empty rather than staying as `{{name}}`, since sending the
+literal placeholder to a shell turns a template into a syntax error at the far
+end.
+
+The parameter sheet shows the final text before it goes. A snippet runs on a
+machine whose shell the user is not looking at, and that preview is the
+difference between a shortcut and a gamble. Snippets are never run on the app's
+own initiative and there is no "run on connect": a saved command that fires by
+itself on an unfamiliar machine is a way to lose an afternoon.

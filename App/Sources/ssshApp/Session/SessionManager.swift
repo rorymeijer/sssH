@@ -64,6 +64,9 @@ final class SessionManager {
     /// Whether the tunnel panel is open for the focused session.
     var showsTunnels = false
 
+    /// Whether the snippet library is open over the focused session.
+    var showsSnippets = false
+
     /// The host behind the focused tab, for views that need the saved records
     /// rather than the live session.
     var focusedHost: Host? {
