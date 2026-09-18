@@ -154,9 +154,17 @@ final class OpenSSHPrivateKeyWriterTests: XCTestCase {
         let privateSection = try XCTUnwrap(reader.readString())
 
         XCTAssertEqual(privateSection.count % 8, 0, "the `none` cipher's block size is 8, not 16")
-        // The comment is the last real field; everything after it is padding.
-        let trailing = privateSection.suffix(while: { $0 != 0 })
-        XCTAssertTrue(trailing.isEmpty || Array(trailing) == Array(1...UInt8(trailing.count)))
+        var privateReader = SSHWireReader(privateSection)
+        _ = privateReader.readUInt32() // first check integer
+        _ = privateReader.readUInt32() // repeated check integer
+        _ = privateReader.readString() // key type
+        _ = privateReader.readString() // public key
+        _ = privateReader.readString() // private key
+        _ = privateReader.readString() // comment
+
+        let padding = privateReader.readAllRemaining()
+        let expectedPadding = (0..<padding.count).map { UInt8($0 + 1) }
+        XCTAssertEqual(padding, expectedPadding)
     }
 
     func testMalformedMaterialIsRejected() {
@@ -165,16 +173,5 @@ final class OpenSSHPrivateKeyWriterTests: XCTestCase {
             comment: "bad"
         )
         XCTAssertThrowsError(try OpenSSHPrivateKeyWriter.armoredText(for: short))
-    }
-}
-
-private extension Array where Element == UInt8 {
-    /// The trailing run satisfying `predicate`.
-    func suffix(while predicate: (UInt8) -> Bool) -> ArraySlice<UInt8> {
-        var index = endIndex
-        while index > startIndex, predicate(self[index - 1]) {
-            index -= 1
-        }
-        return self[index...]
     }
 }
