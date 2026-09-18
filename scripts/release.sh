@@ -167,6 +167,11 @@ visibility="$(gh repo view "$GITHUB_REPOSITORY" --json visibility --jq .visibili
 [[ "$visibility" == "PUBLIC" ]] ||
     die "Repository $GITHUB_REPOSITORY is $visibility. De Sparkle-feed moet publiek bereikbaar zijn."
 
+step "Notarisatieprofiel controleren"
+if ! xcrun notarytool history --keychain-profile "$NOTARY_PROFILE" >/dev/null; then
+    die "Keychain-profiel '$NOTARY_PROFILE' ontbreekt of werkt niet. Maak het met 'xcrun notarytool store-credentials'."
+fi
+
 current_version="$(perl -ne 'print "$1\n" if /MARKETING_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
 current_build="$(perl -ne 'print "$1\n" if /CURRENT_PROJECT_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
 if [[ "$VERSION" == "$current_version" && "$BUILD_NUMBER" == "$current_build" ]]; then
