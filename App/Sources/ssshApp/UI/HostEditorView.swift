@@ -142,6 +142,12 @@ struct HostEditorView: View {
                          comment: "Footer explaining what tmux control mode does")
                 }
 
+                // Only on an existing host. A tunnel is a child record, and it
+                // has nothing to belong to until the host has been saved once.
+                if let host {
+                    TunnelListEditor(host: host)
+                }
+
                 if let saveFailure {
                     Section {
                         Label {

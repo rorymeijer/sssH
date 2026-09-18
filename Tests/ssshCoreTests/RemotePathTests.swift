@@ -78,6 +78,30 @@ final class RemotePathTests: XCTestCase {
         XCTAssertFalse(RemotePath.isValidComponent("a\0b"))
     }
 
+    /// The check that decides whether a tunnel is reachable from the network.
+    /// Wrong in the permissive direction it turns a personal tunnel into an
+    /// open relay on a café Wi-Fi, so it matches exactly rather than by prefix.
+    func testLoopbackAddresses() {
+        XCTAssertTrue(RemotePath.isLoopbackAddress("127.0.0.1"))
+        XCTAssertTrue(RemotePath.isLoopbackAddress("localhost"))
+        XCTAssertTrue(RemotePath.isLoopbackAddress("LOCALHOST"))
+        XCTAssertTrue(RemotePath.isLoopbackAddress("::1"))
+        XCTAssertTrue(RemotePath.isLoopbackAddress("[::1]"))
+        // The whole of 127.0.0.0/8 is loopback, not just .1.
+        XCTAssertTrue(RemotePath.isLoopbackAddress("127.1.2.3"))
+        XCTAssertTrue(RemotePath.isLoopbackAddress(" 127.0.0.1 "))
+
+        XCTAssertFalse(RemotePath.isLoopbackAddress("0.0.0.0"))
+        XCTAssertFalse(RemotePath.isLoopbackAddress(""))
+        XCTAssertFalse(RemotePath.isLoopbackAddress("192.168.1.10"))
+        XCTAssertFalse(RemotePath.isLoopbackAddress("::"))
+        // A prefix match would call both of these loopback. They are not.
+        XCTAssertFalse(RemotePath.isLoopbackAddress("127.0.0.1.example.com"))
+        XCTAssertFalse(RemotePath.isLoopbackAddress("localhost.attacker.example"))
+        XCTAssertFalse(RemotePath.isLoopbackAddress("1270.0.0.1"))
+        XCTAssertFalse(RemotePath.isLoopbackAddress("127.0.0.256"))
+    }
+
     func testUniqueName() {
         XCTAssertEqual(RemotePath.uniqueName("a.txt", avoiding: []), "a.txt")
         XCTAssertEqual(RemotePath.uniqueName("a.txt", avoiding: ["a.txt"]), "a 2.txt")

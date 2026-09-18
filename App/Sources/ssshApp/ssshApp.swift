@@ -121,6 +121,14 @@ struct ssshCommands: Commands {
             // no transport of its own, so there is nothing to open SFTP on.
             .disabled(environment.sessions.focusedSession == nil)
 
+            Button {
+                environment.sessions.showsTunnels = true
+            } label: {
+                Text("Tunnels", comment: "Section header: saved port forwards")
+            }
+            .keyboardShortcut("t", modifiers: [.command, .option])
+            .disabled(environment.sessions.focusedSession == nil)
+
             Divider()
 
             Button {

@@ -3,8 +3,8 @@
 A native, universal SSH client for macOS, iPadOS and iOS. SwiftUI,
 privacy-first, no AI features.
 
-**Status: Phase 4 done — a dual-pane SFTP browser with a transfer queue,
-drag and drop, and sssh's own SFTP implementation underneath it.**
+**Status: Phase 5 done — local, remote and dynamic port forwarding, with
+saved tunnels per host, auto-start on connect and live throughput.**
 
 ## Where things are
 
@@ -14,7 +14,7 @@ drag and drop, and sssh's own SFTP implementation underneath it.**
 | `Sources/ssshCore` | Backend-agnostic protocols and value types. Pure Swift. |
 | `Sources/ssshCrypto` | `openssh-key-v1` parsing, and the primitives swift-crypto does not expose (Blowfish, bcrypt_pbkdf, AES-CTR, DER). |
 | `Vendor/swift-nio-ssh` | A fork, carrying keyboard-interactive auth and the RFC 8332 RSA fix. See [Vendor/README.md](Vendor/README.md). |
-| `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport, and sssh's own SFTP v3 implementation. The only module that knows about SwiftNIO. |
+| `Sources/ssshTransportNIOSSH` | The swift-nio-ssh backed transport, and sssh's own SFTP v3 and SOCKS5 implementations. The only module that knows about SwiftNIO. |
 | `Sources/ssshPTYSpike` | `sssh-ptyspike`, the Phase 0 interactive-PTY harness. |
 | `Integration/` | A throwaway sshd and a script that runs the harness against it. |
 | `docs/PHASE-0-BACKEND-DECISION.md` | Which backend, why, and every library limitation found. **Start here.** |
@@ -80,7 +80,7 @@ external values. See "Verification status" in the Phase 0 report.
 - [x] **2** — Splits, broadcast, session restore, command palette, tmux, reconnect
 - [x] **3** — Command blocks (OSC 133 + fallback), per-block actions, in-session search
 - [x] **4** — SFTP browser, transfer queue, drag and drop
-- [ ] **5** — Port forwarding: local, remote, dynamic
+- [x] **5** — Port forwarding: local, remote, dynamic
 - [ ] **6** — Groups, tags, snippets, `~/.ssh/config` import, themes
 - [ ] **7** — CloudKit sync, Keychain/Secure Enclave, app lock
 - [ ] **8** — Dutch localisation pass, accessibility, macOS/iPad platform work, hardening

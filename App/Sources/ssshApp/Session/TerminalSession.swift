@@ -55,6 +55,15 @@ final class TerminalSession: TerminalFeed {
     /// when tmux reattaches and replays its layout.
     var onShellOpened: ((any SSHShellSession) -> Void)?
 
+    /// Called once per established connection, after the shell is up.
+    ///
+    /// Separate from ``onShellOpened`` because it fires for a tmux session
+    /// too, and because what it is for — restarting the tunnels that were
+    /// meant to start automatically — has nothing to do with the shell. A
+    /// reconnect is a new connection, so every listener on the old one is
+    /// already gone and has to be rebuilt.
+    var onConnectionEstablished: (() async -> Void)?
+
     private let transport: any SSHTransport
     private let hostKeyPolicy: SSHKnownHostsPolicy
     private let shellConfiguration: SSHShellConfiguration
@@ -71,6 +80,13 @@ final class TerminalSession: TerminalFeed {
 
     private let output = PendingOutputBuffer()
     let blocks = SessionBlocks()
+
+    /// The tunnels running on this connection.
+    ///
+    /// `lazy` because it needs `self`, and `@ObservationIgnored` because the
+    /// reference never changes — what the UI observes is the controller's own
+    /// state, not this property.
+    @ObservationIgnored private(set) lazy var tunnels = TunnelController(session: self)
 
     private var sftpService: (any SFTPService)?
     /// Held so that two browsers opening at once share one channel instead of
@@ -138,6 +154,7 @@ final class TerminalSession: TerminalFeed {
 
     func disconnect() async {
         blocks.finish()
+        await tunnels.stopAll()
         await closeSFTP()
         outputTask?.cancel()
         outputTask = nil
@@ -166,6 +183,9 @@ final class TerminalSession: TerminalFeed {
         if let size = await MainActor.run(body: { self.lastKnownSize }) {
             try? await shell.resize(to: size)
         }
+
+        let established = await MainActor.run { self.onConnectionEstablished }
+        await established?()
     }
 
     private func handle(_ event: ConnectionSupervisor.Event) async {
@@ -174,10 +194,16 @@ final class TerminalSession: TerminalFeed {
             case .connecting(let attempt):
                 retryingAt = nil
                 state = attempt == 1 ? .connecting : .reconnecting(attempt: attempt, nextAttemptIn: .zero)
-                // The SFTP channel belonged to the connection that just went
-                // away. Callers ask for it per operation, so dropping it here
-                // is all that is needed for the next one to open a fresh one.
-                if attempt > 1 { Task { await self.closeSFTP() } }
+                if attempt > 1 {
+                    // The SFTP channel belonged to the connection that just
+                    // went away. Callers ask for it per operation, so dropping
+                    // it here is all the next one needs to open a fresh one.
+                    Task { await self.closeSFTP() }
+                    // The tunnels went with it. There is nothing to cancel on
+                    // a socket that is gone, so they are forgotten rather than
+                    // stopped, and rebuilt when the connection comes back.
+                    tunnels.connectionLost()
+                }
 
             case .connected:
                 retryingAt = nil
@@ -233,6 +259,16 @@ final class TerminalSession: TerminalFeed {
             sftpTask = nil
             throw error
         }
+    }
+
+    /// The port-forwarding service for this connection.
+    ///
+    /// Not cached, unlike the SFTP channel: it holds no channel of its own, it
+    /// is a handle on the connection's handler, and a stale one after a
+    /// reconnect would be a tunnel that silently attaches to a socket that is
+    /// gone.
+    func portForwarding() async throws -> any PortForwardService {
+        try await transport.portForwarding()
     }
 
     private func closeSFTP() async {

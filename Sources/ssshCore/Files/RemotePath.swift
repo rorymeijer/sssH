@@ -128,6 +128,22 @@ public enum RemotePath {
         }
     }
 
+    /// Whether an address means "this machine only".
+    ///
+    /// Not path arithmetic, but it lives with it for want of a better home,
+    /// and it is the check that decides whether a tunnel is reachable from the
+    /// network. Wrong in the permissive direction it turns a personal tunnel
+    /// into an open relay, so the list is exact rather than a prefix match:
+    /// `127.0.0.1` is loopback and `127.0.0.1.example.com` is not.
+    public static func isLoopbackAddress(_ address: String) -> Bool {
+        let address = address.trimmingCharacters(in: .whitespaces).lowercased()
+        if address == "localhost" || address == "::1" || address == "[::1]" { return true }
+        // The whole of 127.0.0.0/8 is loopback, not just 127.0.0.1.
+        let parts = address.split(separator: ".", omittingEmptySubsequences: false)
+        guard parts.count == 4, parts.allSatisfy({ UInt8($0) != nil }) else { return false }
+        return parts[0] == "127"
+    }
+
     private static func trimmingTrailingSeparators(_ path: String) -> String {
         var result = Substring(path)
         while result.count > 1, result.last == separator {

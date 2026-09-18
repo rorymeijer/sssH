@@ -130,6 +130,14 @@ final class AppEnvironment {
             ))
             items.append(PaletteItem(
                 kind: .action,
+                title: String(localized: "Tunnels", comment: "Section header: saved port forwards"),
+                subtitle: nil,
+                symbol: "point.3.filled.connected.trianglepath.dotted",
+                keywords: ["port", "forward", "poort", "socks", "proxy", "tunnel"],
+                perform: { [weak self] in self?.sessions.showsTunnels = true }
+            ))
+            items.append(PaletteItem(
+                kind: .action,
                 title: String(localized: "Bestanden", comment: "Title of the file browser"),
                 subtitle: nil,
                 symbol: "folder",
@@ -173,7 +181,7 @@ final class AppEnvironment {
     /// accident is obvious in a diff.
     static func ephemeral() -> AppEnvironment {
         let container = try! ModelContainer(
-            for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self,
+            for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self, Tunnel.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         return AppEnvironment(modelContainer: container)
@@ -188,7 +196,7 @@ enum ModelContainerFactory {
     /// turning it on will not need a migration.
     static func make() throws -> ModelContainer {
         try ModelContainer(
-            for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self,
+            for: Host.self, HostGroup.self, KnownHostEntry.self, TerminalProfile.self, Tunnel.self,
             configurations: ModelConfiguration("sssh")
         )
     }

@@ -1,6 +1,18 @@
 {
   "sourceLanguage": "nl",
   "strings": {
+    "%@ (%@)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (%@)"
+          }
+        }
+      },
+      "comment": "Appends a technical reason to a tunnel failure"
+    },
     "%@ De server zegt: %@": {
       "extractionState": "manual",
       "localizations": {
@@ -121,6 +133,18 @@
       },
       "comment": "A transfer rate, as bytes per second"
     },
+    "%lld actief": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld active"
+          }
+        }
+      },
+      "comment": "How many connections are open through a tunnel"
+    },
     "%lld bezig": {
       "extractionState": "manual",
       "localizations": {
@@ -181,6 +205,18 @@
       },
       "comment": "Placeholder for a block whose command could not be recovered"
     },
+    "Aan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        }
+      },
+      "comment": "Toggle that starts or stops a tunnel"
+    },
     "Aangeboden sleutel": {
       "extractionState": "manual",
       "localizations": {
@@ -240,6 +276,18 @@
         }
       },
       "comment": "Field label: how to authenticate"
+    },
+    "Actief": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      },
+      "comment": "Section header for running tunnels"
     },
     "Adres": {
       "extractionState": "manual",
@@ -324,6 +372,18 @@
         }
       },
       "comment": "Collision option: keep both files by renaming the new one"
+    },
+    "Bereikbaar vanaf het netwerk": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reachable from the network"
+          }
+        }
+      },
+      "comment": "Warning that a tunnel is not bound to loopback"
     },
     "Bestand %@": {
       "extractionState": "manual",
@@ -481,6 +541,18 @@
       },
       "comment": "Title of the sheet shown when a host key does not match the stored one"
     },
+    "De meeste servers laten alleen 127.0.0.1 toe, tenzij GatewayPorts aanstaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most servers allow only 127.0.0.1 unless GatewayPorts is on."
+          }
+        }
+      },
+      "comment": "Warns that most servers refuse a non-loopback remote bind"
+    },
     "De server kon de bewerking niet uitvoeren.": {
       "extractionState": "manual",
       "localizations": {
@@ -564,6 +636,18 @@
         }
       },
       "comment": "A channel request was refused; placeholder is a technical detail"
+    },
+    "De server wil niet luisteren op %@:%lld. Vaak staat GatewayPorts uit, of is de poort daar al bezet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The server will not listen on %@:%lld. Usually GatewayPorts is off, or the port is already taken there."
+          }
+        }
+      },
+      "comment": "The server refused a remote forward request"
     },
     "De shell is gestopt door signaal %@.": {
       "extractionState": "manual",
@@ -685,6 +769,30 @@
       },
       "comment": "Menu item that shares a block as text"
     },
+    "Deze host heeft nog geen tunnels.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This host has no tunnels yet."
+          }
+        }
+      },
+      "comment": "Empty state in the tunnel panel"
+    },
+    "Deze naam wordt op de server opgezocht, niet hier. Daarom werkt een adres dat alleen daar bestaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This name is resolved on the server, not here, which is why an address that only exists there works."
+          }
+        }
+      },
+      "comment": "Explains that the destination is resolved on the server"
+    },
     "Deze server gebruikt alleen verouderde versleuteling die sssh niet ondersteunt. Werk de server bij, of gebruik OpenSSH.": {
       "comment": "The server only offers pre-2014 key exchange or ciphers",
       "extractionState": "manual",
@@ -696,6 +804,18 @@
           }
         }
       }
+    },
+    "Deze tunnel is nog niet compleet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This tunnel is not complete yet."
+          }
+        }
+      },
+      "comment": "Shown on a saved tunnel that is missing a host or port"
     },
     "Dit apparaat": {
       "extractionState": "manual",
@@ -757,6 +877,30 @@
       },
       "comment": "Button that downloads the selected remote files"
     },
+    "Dynamisch (-D)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic (-D)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: dynamic SOCKS proxy"
+    },
+    "Een SOCKS5-proxy op dit apparaat. De server maakt de verbindingen, dus het verkeer lijkt daarvandaan te komen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A SOCKS5 proxy on this device. The server makes the connections, so the traffic appears to come from there."
+          }
+        }
+      },
+      "comment": "Explains what a dynamic forward does"
+    },
     "Een naam mag geen schuine streep bevatten en kan niet . of .. zijn.": {
       "extractionState": "manual",
       "localizations": {
@@ -768,6 +912,18 @@
         }
       },
       "comment": "Explains why a proposed filename is not allowed"
+    },
+    "Een tunnel loopt over deze verbinding en stopt als die wegvalt. Tunnels die automatisch starten komen bij elke herverbinding terug.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A tunnel runs over this connection and stops when it drops. Tunnels that start automatically come back on every reconnection."
+          }
+        }
+      },
+      "comment": "Footer explaining that tunnels live and die with the connection"
     },
     "Eenmalig verbinden": {
       "extractionState": "manual",
@@ -877,6 +1033,18 @@
       },
       "comment": "Fallback when a failure has no better description"
     },
+    "Er kwam een verbinding binnen, maar %@:%lld op dit apparaat antwoordde niet.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A connection came in, but %@:%lld on this device did not answer."
+          }
+        }
+      },
+      "comment": "A remote forward arrived but the local destination was not listening"
+    },
     "Er wordt niets bewaard. sssh vraagt bij elke verbinding om een wachtwoord.": {
       "extractionState": "manual",
       "localizations": {
@@ -888,6 +1056,18 @@
         }
       },
       "comment": "Explains that nothing is stored for this authentication method"
+    },
+    "Extern (-R)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remote (-R)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: remote forward"
     },
     "Extra verificatie nodig": {
       "comment": "Title of a keyboard-interactive prompt when the server gave no name",
@@ -1117,6 +1297,18 @@
       },
       "comment": "Shown when writing a secret to the Keychain failed"
     },
+    "Host": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Host"
+          }
+        }
+      },
+      "comment": "Placeholder for a tunnel's destination host"
+    },
     "Host bewerken": {
       "extractionState": "manual",
       "localizations": {
@@ -1140,6 +1332,30 @@
         }
       },
       "comment": "Sidebar title: the list of saved hosts"
+    },
+    "Iets op de server verbindt met een poort daar, en komt uit op dit apparaat.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something on the server connects to a port there and arrives on this device."
+          }
+        }
+      },
+      "comment": "Explains what a remote forward does"
+    },
+    "Iets op dit apparaat verbindt met een poort hier, en komt uit op de server.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something on this device connects to a port here and arrives on the server."
+          }
+        }
+      },
+      "comment": "Explains what a local forward does"
     },
     "Ik weet waarom deze sleutel is veranderd": {
       "extractionState": "manual",
@@ -1356,6 +1572,18 @@
       },
       "comment": "Permission bit: read"
     },
+    "Lokaal (-L)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Local (-L)"
+          }
+        }
+      },
+      "comment": "Tunnel kind: local forward"
+    },
     "Loopt": {
       "extractionState": "manual",
       "localizations": {
@@ -1367,6 +1595,30 @@
         }
       },
       "comment": "Block filter: show only commands still running"
+    },
+    "Luisteren op de server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen on the server"
+          }
+        }
+      },
+      "comment": "Section header for a remote forward's listening address"
+    },
+    "Luisteren op dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen on this device"
+          }
+        }
+      },
+      "comment": "Section header for the local listening address"
     },
     "Map %@": {
       "extractionState": "manual",
@@ -1403,6 +1655,18 @@
         }
       },
       "comment": "Says which account on which host is being authenticated"
+    },
+    "Melding sluiten": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dismiss message"
+          }
+        }
+      },
+      "comment": "Accessibility label for dismissing a tunnel error"
     },
     "Met onderstaande regels stuurt je shell zelf de standaardmarkeringen (OSC 133). Andere terminals lezen ze ook, dus je zit nergens aan vast.": {
       "extractionState": "manual",
@@ -1500,6 +1764,30 @@
       },
       "comment": "Accessibility label for the go-home button"
     },
+    "Naartoe, gezien vanaf de server": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To, as seen from the server"
+          }
+        }
+      },
+      "comment": "Section header for a local forward's destination"
+    },
+    "Naartoe, op dit apparaat": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To, on this device"
+          }
+        }
+      },
+      "comment": "Section header for a remote forward's local destination"
+    },
     "Niet alle uitvoer is bewaard.": {
       "extractionState": "manual",
       "localizations": {
@@ -1583,6 +1871,18 @@
         }
       },
       "comment": "Label for the octal permissions field"
+    },
+    "Op dit adres is de tunnel bereikbaar vanaf het hele netwerk.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On this address the tunnel is reachable from the whole network."
+          }
+        }
+      },
+      "comment": "Warning shown when a tunnel binds something other than loopback"
     },
     "Opdracht bij starten": {
       "extractionState": "manual",
@@ -1703,6 +2003,30 @@
         }
       },
       "comment": "Field label: TCP port"
+    },
+    "Poort %lld op %@ kan niet worden geopend. Poorten onder 1024 zijn voorbehouden aan het systeem.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port %lld on %@ cannot be opened. Ports below 1024 are reserved for the system."
+          }
+        }
+      },
+      "comment": "A local tunnel could not bind a privileged port"
+    },
+    "Poort %lld op %@ kan niet worden geopend. Waarschijnlijk is die al in gebruik.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port %lld on %@ cannot be opened. It is most likely already in use."
+          }
+        }
+      },
+      "comment": "A local tunnel could not bind; the port is most likely taken"
     },
     "Poortdoorsturing komt in een volgende versie.": {
       "extractionState": "manual",
@@ -1944,6 +2268,30 @@
       },
       "comment": "Menu item that splits the focused pane horizontally"
     },
+    "Start automatisch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start automatically"
+          }
+        }
+      },
+      "comment": "Toggle: start this tunnel when the host connects"
+    },
+    "Stel deze poort in als SOCKS5-proxy in je browser of systeeminstellingen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set this port as the SOCKS5 proxy in your browser or system settings."
+          }
+        }
+      },
+      "comment": "Tells the user what to do with a dynamic forward's port"
+    },
     "Symbolische koppeling %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2015,6 +2363,42 @@
         }
       },
       "comment": "Search result position, as 'hit N of M'"
+    },
+    "Tunnel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tunnel"
+          }
+        }
+      },
+      "comment": "Title of the tunnel editor"
+    },
+    "Tunnel toevoegen": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add tunnel"
+          }
+        }
+      },
+      "comment": "Button that adds a saved port forward"
+    },
+    "Tunnels": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tunnels"
+          }
+        }
+      },
+      "comment": "Section header: saved port forwards"
     },
     "Uitschakelen": {
       "extractionState": "manual",
@@ -2549,6 +2933,18 @@
         }
       },
       "comment": "Placeholder when no credential was offered"
+    },
+    "poort %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "port %lld"
+          }
+        }
+      },
+      "comment": "Shows which port a tunnel actually bound"
     },
     "sssh kan sleutels van het type %@ nog niet gebruiken. Zet de sleutel om met ssh-keygen.": {
       "extractionState": "manual",

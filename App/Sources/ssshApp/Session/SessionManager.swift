@@ -61,6 +61,16 @@ final class SessionManager {
     /// connection.
     var showsBlockInspector = false
 
+    /// Whether the tunnel panel is open for the focused session.
+    var showsTunnels = false
+
+    /// The host behind the focused tab, for views that need the saved records
+    /// rather than the live session.
+    var focusedHost: Host? {
+        guard let tab = selectedTab else { return nil }
+        return host(for: tab)
+    }
+
     /// Whether the file browser is open for the focused session.
     ///
     /// Only a direct session has one: a tmux pane shares its connection with
@@ -126,7 +136,7 @@ final class SessionManager {
         }
     }
 
-    private func host(for tab: TerminalTab) -> Host? {
+    func host(for tab: TerminalTab) -> Host? {
         guard let hostID = tab.hostID else { return nil }
         return modelContainer.mainContext.model(for: hostID) as? Host
     }
@@ -158,7 +168,7 @@ final class SessionManager {
             startupCommand: startupCommand
         )
 
-        return TerminalSession(
+        let session = TerminalSession(
             hostDisplayName: host.displayName,
             endpoint: host.endpoint,
             transport: transportFactory.makeTransport(),
@@ -166,6 +176,21 @@ final class SessionManager {
             shellConfiguration: configuration,
             readsOwnOutput: !host.usesTmuxControlMode
         )
+
+        // Runs on every connection, reconnections included. A tunnel belongs
+        // to the connection underneath it, so the listeners from the old one
+        // are gone and have to be rebuilt rather than resumed.
+        let hostID = host.persistentModelID
+        session.onConnectionEstablished = { [weak self, weak session] in
+            guard let self, let session,
+                  let host = self.modelContainer.mainContext.model(for: hostID) as? Host
+            else {
+                return
+            }
+            await session.tunnels.startAutomaticTunnels(for: host)
+        }
+
+        return session
     }
 
     private func connect(_ session: TerminalSession, host: Host) async {

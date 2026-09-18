@@ -45,6 +45,12 @@ final class Host {
 
     var keepAliveIntervalSeconds: Int = 30
 
+    /// Saved port forwards. Deleting a host takes its tunnels with it: a
+    /// tunnel without the connection it runs over is not a thing that can be
+    /// started, and leaving them behind would be a list of dead entries.
+    @Relationship(deleteRule: .cascade, inverse: \Tunnel.host)
+    var tunnels: [Tunnel]? = []
+
     /// Run tmux in control mode (`tmux -CC`) on connect.
     ///
     /// When on, tmux's windows and panes become sssh's tabs and splits, and the

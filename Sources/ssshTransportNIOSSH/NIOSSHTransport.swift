@@ -30,6 +30,11 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
         /// Outermost bastion first. Kept alive for as long as this connection
         /// is, and torn down in reverse on disconnect.
         var jumpConnections: [Connection]
+        /// Where inbound `forwarded-tcpip` channels are matched to a local
+        /// destination. Created before the handler, because the handler's
+        /// inbound-channel initializer captures it and is fixed at
+        /// construction.
+        var remoteForwards: RemoteForwardRegistry
     }
 
     private let group: EventLoopGroup
@@ -182,7 +187,7 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
         transition(to: .authenticating)
 
         do {
-            let (channel, sshHandler) = try await openSSHChannel(
+            let (channel, sshHandler, remoteForwards) = try await openSSHChannel(
                 to: destination,
                 through: nearest,
                 configuration: configuration,
@@ -210,7 +215,13 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
                 "hops": .stringConvertible(chain.count),
             ])
 
-            return Connection(channel: channel, sshHandler: sshHandler, info: info, jumpConnections: chain)
+            return Connection(
+                channel: channel,
+                sshHandler: sshHandler,
+                info: info,
+                jumpConnections: chain,
+                remoteForwards: remoteForwards
+            )
         } catch {
             await tearDown(chain)
             throw error
@@ -233,20 +244,27 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
         through bastion: Connection?,
         configuration: SSHClientConfiguration,
         authenticationDelegate: CredentialAuthenticationDelegate
-    ) async throws -> (Channel, NIOSSHHandler) {
+    ) async throws -> (Channel, NIOSSHHandler, RemoteForwardRegistry) {
         // With `group: eventLoop` on the bootstrap, and a bastion's child
         // channel sharing its parent's loop, this is the loop the channel will
         // run on — so the handshake promise is created on the right one.
         let eventLoop = bastion?.channel.eventLoop ?? group.next()
 
+        // `ssh -R` arrives as inbound `forwarded-tcpip` channels, and the
+        // initializer that accepts them is fixed when the handler is built —
+        // so the registry it consults has to exist now, before anyone has
+        // asked for a tunnel. Anything not in the registry is refused, which
+        // is also the right answer for a server opening channels nobody asked
+        // for.
+        let remoteForwards = RemoteForwardRegistry()
         let sshHandler = NIOSSHHandler(
             role: .client(configuration),
             allocator: ByteBufferAllocator(),
-            // Phase 5: an initializer here is what makes `ssh -R` possible,
-            // because remote forwarding arrives as inbound `forwarded-tcpip`
-            // channels. Nil means "refuse them", which is correct until there
-            // is something to hand them to.
-            inboundChildChannelInitializer: nil
+            inboundChildChannelInitializer: RemoteForwardInbound.makeInitializer(
+                registry: remoteForwards,
+                group: group,
+                logger: logger
+            )
         )
         let handshake = HandshakeHandler(eventLoop: eventLoop, authenticationDelegate: authenticationDelegate)
 
@@ -276,7 +294,7 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
             throw error
         }
 
-        return (channel, sshHandler)
+        return (channel, sshHandler, remoteForwards)
     }
 
     private func openSocketChannel(
@@ -405,8 +423,14 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
     }
 
     public func portForwarding() async throws -> any PortForwardService {
-        // Phase 5.
-        throw SSHTransportError.unsupported(.localPortForwarding)
+        let connection = try requireConnection()
+        return NIOPortForwardService(
+            sshHandler: connection.sshHandler,
+            sshEventLoop: connection.channel.eventLoop,
+            group: group,
+            registry: connection.remoteForwards,
+            logger: logger
+        )
     }
 
     // MARK: - Keep-alive
@@ -488,34 +512,6 @@ public final class NIOSSHTransport: SSHTransport, @unchecked Sendable {
 
 /// Converts between an SSH channel's framed data and a plain byte stream, so a
 /// nested SSH connection can run inside a `direct-tcpip` channel.
-private final class SSHChannelDataCodec: ChannelDuplexHandler {
-    typealias InboundIn = SSHChannelData
-    typealias InboundOut = ByteBuffer
-    typealias OutboundIn = ByteBuffer
-    typealias OutboundOut = SSHChannelData
-
-    func handlerAdded(context: ChannelHandlerContext) {
-        context.channel.setOption(ChannelOptions.allowRemoteHalfClosure, value: true).whenFailure { error in
-            context.fireErrorCaught(error)
-        }
-    }
-
-    func channelRead(context: ChannelHandlerContext, data: NIOAny) {
-        let channelData = unwrapInboundIn(data)
-        guard case .byteBuffer(let buffer) = channelData.data, case .channel = channelData.type else {
-            // stderr on a direct-tcpip channel is a protocol violation.
-            context.fireErrorCaught(SSHChannelError.invalidDataType)
-            return
-        }
-        context.fireChannelRead(wrapInboundOut(buffer))
-    }
-
-    func write(context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
-        let buffer = unwrapOutboundIn(data)
-        context.write(wrapOutboundOut(SSHChannelData(type: .channel, data: .byteBuffer(buffer))), promise: promise)
-    }
-}
-
 /// Races `operation` against a deadline.
 ///
 /// `Task.sleep` is cancelled as soon as the operation wins, so this leaves no

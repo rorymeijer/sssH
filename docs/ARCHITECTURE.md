@@ -269,3 +269,53 @@ middle of the downloaded file.
 Overwrite, keep-both and resume are always asked, never chosen. Resume only
 applies when the partial file is shorter than the source; a longer one is not a
 partial transfer, it is a different file.
+
+### Port forwarding
+
+All three kinds — `-L`, `-R` and `-D` — are one mechanism with three sources
+for the destination, so the listener, the accounting and the teardown are
+written once.
+
+The parts that are load-bearing rather than incidental:
+
+- **`GlueHandler` carries backpressure and half-close.** Without backpressure,
+  forwarding a fast download through a slow uplink buffers the whole thing in
+  the app. Without half-close travelling as a half-close, every HTTP request
+  through the tunnel loses its reply: the client finishes sending, the EOF
+  becomes a full close, and the response never arrives.
+- **The SSH child channel starts with `autoRead` off.** NIOSSH buffers a child
+  channel's inbound data until a read is asked for, which holds whatever the
+  far side sends immediately — an SMTP banner, an SSH version string — until
+  there is somewhere to put it. Without that, the data is delivered to a
+  pipeline whose glue has no partner yet and is dropped, which looks exactly
+  like a server that does not answer.
+- **SOCKS writes its success reply between the channel opening and the two
+  sides being joined.** Earlier, and a refused connection has already been
+  reported as succeeding; later, and the far side's first bytes are ahead of
+  the reply in the client's stream.
+- **Bytes that arrive in the same packet as the SOCKS request are replayed.**
+  Losing them is what makes a pipelined request through the proxy hang rather
+  than fail.
+- **The remote-forward registry exists before the `NIOSSHHandler` does.** `-R`
+  arrives as inbound `forwarded-tcpip` channels, and the initializer that
+  accepts them is fixed when the handler is built. Anything not in the registry
+  is refused — which is also the right answer to a server opening channels
+  nobody asked for.
+- **An inexact registry match is only accepted when one tunnel owns the port.**
+  Servers disagree about what to echo back in `listeningHost`, but guessing
+  between two tunnels would hand someone's connection to the wrong service.
+
+A tunnel belongs to the connection underneath it. A reconnect does not resume
+one; it rebuilds the ones marked to start automatically, because the listeners
+on the old connection are already gone.
+
+`127.0.0.1` is the default bind address everywhere, and binding anything else
+is called out in the editor and again in the status list. The difference is
+whether a tunnel is available to this machine or to the whole network, and
+defaulting to the network is how a personal tunnel becomes an open relay on a
+café Wi-Fi. `RemotePath.isLoopbackAddress` matches exactly rather than by
+prefix for the same reason: `127.0.0.1.example.com` is not loopback.
+
+The SOCKS implementation is checked against PySocks, an independent client: the
+request bytes in the tests were captured from it, and it accepted this
+handler's success reply and went on to use the tunnel.

@@ -72,6 +72,15 @@ struct SessionAreaView: View {
                     .id(session.id)
             }
         }
+        .sheet(isPresented: Binding(
+            get: { sessions.showsTunnels && sessions.focusedSession != nil },
+            set: { sessions.showsTunnels = $0 }
+        )) {
+            if let session = sessions.focusedSession {
+                TunnelStatusView(session: session, host: sessions.focusedHost)
+                    .id(session.id)
+            }
+        }
     }
 }
 

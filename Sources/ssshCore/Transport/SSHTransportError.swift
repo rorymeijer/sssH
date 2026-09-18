@@ -38,6 +38,23 @@ public enum SSHTransportError: Error, Sendable {
 
     case timedOut(operation: String, after: Duration)
 
+    /// A tunnel could not be set up. Separate from `channelRequestFailed`
+    /// because the three ways it goes wrong lead to three different things for
+    /// the user to do, and a message cannot be branched on.
+    case portForwardingFailed(PortForwardProblem)
+
+    public enum PortForwardProblem: Sendable, Equatable {
+        /// The local listener could not bind. Almost always the port being in
+        /// use, or being below 1024 without the privileges to take it.
+        case localBindFailed(address: String, port: Int, underlying: String?)
+        /// The server refused to listen on our behalf. Usually its
+        /// `GatewayPorts` setting, or the port already being taken there.
+        case serverRefusedListen(address: String, port: Int)
+        /// A connection arrived through a remote forward and the local
+        /// destination would not take it.
+        case localTargetUnreachable(host: String, port: Int, underlying: String?)
+    }
+
     public enum CredentialProblem: Sendable, Equatable {
         case malformedKey
         case wrongPassphrase
