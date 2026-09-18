@@ -141,7 +141,7 @@ struct SpikeConfiguration {
             let text = try String(contentsOfFile: privateKeyPath, encoding: .utf8)
             credentials.append(.privateKey(SSHPrivateKeyMaterial(
                 openSSHPrivateKey: SecretString(text),
-                passphrase: passphrase.map(SecretString.init),
+                passphrase: passphrase.map { SecretString($0) },
                 label: (privateKeyPath as NSString).lastPathComponent
             )))
         }

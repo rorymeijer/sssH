@@ -11,7 +11,7 @@ final class PrivateKeyLoadingTests: XCTestCase {
     private func material(_ text: String, passphrase: String? = nil) -> SSHPrivateKeyMaterial {
         SSHPrivateKeyMaterial(
             openSSHPrivateKey: SecretString(text),
-            passphrase: passphrase.map(SecretString.init),
+            passphrase: passphrase.map { SecretString($0) },
             label: "id_test"
         )
     }

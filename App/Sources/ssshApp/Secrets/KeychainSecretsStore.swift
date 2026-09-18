@@ -303,7 +303,7 @@ private struct StoredSecret: Codable {
         case .password:
             return .password(SecretString(value))
         case .privateKey:
-            return .privateKey(openSSH: SecretString(value), passphrase: passphrase.map(SecretString.init))
+            return .privateKey(openSSH: SecretString(value), passphrase: passphrase.map { SecretString($0) })
         }
     }
 }
