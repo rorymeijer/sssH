@@ -15,6 +15,28 @@ readonly EXPECTED_SPARKLE_PUBLIC_KEY="gbxFgROhkDGw8Tmhvotvm4rCnaFjzUgu/2qDEAyYHM
 readonly NOTARY_PROFILE="${SSSH_NOTARY_PROFILE:-sssH-notary}"
 readonly SPARKLE_BIN_DIR="${SSSH_SPARKLE_BIN_DIR:-$HOME/Documents/Sparkle/bin}"
 readonly RELEASES_ROOT="${SSSH_RELEASES_DIR:-$HOME/Documents/sssH-Releases}"
+readonly XCODE_DEVELOPER_DIR="${SSSH_XCODE_DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
+
+version_changes_pending=false
+check_dir=""
+
+cleanup() {
+    exit_code=$?
+
+    if [[ "$exit_code" -ne 0 && "$version_changes_pending" == true ]]; then
+        echo "Release mislukt; tijdelijke versiewijzigingen worden teruggezet." >&2
+        git -C "$REPO_ROOT" restore --staged -- App/project.yml
+        git -C "$REPO_ROOT" restore -- App/project.yml
+    fi
+
+    if [[ -n "$check_dir" && -d "$check_dir" ]]; then
+        rm -rf "$check_dir"
+    fi
+
+    exit "$exit_code"
+}
+
+trap cleanup EXIT
 
 usage() {
     cat <<EOF
@@ -30,6 +52,7 @@ Optionele omgevingsvariabelen:
   SSSH_NOTARY_PROFILE     notarytool-Keychain-profiel (standaard: sssH-notary)
   SSSH_SPARKLE_BIN_DIR    map met generate_keys en generate_appcast
   SSSH_RELEASES_DIR       uitvoermap (standaard: ~/Documents/sssH-Releases)
+  SSSH_XCODE_DEVELOPER_DIR volledige Xcode Developer-map
 
 Het script maakt uitsluitend een GitHub-draft. Publiceer die na controle handmatig.
 EOF
@@ -50,16 +73,21 @@ require_command() {
 }
 
 if [[ "$#" -eq 0 ]]; then
-    current_version_prompt="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$INFO_PLIST")"
-    current_build_prompt="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$INFO_PLIST")"
-    suggested_build="$((current_build_prompt + 1))"
+    current_version_prompt="$(perl -ne 'print "$1\n" if /MARKETING_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
+    current_build_prompt="$(perl -ne 'print "$1\n" if /CURRENT_PROJECT_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
 
     echo "Huidige versie: $current_version_prompt (build $current_build_prompt)"
-    read -r -p "Nieuwe versie (bijvoorbeeld 0.2.1): " requested_version
+    read -r -p "Nieuwe versie [$current_version_prompt]: " requested_version
+    requested_version="${requested_version:-$current_version_prompt}"
+
+    if [[ "$requested_version" == "$current_version_prompt" ]]; then
+        suggested_build="$current_build_prompt"
+    else
+        suggested_build="$((current_build_prompt + 1))"
+    fi
+
     read -r -p "Nieuw buildnummer [$suggested_build]: " requested_build
     requested_build="${requested_build:-$suggested_build}"
-
-    [[ -n "$requested_version" ]] || die "Een nieuw versienummer is verplicht."
     set -- "$requested_version" "$requested_build"
 elif [[ "$#" -ne 2 ]]; then
     usage
@@ -91,6 +119,14 @@ readonly GENERATE_APPCAST="$SPARKLE_BIN_DIR/generate_appcast"
 for command_name in git gh xcodegen xcodebuild xcrun codesign spctl ditto perl grep curl; do
     require_command "$command_name"
 done
+
+[[ -d "$XCODE_DEVELOPER_DIR" ]] ||
+    die "Volledige Xcode-installatie ontbreekt in $XCODE_DEVELOPER_DIR."
+export DEVELOPER_DIR="$XCODE_DEVELOPER_DIR"
+
+xcode_sdk_path="$(xcrun --sdk macosx --show-sdk-path)"
+[[ "$xcode_sdk_path" == "$XCODE_DEVELOPER_DIR"/* ]] ||
+    die "xcrun gebruikt niet de volledige Xcode-installatie: $xcode_sdk_path"
 
 [[ -x "$GENERATE_KEYS" ]] ||
     die "Niet uitvoerbaar: $GENERATE_KEYS. Stel SSSH_SPARKLE_BIN_DIR correct in."
@@ -131,8 +167,8 @@ visibility="$(gh repo view "$GITHUB_REPOSITORY" --json visibility --jq .visibili
 [[ "$visibility" == "PUBLIC" ]] ||
     die "Repository $GITHUB_REPOSITORY is $visibility. De Sparkle-feed moet publiek bereikbaar zijn."
 
-current_version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$INFO_PLIST")"
-current_build="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$INFO_PLIST")"
+current_version="$(perl -ne 'print "$1\n" if /MARKETING_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
+current_build="$(perl -ne 'print "$1\n" if /CURRENT_PROJECT_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
 if [[ "$VERSION" == "$current_version" && "$BUILD_NUMBER" == "$current_build" ]]; then
     echo "Versie $VERSION ($BUILD_NUMBER) staat al ingesteld; versie-update wordt overgeslagen."
 else
@@ -146,18 +182,15 @@ else
     RELEASE_BUILD="$BUILD_NUMBER" perl -0pi -e \
         's/(CURRENT_PROJECT_VERSION:\s*")[^"]+(")/$1$ENV{RELEASE_BUILD}$2/' \
         "$PROJECT_FILE"
-    /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$INFO_PLIST"
-    /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$INFO_PLIST"
+    version_changes_pending=true
 fi
 
 project_version="$(perl -ne 'print "$1\n" if /MARKETING_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
 project_build="$(perl -ne 'print "$1\n" if /CURRENT_PROJECT_VERSION:\s*"([^"]+)"/' "$PROJECT_FILE")"
-plist_version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$INFO_PLIST")"
-plist_build="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$INFO_PLIST")"
-[[ "$project_version" == "$VERSION" && "$plist_version" == "$VERSION" ]] ||
-    die "De zichtbare versies in project.yml en Info.plist komen niet overeen."
-[[ "$project_build" == "$BUILD_NUMBER" && "$plist_build" == "$BUILD_NUMBER" ]] ||
-    die "De buildnummers in project.yml en Info.plist komen niet overeen."
+[[ "$project_version" == "$VERSION" ]] ||
+    die "project.yml bevat niet versie $VERSION."
+[[ "$project_build" == "$BUILD_NUMBER" ]] ||
+    die "project.yml bevat niet build $BUILD_NUMBER."
 
 step "Xcode-project genereren en tests uitvoeren"
 (
@@ -166,10 +199,11 @@ step "Xcode-project genereren en tests uitvoeren"
 )
 swift test --package-path "$REPO_ROOT"
 
-if ! git diff --quiet -- "$PROJECT_FILE" "$INFO_PLIST"; then
+if ! git diff --quiet -- "$PROJECT_FILE"; then
     step "Versiecommit maken en pushen"
-    git add "$PROJECT_FILE" "$INFO_PLIST"
+    git add "$PROJECT_FILE"
     git commit -m "Prepare sssH $VERSION"
+    version_changes_pending=false
     git push origin "$current_branch"
 fi
 readonly RELEASE_COMMIT="$(git rev-parse HEAD)"
@@ -236,7 +270,6 @@ step "Definitieve Sparkle-ZIP maken"
 ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_PATH"
 
 check_dir="$(mktemp -d)"
-trap 'rm -rf "$check_dir"' EXIT
 ditto -x -k "$ZIP_PATH" "$check_dir"
 codesign --verify --deep --strict --verbose=2 "$check_dir/sssh.app"
 spctl --assess --type execute --verbose=2 "$check_dir/sssh.app"

@@ -125,6 +125,11 @@ SSSH_NOTARY_PROFILE="sssH-notary" \
 ./scripts/release.sh 0.2.1 3
 ```
 
+Het script gebruikt standaard de volledige Xcode-installatie in
+`/Applications/Xcode.app/Contents/Developer`, ook wanneer `xcode-select` nog
+naar de losse Command Line Tools wijst. Stel bij een afwijkende Xcode-locatie
+`SSSH_XCODE_DEVELOPER_DIR` in.
+
 Releasebestanden komen buiten de repository in
 `~/Documents/sssH-Releases/<versie>`. Controleer na afloop de GitHub-draft en
 publiceer hem pas als de ZIP en `appcast.xml` beide als assets aanwezig zijn.
@@ -153,15 +158,18 @@ CURRENT_PROJECT_VERSION: "2"
 - `CURRENT_PROJECT_VERSION` is het buildnummer en moet bij iedere release
   hoger zijn. Sparkle gebruikt dit nummer om versies te vergelijken.
 
-Dit project gebruikt ook een geschreven `App/Supporting/Info.plist`. Zorg dat
-deze waarden overeenkomen:
+XcodeGen schrijft dezelfde waarden automatisch naar
+`App/Supporting/Info.plist`, omdat `project.yml` deze koppelingen bevat:
 
 ```xml
 <key>CFBundleShortVersionString</key>
-<string>0.2.0</string>
+<string>$(MARKETING_VERSION)</string>
 <key>CFBundleVersion</key>
-<string>2</string>
+<string>$(CURRENT_PROJECT_VERSION)</string>
 ```
+
+Wijzig de gegenereerde `Info.plist` niet handmatig; `xcodegen generate`
+overschrijft hem.
 
 Genereer daarna het Xcode-project opnieuw:
 
@@ -174,7 +182,7 @@ open sssh.xcodeproj
 Commit en push de versieverhoging:
 
 ```sh
-git add project.yml Supporting/Info.plist
+git add project.yml
 git commit -m "Prepare sssH 0.2.0"
 git push
 ```
