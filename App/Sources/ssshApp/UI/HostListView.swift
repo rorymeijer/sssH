@@ -28,6 +28,10 @@ struct HostListView: View {
     @State private var showsSecurity = false
     @State private var showsHelp = false
     @State private var showsAbout = false
+    /// The host the user asked to delete, held until the confirmation is
+    /// answered. Deleting a saved server takes its tunnels with it and cannot
+    /// be undone, so it does not happen on one click.
+    @State private var deletingHost: Host?
 
     var body: some View {
         List(selection: $selection) {
@@ -68,6 +72,30 @@ struct HostListView: View {
         .sheet(isPresented: $showsSecurity) { SecuritySettingsView() }
         .sheet(isPresented: $showsHelp) { HelpView() }
         .sheet(isPresented: $showsAbout) { AboutView() }
+        .confirmationDialog(
+            Text("‘\(deletingHost?.displayName ?? "")’ verwijderen?",
+                 comment: "Title of the host delete confirmation, with the host's name"),
+            isPresented: Binding(
+                get: { deletingHost != nil },
+                set: { if !$0 { deletingHost = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button(role: .destructive) {
+                if let host = deletingHost {
+                    deletingHost = nil
+                    delete(host)
+                }
+            } label: {
+                Text("Verwijder host", comment: "Confirms deleting a saved host")
+            }
+            Button(role: .cancel) { deletingHost = nil } label: {
+                Text("Annuleer", comment: "Cancel button")
+            }
+        } message: {
+            Text("De tunnels van deze host gaan mee; fragmenten blijven bestaan en worden overal beschikbaar. Dit kan niet ongedaan worden gemaakt.",
+                 comment: "Body of the host delete confirmation, explaining what is deleted along with it")
+        }
     }
 
     private func row(_ host: Host) -> some View {
@@ -121,7 +149,7 @@ struct HostListView: View {
 
                 Divider()
                 Button(role: .destructive) {
-                    delete(host)
+                    deletingHost = host
                 } label: {
                     Label {
                         Text("Verwijderen", comment: "Context menu: delete this host")
@@ -131,6 +159,8 @@ struct HostListView: View {
                 }
             }
     }
+
+
 
     /// Filtering, importing and the two libraries, behind one button so the
     /// sidebar toolbar stays two items wide on a phone.

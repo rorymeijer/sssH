@@ -27,6 +27,16 @@
 		<string>iCloud.nl.rorymeijer.sssh</string>
 	</array>
 
+	<!-- Shared with the widget extension, which reads a snapshot of recent
+	     hosts from it — names and addresses only, never a secret.
+	     Team-prefixed, because group.* on macOS requires a provisioning
+	     profile and the Developer ID release flow should keep working
+	     unchanged. -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>GPYS6SK835.nl.rorymeijer.sssh</string>
+	</array>
+
 	<!-- The Keychain group the secrets store writes to. Secrets are wrapped
 	     with a Secure Enclave key before they go in; iCloud Keychain sync is
 	     opt-in and off by default. -->

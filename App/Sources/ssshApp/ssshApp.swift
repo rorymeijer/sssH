@@ -64,6 +64,10 @@ struct ssshApp: App {
                     // extraction. Re-snapshot at launch so hosts added on
                     // another device (or last session) become speakable.
                     ssshShortcuts.updateAppShortcutParameters()
+                    environment.publishWidgetSnapshot()
+                }
+                .onOpenURL { url in
+                    environment.handle(url)
                 }
                 .onChange(of: scenePhase) { _, phase in
                     switch phase {
@@ -74,6 +78,10 @@ struct ssshApp: App {
                         // is what a hidden window reports, and the app
                         // switcher's snapshot is taken there too.
                         environment.appLock.applicationDidEnterBackground()
+                        // Leaving the foreground is when "recent" can have
+                        // changed — a session was opened — so the widget's
+                        // snapshot refreshes here.
+                        environment.publishWidgetSnapshot()
                     @unknown default:
                         environment.appLock.applicationDidEnterBackground()
                     }

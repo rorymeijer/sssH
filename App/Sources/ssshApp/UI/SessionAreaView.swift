@@ -60,6 +60,26 @@ struct SessionAreaView: View {
                 }
             }
         }
+        .toolbar {
+            // Files, one click from every connected session. The menu item
+            // and ⌘⌥B still exist; this is the visible path. Hidden rather
+            // than disabled without a connection: a button that never works
+            // until you connect teaches people it never works.
+            if sessions.focusedSession != nil {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        sessions.showsFileBrowser = true
+                    } label: {
+                        Label {
+                            Text("Bestanden", comment: "Title of the file browser")
+                        } icon: {
+                            Image(systemName: "folder")
+                        }
+                    }
+                    .help(Text("Bestanden uitwisselen via SFTP", comment: "Help topic summary for the file browser"))
+                }
+            }
+        }
         .sheet(isPresented: Binding(
             get: { sessions.showsFileBrowser && sessions.focusedSession != nil },
             set: { sessions.showsFileBrowser = $0 }

@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftData
+import WidgetKit
 import ssshCore
 import ssshTransportNIOSSH
 
@@ -282,6 +283,38 @@ final class AppEnvironment {
         }
 
         return items
+    }
+
+    // MARK: - Widgets
+
+    /// Writes the recent-hosts snapshot the widget shows, and asks WidgetKit
+    /// to re-read it. Called at launch and when the app leaves the
+    /// foreground — the two moments the recents can have changed.
+    ///
+    /// Names and addresses only. The snapshot lives in the app group where
+    /// the widget can read it, and nothing that belongs in the Keychain ever
+    /// goes there.
+    func publishWidgetSnapshot() {
+        let hosts = (try? modelContainer.mainContext.fetch(
+            FetchDescriptor<Host>(sortBy: [SortDescriptor(\Host.lastConnectedAt, order: .reverse)])
+        )) ?? []
+        let items = hosts.filter(\.isConnectable).prefix(8).map {
+            HostSnapshotItem(id: $0.restoreIdentifier, name: $0.displayName, connection: "\($0.username)@\($0.hostname)")
+        }
+        HostSnapshotStore.save(Array(items))
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    /// Handles `sssh://connect?id=…`, the URL a widget tap sends.
+    ///
+    /// A host that no longer exists is ignored rather than reported: the
+    /// snapshot behind a stale widget refreshes on this very launch, so the
+    /// wrong row is already on its way out.
+    func handle(_ url: URL) {
+        guard let id = HostSnapshotStore.hostID(from: url) else { return }
+        let hosts = (try? modelContainer.mainContext.fetch(FetchDescriptor<Host>())) ?? []
+        guard let host = hosts.first(where: { $0.restoreIdentifier == id && $0.isConnectable }) else { return }
+        sessions.open(host)
     }
 
     // MARK: - Session restore

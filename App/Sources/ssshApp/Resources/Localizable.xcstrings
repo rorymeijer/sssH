@@ -11,6 +11,9 @@
         }
       }
     },
+    "‘%@’ verwijderen?" : {
+      "comment" : "Title of the host delete confirmation, with the host's name"
+    },
     "(geen opdracht)" : {
       "comment" : "Placeholder for a block whose command could not be recovered",
       "extractionState" : "manual",
@@ -796,7 +799,7 @@
       }
     },
     "Bestanden uitwisselen via SFTP" : {
-      "comment" : "Help topic summary: file browser",
+      "comment" : "Help topic summary for the file browser\nHelp topic summary: file browser",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1230,6 +1233,9 @@
           }
         }
       }
+    },
+    "De tunnels van deze host gaan mee; fragmenten blijven bestaan en worden overal beschikbaar. Dit kan niet ongedaan worden gemaakt." : {
+      "comment" : "Body of the host delete confirmation, explaining what is deleted along with it"
     },
     "De vensters en deelvensters van tmux worden tabbladen en splitsingen in sssh, en je werk blijft draaien als de verbinding wegvalt." : {
       "comment" : "Footer explaining what tmux control mode buys the user",
@@ -5247,6 +5253,9 @@
           }
         }
       }
+    },
+    "Verwijder host" : {
+      "comment" : "Confirms deleting a saved host"
     },
     "Verwijderen" : {
       "comment" : "Context menu: delete this host",

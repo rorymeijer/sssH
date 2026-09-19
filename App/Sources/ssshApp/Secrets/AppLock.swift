@@ -32,6 +32,10 @@ final class AppLock {
     private let settings: SecuritySettings
     /// When the app last went to the background. `nil` while it is in front.
     private var backgroundedAt: Date?
+    /// Whether an authentication prompt is already up. The lock screen can be
+    /// on screen more than once — the main window's overlay and the settings
+    /// window both show it — and each asks on appear; one prompt is plenty.
+    private var isAuthenticating = false
 
     init(settings: SecuritySettings) {
         self.settings = settings
@@ -108,6 +112,10 @@ final class AppLock {
     // MARK: - Unlocking
 
     func unlock() async {
+        guard !isAuthenticating else { return }
+        isAuthenticating = true
+        defer { isAuthenticating = false }
+
         lastFailure = nil
         let context = LAContext()
         // The system's own wording for the fallback, so it says "Enter

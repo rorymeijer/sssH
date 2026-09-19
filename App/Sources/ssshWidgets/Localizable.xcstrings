@@ -1,0 +1,63 @@
+{
+  "sourceLanguage" : "nl",
+  "strings" : {
+    "Geen opgeslagen hosts" : {
+      "comment" : "Menu bar item shown when there are no connectable hosts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "No saved hosts"
+          }
+        }
+      }
+    },
+    "Recente hosts" : {
+      "comment" : "Display name of the recent-hosts widget",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Recent Hosts"
+          }
+        }
+      }
+    },
+    "Verbind met één tik met een recente host." : {
+      "comment" : "Description of the recent-hosts widget",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "device" : {
+              "ipad" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Connect to a recent host with one tap."
+                }
+              },
+              "iphone" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Connect to a recent host with one tap."
+                }
+              },
+              "mac" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Connect to a recent host with one click."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Connect to a recent host with one tap."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}

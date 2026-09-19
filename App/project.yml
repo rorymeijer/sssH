@@ -48,7 +48,15 @@ targets:
     platform: [macOS, iOS]
     sources:
       - path: Sources/ssshApp
+      # Types the widget extension shares with the app: the recent-hosts
+      # snapshot and the sssh:// URL it round-trips.
+      - path: Sources/ssshShared
     dependencies:
+      # Embedded so the system can offer the widgets; the extension reads a
+      # snapshot from the app group and opens sssh:// URLs, nothing more.
+      # The ${platform} suffix matches how XcodeGen names each variant of a
+      # multi-platform target.
+      - target: ssshWidgets_${platform}
       - package: sssh
         product: ssshCore
       - package: sssh
@@ -98,6 +106,12 @@ targets:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
+        # The widget's tap target: sssh://connect?id=<restoreIdentifier>.
+        # A scheme rather than a universal link, because there is no website
+        # to host the association file and the only sender is our own widget.
+        CFBundleURLTypes:
+          - CFBundleURLName: nl.rorymeijer.sssh
+            CFBundleURLSchemes: [sssh]
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: nl.rorymeijer.sssh.file-selection
             UTTypeDescription: sssH file selection
@@ -126,6 +140,31 @@ targets:
         CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Sources/ssshApp/Resources/sssh.macOS.entitlements
         CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]: Sources/ssshApp/Resources/sssh.iOS.entitlements
         CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]: Sources/ssshApp/Resources/sssh.iOS.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
+
+  ssshWidgets:
+    type: app-extension
+    platform: [macOS, iOS]
+    sources:
+      - path: Sources/ssshWidgets
+      - path: Sources/ssshShared
+    info:
+      path: Supporting/ssshWidgets-Info.plist
+      properties:
+        CFBundleDisplayName: sssH
+        CFBundleLocalizations: [nl, en]
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: nl.rorymeijer.sssh.widgets
+        PRODUCT_NAME: ssshWidgets
+        SWIFT_STRICT_CONCURRENCY: targeted
+        SKIP_INSTALL: YES
+        CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Sources/ssshWidgets/ssshWidgets.macOS.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=iphoneos*]: Sources/ssshWidgets/ssshWidgets.iOS.entitlements
+        CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]: Sources/ssshWidgets/ssshWidgets.iOS.entitlements
         ENABLE_HARDENED_RUNTIME: YES
         TARGETED_DEVICE_FAMILY: "1,2"
 

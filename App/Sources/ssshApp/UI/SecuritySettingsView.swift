@@ -11,6 +11,22 @@ struct SecuritySettingsView: View {
     @State private var showsSecretSyncConfirmation = false
 
     var body: some View {
+        // These settings are what turns the lock off, so they sit behind it
+        // too: a lock whose own switch is reachable while locked is not a
+        // lock. Gated here, in the view itself, so every way in — the macOS
+        // Settings window, the sheet on iOS — is covered.
+        if environment.appLock.isLocked {
+            LockScreenView(lock: environment.appLock)
+                #if os(macOS)
+                .frame(minWidth: 480, minHeight: 520)
+                #endif
+        } else {
+            settingsForm
+        }
+    }
+
+    @ViewBuilder
+    private var settingsForm: some View {
         @Bindable var security = environment.security
 
         NavigationStack {
